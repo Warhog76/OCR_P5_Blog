@@ -1,15 +1,14 @@
+<div class="parallax-container">
+    <div class="parallax">
+        <img src="images/posts/<?= $article['image'] ?>" alt="<?= $article['title'] ?>"/>
+    </div>
 </div>
-    <div class="parallax-container">
-        <div class="parallax">
-            <img src="images/posts/<?= $article['image'] ?>" alt="<?= $article['title'] ?>"/>
-        </div>
-    </div>
-    <div class="container">
 
-        <h2><?= $article['title'] ?></h2>
-        <h6>Par <?= $article['name'] ?> le <?= date("d/m/Y à H:i", strtotime($article['date'])) ?></h6>
-        <p><?= nl2br($article['content']); ?></p>
-    </div>
+<div class="container">
+    <h2><?= $article['title'] ?></h2>
+    <h6>Par <?= $article['writer'] ?> le <?= date("d/m/Y à H:i", strtotime($article['date'])) ?></h6>
+    <p><?= nl2br($article['content']); ?></p>
+</div>
 
 <div class="container">
     <hr>
@@ -19,19 +18,15 @@
         <h4>Il n'y a pas encore de commentaires pour cet article... SOYEZ LE PREMIER!</h4>
 
     <?php else : ?>
-
         <h3>Il y a déjà <?= count($commentaires) ?> commentaires : </h3>
 
         <?php foreach ($commentaires as $commentaire) : ?>
-
             <h4>Commentaire de <?= $commentaire['name'] ?></h4>
             <small>Le <?= $commentaire['date'] ?></small>
             <blockquote>
                 <em><?= $commentaire['comment'] ?></em>
             </blockquote>
-
         <?php endforeach ?>
-
     <?php endif ?>
 </div>
 

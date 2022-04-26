@@ -1,5 +1,4 @@
 <?php
-
 namespace Models;
 
 require_once ('libraries/database.php');
@@ -37,16 +36,14 @@ class Article extends Model{
      */
     public function findOne(int $id): array{
 
-        $query = $this->pdo->prepare("SELECT   Article.id,
+        $query = $this->pdo->prepare("SELECT Article.id,
                                 Article.title,
                                 Article.content,
                                 Article.image,
                                 Article.date,
-                                Account.name   
+                                Article.writer  
                         FROM Article
-                        Join Account
-                        ON Article.writer=Account.email
-                        WHERE Article.id= :article_id");
+                        WHERE Article.id = :article_id");
         $query->execute(['article_id' => $id]);
         $article = $query->fetchAll();
 

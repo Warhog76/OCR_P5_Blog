@@ -14,9 +14,7 @@ abstract class Model
         $this->pdo = getPdo();
     }
 
-    /**
-     * find
-     */
+    // find/
     public function find(int $id) : array{
 
         $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE 'id' = :id");
@@ -26,9 +24,7 @@ abstract class Model
         return $item;
     }
 
-    /**
-     * delete
-     */
+    // delete
     public function delete(int $id) :void{
 
         $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");

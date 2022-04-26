@@ -2,7 +2,6 @@
 
 namespace Controllers;
 
-require_once ('libraries/database.php');
 require_once ('libraries/utils.php');
 require_once ('libraries/controllers/Controller.php');
 require_once ('libraries/models/Article.php');
@@ -24,9 +23,7 @@ class Article extends Controller{
 
         $commentModel = new \models\Comment();
 
-         /**
-         * 1. Récupération du param "id" et vérification de celui-ci
-         */
+        // 1. Récupération du param "id" et vérification de celui-ci
         $article_id = null;
 
         if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
@@ -37,25 +34,13 @@ class Article extends Controller{
             die("Vous devez préciser un paramètre `id` dans l'URL !");
         }
 
-        /**
-         * 3. Récupération de l'article en question
-         */
-
+        //3. Récupération de l'article en question
         $article = $this->model->findOne($article_id);
 
-        /**
-         * 4. Récupération des commentaires de l'article en question
-         */
-
+        // 4. Récupération des commentaires de l'article en question
         $commentaires = $commentModel->findAll($article_id);
 
-         /**
-         * 5. On affiche
-         */
-        $pageTitle = $article['title'];
-
-        render('article', compact('pageTitle','article','commentaires','article_id'));
-
+        render('article', compact("article","commentaires"));
     }
 
     public function showAll(){
@@ -64,4 +49,5 @@ class Article extends Controller{
 
         render('blog', compact('articles'));
     }
+
 }

@@ -9,9 +9,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 require 'vendor/autoload.php';
 require_once ('libraries/utils.php');
 
-class mail {
+class Mail {
 
-    public function sendMail()
+    public function sendMail(): void
     {
         // si le bouton "Envoyer" est cliqué
         if (isset($_POST['submit'])) {

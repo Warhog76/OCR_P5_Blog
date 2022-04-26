@@ -24,7 +24,7 @@
                     <div class="col s12 m6 l4">
                         <img src="images/posts/<?= $article['image'] ?>" class="materialboxed responsive-img" alt="<?= $article['title'] ?>" >
                         <br>
-                        <a class="btn light-blue waves-effect waves-light" href="article.php?id=<?= $article['id'] ?>">Voir l'article complet</a>
+                        <a class="btn light-blue waves-effect waves-light" href="index.php?page=article&id=<?= $article['id'] ?>">Voir l'article complet</a>
                     </div>
                 </div>
             </div>

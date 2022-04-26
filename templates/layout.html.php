@@ -13,7 +13,7 @@
 
 <body>
 
-<?php  include 'templates/topbar.html.php';?>
+<?php include 'templates/topbar.html.php';?>
     <?= $pageContent ?>
 <?php include 'templates/footer.html.php';?>
 
