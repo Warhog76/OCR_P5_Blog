@@ -26,7 +26,7 @@
 
                     <div class="card-content">
                         <span class="card-title activator grey-text text-darken-a"><i class="material-icons right">more_vert</i></span>
-                        <a href="article.php&id=<?= $article['id'] ?>">"Voir l'article complet"</a>
+                        <a href="index.php?page=article&id=<?= $article['id'] ?>">"Voir l'article complet"</a>
                     </div>
 
                     <div class="card-reveal">
