@@ -73,7 +73,7 @@ class mail {
                     echo '<div class="card green">
                         <div class="card-content white-text">';
 
-                    echo 'message bien envoyé' . "<br/>";
+                    echo 'Message bien envoyé' . "<br/>";
                 }
             }
         }

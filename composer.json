@@ -1,0 +1,11 @@
+{
+    "name": "nicolasleduey/ocr_p5_blog",
+    "autoload": {
+        "psr-4": {
+            "Nicolasleduey\\OcrP5Blog\\": "Libraries/routers"
+        }
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.6"
+    }
+}

@@ -25,9 +25,5 @@ class Router {
             render('contact');
             $mailController->sendMail();
         }
-
-
-
     }
-
 }
