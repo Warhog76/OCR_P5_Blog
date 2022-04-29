@@ -3,7 +3,7 @@
 namespace Router;
 
 use Controllers\Article;
-use Controllers\mail;
+use Controllers\Mail;
 
 require_once ('Libraries/controllers/Article.php');
 require_once ('Libraries/Controllers/Contact.php');

@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require 'vendor/autoload.php';
 require_once ('libraries/utils.php');
 
-class mail {
+class Mail {
 
     public function sendMail()
     {
