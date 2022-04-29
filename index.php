@@ -1,17 +1,9 @@
 <?php
 
-/**
- * CE FICHIER A POUR BUT D'AFFICHER LA PAGE D'ACCUEIL !
- *
- * On va donc se connecter à la base de données, récupérer les 2 derniers articles du plus récent au plus ancien
- * puis on va boucler dessus pour afficher chacun d'entre eux
+use Router\Router;
 
- */
+require 'vendor/autoload.php';
+require_once ('Libraries/routers/Routers.php');
 
-use controllers\Article;
-
-require_once ('libraries/database.php');
-require_once ('libraries/controllers/Article.php');
-
-$controller = new Article();
-$controller->index();
+$router = new Router();
+$router->get();

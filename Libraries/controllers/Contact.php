@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 require 'vendor/autoload.php';
 require_once ('libraries/utils.php');
 
-class mail {
+class Mail {
 
     public function sendMail()
     {
@@ -73,7 +73,7 @@ class mail {
                     echo '<div class="card green">
                         <div class="card-content white-text">';
 
-                    echo 'message bien envoyé' . "<br/>";
+                    echo 'Message bien envoyé' . "<br/>";
                 }
             }
         }
