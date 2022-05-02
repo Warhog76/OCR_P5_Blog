@@ -2,7 +2,7 @@
 
 <div class="parallax-container">
     <div class="parallax">
-        <img src="images/accueil.png" alt="photo d'accueil"/>
+        <img src="../src/App/images/accueil.png" alt="photo d'accueil"/>
     </div>
 </div>
 
@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="col s12 m6 l4">
-                        <img src="images/posts/<?= $article['image'] ?>" class="materialboxed responsive-img" alt="<?= $article['title'] ?>" >
+                        <img src="../src/App/images/posts/<?= $article['image'] ?>" class="materialboxed responsive-img" alt="<?= $article['title'] ?>" >
                         <br>
                         <a class="btn light-blue waves-effect waves-light" href="index.php?page=article&id=<?= $article['id'] ?>">Voir l'article complet</a>
                     </div>

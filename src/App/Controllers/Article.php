@@ -1,16 +1,12 @@
 <?php
 
-namespace Controllers;
+namespace App\Controllers;
 
-require_once ('libraries/database.php');
-require_once ('libraries/utils.php');
-require_once ('libraries/controllers/Controller.php');
-require_once ('libraries/models/Article.php');
-require_once ('libraries/models/Comment.php');
+require_once('../src/App/utils.php');
 
 class Article extends Controller{
 
-    protected $modelName = \models\Article::class;
+    protected $modelName = \App\Models\Article::class;
 
     public function index(){
 
@@ -22,7 +18,8 @@ class Article extends Controller{
 
     public function show(){
 
-        $commentModel = new \models\Comment();
+        $articleModel = new \App\Models\Article();
+        $commentModel = new \App\Models\Comment();
 
          /**
          * 1. Récupération du param "id" et vérification de celui-ci
@@ -41,7 +38,7 @@ class Article extends Controller{
          * 3. Récupération de l'article en question
          */
 
-        $article = $this->model->findOne($article_id);
+        $article = $articleModel->findOne($article_id);
 
         /**
          * 4. Récupération des commentaires de l'article en question

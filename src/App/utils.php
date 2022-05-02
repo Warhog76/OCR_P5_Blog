@@ -1,6 +1,7 @@
 <?php
 
-function render(string $path, array $variables=[]){
+function render(string $path, array $variables=[]): void
+{
 
     extract($variables);
 
@@ -8,7 +9,7 @@ function render(string $path, array $variables=[]){
     require('templates/'.$path.'.html.php');
     $pageContent = ob_get_clean();
 
-    require('templates/layout.html.php');
+    require('Templates/layout.html.php');
 }
 
 function redirect(string $url): void{

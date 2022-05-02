@@ -1,7 +1,7 @@
 </div>
     <div class="parallax-container">
         <div class="parallax">
-            <img src="images/posts/<?= $article['image'] ?>" alt="<?= $article['title'] ?>"/>
+            <img src="../Images/posts/<?= $article['image'] ?>" alt="<?= $article['title'] ?>"/>
         </div>
     </div>
     <div class="container">

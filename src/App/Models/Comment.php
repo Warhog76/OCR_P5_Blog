@@ -1,9 +1,9 @@
 <?php
 
-namespace Models;
+namespace App\Models;
 
-require_once ('libraries/database.php');
-require_once ('libraries/models/Model.php');
+require_once('../src/app/database.php');
+require_once('../src/app/models/Model.php');
 
 class Comment extends Model {
     protected $table = "Comment";
@@ -16,9 +16,7 @@ class Comment extends Model {
 
         $query = $this->pdo->prepare("SELECT * FROM Comment WHERE article_id = :article_id ORDER BY date DESC");
         $query->execute(['article_id' => $id]);
-        $commentaires = $query->fetchAll();
-
-        return $commentaires;
+        return $query->fetchAll();
     }
 
 }

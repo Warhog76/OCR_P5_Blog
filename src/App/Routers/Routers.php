@@ -1,16 +1,16 @@
 <?php
 
-namespace Router;
+namespace App\Routers;
 
-use Controllers\Article;
-use Controllers\Mail;
+use App\Controllers\Article;
+use App\Controllers\Mail;
 
-require_once ('Libraries/controllers/Article.php');
-require_once ('Libraries/Controllers/Contact.php');
+require_once('../src/app/controllers/Article.php');
+require_once('../src/app/controllers/Contact.php');
 
-class Router {
+class Routers {
 
-    public function get()
+    public function get(): void
     {
         $postController = new Article();
         $mailController = new mail();
