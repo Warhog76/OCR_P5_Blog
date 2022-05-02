@@ -1,5 +1,5 @@
-/vendor
-/css
-/js
-/node_modules
-/.idea
+/vendor/
+/css/
+/js/
+/node_modules/
+/.idea/
