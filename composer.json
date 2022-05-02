@@ -2,7 +2,7 @@
     "name": "nicolasleduey/ocr_p5_blog",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "App\\": "src/"
         }
     },
     "require": {
