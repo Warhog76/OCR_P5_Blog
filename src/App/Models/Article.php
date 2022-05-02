@@ -37,16 +37,16 @@ class Article extends Model{
      */
     public function findOne(int $id): array{
 
-        $query = $this->pdo->prepare("SELECT   Article.id,
-                                Article.title,
-                                Article.content,
-                                Article.image,
-                                Article.date,
-                                Account.name   
+        $query = $this->pdo->prepare("SELECT   article.id,
+                                article.title,
+                                article.content,
+                                article.image,
+                                article.date,
+                                account.name   
                         FROM Article
                         Join Account
-                        ON Article.writer=Account.email
-                        WHERE article.id= :article_id");
+                        ON article.writer=account.email
+                        WHERE article.id = :article_id");
         $query->execute(['article_id' => $id]);
         return $query->fetchAll();
     }
