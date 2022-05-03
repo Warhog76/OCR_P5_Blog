@@ -17,7 +17,8 @@ abstract class Model
     /**
      * find
      */
-    public function find(int $id) : array{
+    public function find(int $id) : array
+    {
 
         $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE 'id' = :id");
         $query->execute(['id' => $id]);
@@ -29,7 +30,8 @@ abstract class Model
     /**
      * delete
      */
-    public function delete(int $id) :void{
+    public function delete(int $id) :void
+    {
 
         $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
         $query->execute(['id' => $id]);

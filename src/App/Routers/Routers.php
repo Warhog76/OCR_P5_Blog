@@ -8,7 +8,8 @@ use App\Controllers\Mail;
 require_once('../src/app/controllers/Article.php');
 require_once('../src/app/controllers/Contact.php');
 
-class Routers {
+class Routers
+{
 
     public function get(): void
     {

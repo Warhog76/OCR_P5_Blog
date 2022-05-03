@@ -8,7 +8,8 @@ class Article extends Controller{
 
     protected $modelName = \App\Models\Article::class;
 
-    public function index(){
+    public function index()
+    {
 
         $articles = $this->model->findLast();
         $pageTitle = "Accueil";
@@ -16,7 +17,8 @@ class Article extends Controller{
         render('index', compact('pageTitle','articles'));
     }
 
-    public function show(){
+    public function show()
+    {
 
         $articleModel = new \App\Models\Article();
         $commentModel = new \App\Models\Comment();
@@ -55,7 +57,8 @@ class Article extends Controller{
 
     }
 
-    public function showAll(){
+    public function showAll()
+    {
 
         $articles = $this->model->findAll();
 

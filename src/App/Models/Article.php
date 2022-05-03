@@ -5,14 +5,16 @@ namespace App\Models;
 require_once('../src/app/database.php');
 require_once('../src/app/models/Model.php');
 
-class Article extends Model{
+class Article extends Model
+{
 
     protected $table = "Article";
 
     /**
      * find all writed articles
      */
-    public function findAll() : array {
+    public function findAll() : array
+    {
 
         $results = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC");
         $articles = $results->fetchAll();
@@ -35,7 +37,8 @@ class Article extends Model{
     /**
      * find article with it ID
      */
-    public function findOne(int $id): array{
+    public function findOne(int $id): array
+    {
 
         $query = $this->pdo->prepare("SELECT   article.id,
                                 article.title,
