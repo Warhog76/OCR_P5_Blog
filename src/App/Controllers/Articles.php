@@ -8,7 +8,7 @@ use App\Models\Comment;
 
 class Articles extends Controller{
 
-    protected $modelName = \App\Models\Article::class;
+    protected $modelName = Article::class;
 
     public function index()
     {
@@ -17,7 +17,6 @@ class Articles extends Controller{
         $pageTitle = "Accueil";
 
         $page= new Renderer();
-
         $page->render('index', compact('pageTitle','articles'));
     }
 
@@ -27,7 +26,6 @@ class Articles extends Controller{
         $articleModel = new Article();
         $commentModel = new Comment();
         $page= new Renderer();
-
 
          /**
          * 1. Récupération du param "id" et vérification de celui-ci
@@ -43,15 +41,13 @@ class Articles extends Controller{
         }
 
         /**
-         * 3. Récupération de l'article en question
+         * 2. Récupération de l'article en question
          */
-
         $article = $articleModel->findOne($article_id);
 
         /**
-         * 4. Récupération des commentaires de l'article en question
+         * 3. Récupération des commentaires de l'article en question
          */
-
         $commentaires = $commentModel->findAll($article_id);
 
         $page->render('article', compact('article','commentaires'));
@@ -60,9 +56,10 @@ class Articles extends Controller{
 
     public function showAll()
     {
-        $page= new Renderer();
+
         $articles = $this->model->findAll();
 
+        $page= new Renderer();
         $page->render('blog', compact('articles'));
     }
 }
