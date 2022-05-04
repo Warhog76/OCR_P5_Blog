@@ -2,11 +2,16 @@
 
 namespace App\Controllers;
 
+use App\Models\Article;
+use App\Models\Comment;
+use App\Utils\Renderer;
+
 require_once('../src/App/utils.php');
 
-class Article extends Controller{
+class Articles extends Controller{
 
     protected $modelName = \App\Models\Article::class;
+
 
     public function index()
     {
@@ -14,14 +19,17 @@ class Article extends Controller{
         $articles = $this->model->findLast();
         $pageTitle = "Accueil";
 
-        render('index', compact('pageTitle','articles'));
+        $page= new Renderer();
+
+        $page->render('index', compact('pageTitle','articles'));
     }
 
     public function show()
     {
 
-        $articleModel = new \App\Models\Article();
-        $commentModel = new \App\Models\Comment();
+        $articleModel = new Article();
+        $commentModel = new Comment();
+
 
          /**
          * 1. Récupération du param "id" et vérification de celui-ci
@@ -48,12 +56,7 @@ class Article extends Controller{
 
         $commentaires = $commentModel->findAll($article_id);
 
-         /**
-         * 5. On affiche
-         */
-        $pageTitle = $article['title'];
-
-        render('article', compact('pageTitle','article','commentaires','article_id'));
+        render('article', compact('article','commentaires'));
 
     }
 
