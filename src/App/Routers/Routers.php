@@ -3,6 +3,7 @@
 namespace App\Routers;
 
 use App\Controllers\Articles;
+use App\Controllers\Comments;
 use App\Controllers\Contact;
 use App\Controllers\Renderer;
 
@@ -13,6 +14,7 @@ class Routers
     {
         $postController = new Articles();
         $mailController = new Contact();
+        $commentController = new Comments();
         $page= new Renderer();
 
         if($_GET['page'] === 'home' || $_GET['page'] === null) {
@@ -21,6 +23,7 @@ class Routers
         $postController->showAll();
         }elseif ($_GET['page'] === 'article'){
             $postController->show();
+            $commentController->addComments();
         }elseif ($_GET['page'] === 'contact'){
             $page->render('contact');
             $mailController->sendMail();
