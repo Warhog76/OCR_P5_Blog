@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-require_once('../src/app/database.php');
+use App\Controllers\Database;
 
 abstract class Model
 {
@@ -11,7 +11,8 @@ abstract class Model
 
     public function __construct()
     {
-        $this->pdo = getPdo();
+        $database = new Database();
+        $this->pdo = $database->getPdo();
     }
 
     /**
