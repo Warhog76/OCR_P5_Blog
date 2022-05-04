@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-require_once('../src/app/database.php');
-require_once('../src/app/models/Model.php');
-
 class Article extends Model
 {
 
@@ -48,9 +45,10 @@ class Article extends Model
                                 account.name   
                         FROM Article
                         Join Account
-                        ON article.writer=account.email
+                        ON Article.writer=Account.email
                         WHERE article.id = :article_id");
         $query->execute(['article_id' => $id]);
-        return $query->fetchAll();
+
+        return $query->fetch();
     }
 }

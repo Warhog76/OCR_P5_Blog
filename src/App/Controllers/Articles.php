@@ -29,6 +29,7 @@ class Articles extends Controller{
 
         $articleModel = new Article();
         $commentModel = new Comment();
+        $page= new Renderer();
 
 
          /**
@@ -56,15 +57,15 @@ class Articles extends Controller{
 
         $commentaires = $commentModel->findAll($article_id);
 
-        render('article', compact('article','commentaires'));
+        $page->render('article', compact('article','commentaires'));
 
     }
 
     public function showAll()
     {
-
+        $page= new Renderer();
         $articles = $this->model->findAll();
 
-        render('blog', compact('articles'));
+        $page->render('blog', compact('articles'));
     }
 }

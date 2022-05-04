@@ -1,19 +1,23 @@
 <?php
 
-function render(string $path, array $variables=[]): void
+namespace App\Utils;
+
+Class Renderer
 {
 
-    extract($variables);
+    public function render(string $path, array $variables=[]): void
+    {
 
-    ob_start();
-    require('templates/'.$path.'.html.php');
-    $pageContent = ob_get_clean();
+        extract($variables);
 
-    require('Templates/layout.html.php');
+        ob_start();
+        require('Templates/'.$path.'.html.php');
+        $pageContent = ob_get_clean();
+
+        require('Templates/layout.html.php');
+    }
+
+
 }
 
-function redirect(string $url): void{
 
-    header("Location: $url");
-    exit();
-}

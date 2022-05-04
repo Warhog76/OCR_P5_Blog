@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-require_once('../src/app/database.php');
-require_once('../src/app/models/Model.php');
-
 class Comment extends Model
 {
     protected $table = "Comment";

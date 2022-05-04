@@ -6,9 +6,7 @@ namespace App\Controllers;
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 
-require '../vendor/autoload.php';
-
-class Mail {
+class Contact {
 
     public function sendMail(): void
     {

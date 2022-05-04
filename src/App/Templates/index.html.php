@@ -1,6 +1,6 @@
 <div class="parallax-container">
     <div class="parallax">
-        <img src="../src/App/images/accueil.png" alt="photo d'accueil"/>
+        <img src="../public/assets/images/accueil.png" alt="photo d'accueil"/>
     </div>
 </div>
 
@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="card-image">
-                        <img src="../src/App/images/posts/<?= $article['image'] ?>" alt="<?= $article['title'] ?>">
+                        <img src="../public/assets/images/posts/<?= $article['image'] ?>" alt="<?= $article['title'] ?>">
                     </div>
 
                     <div class="card-content">

@@ -2,19 +2,18 @@
 
 namespace App\Routers;
 
-use App\Controllers\Article;
-use App\Controllers\Mail;
-
-require_once('../src/app/controllers/Article.php');
-require_once('../src/app/controllers/Contact.php');
+use App\Controllers\Articles;
+use App\Controllers\Contact;
+use App\Utils\Renderer;
 
 class Routers
 {
 
     public function get(): void
     {
-        $postController = new Article();
-        $mailController = new mail();
+        $postController = new Articles();
+        $mailController = new Contact();
+        $page= new Renderer();
 
         if($_GET['page'] === 'home' || $_GET['page'] === null) {
            $postController->index();
@@ -23,8 +22,15 @@ class Routers
         }elseif ($_GET['page'] === 'article'){
             $postController->show();
         }elseif ($_GET['page'] === 'contact'){
-            render('contact');
+            $page->render('contact');
             $mailController->sendMail();
         }
+    }
+
+    public function redirect(string $url): void
+    {
+
+        header("Location: $url");
+        exit();
     }
 }
