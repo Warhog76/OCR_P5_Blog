@@ -4,7 +4,7 @@ namespace App\Routers;
 
 use App\Controllers\Articles;
 use App\Controllers\Contact;
-use App\Utils\Renderer;
+use App\Controllers\Renderer;
 
 class Routers
 {

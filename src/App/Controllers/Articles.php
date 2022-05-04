@@ -2,16 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Controllers\Renderer;
 use App\Models\Article;
 use App\Models\Comment;
-use App\Utils\Renderer;
-
-require_once('../src/App/utils.php');
 
 class Articles extends Controller{
 
     protected $modelName = \App\Models\Article::class;
-
 
     public function index()
     {

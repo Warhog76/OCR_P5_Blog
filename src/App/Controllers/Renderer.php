@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Utils;
+namespace App\Controllers;
 
-Class Renderer
-{
+Class Renderer{
 
     public function render(string $path, array $variables=[]): void
     {
@@ -11,13 +10,11 @@ Class Renderer
         extract($variables);
 
         ob_start();
-        require('Templates/'.$path.'.html.php');
+        require('../src/App/Templates/'.$path.'.html.php');
         $pageContent = ob_get_clean();
 
-        require('Templates/layout.html.php');
+        require('../src/App/Templates/layout.html.php');
     }
-
-
 }
 
 
