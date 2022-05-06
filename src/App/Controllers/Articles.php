@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 use App\Controllers\Renderer;
-use App\Models\Article;
-use App\Models\Comment;
+use App\Repositories\Article;
+use App\Repositories\Comment;
 
 class Articles extends Controller{
 

@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Comment;
+use App\Repositories\Comment;
 
 class Comments extends Controller{
 
