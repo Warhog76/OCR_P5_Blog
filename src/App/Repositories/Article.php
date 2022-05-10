@@ -1,18 +1,17 @@
 <?php
 
-namespace Models;
+namespace App\Repositories;
 
-require_once ('libraries/database.php');
-require_once ('libraries/models/Model.php');
-
-class Article extends Model{
+class Article extends Model
+{
 
     protected $table = "Article";
 
     /**
      * find all writed articles
      */
-    public function findAll() : array {
+    public function findAll() : array
+    {
 
         $results = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC");
         $articles = $results->fetchAll();
@@ -35,21 +34,21 @@ class Article extends Model{
     /**
      * find article with it ID
      */
-    public function findOne(int $id): array{
+    public function findOne(int $id): array
+    {
 
-        $query = $this->pdo->prepare("SELECT   Article.id,
-                                Article.title,
-                                Article.content,
-                                Article.image,
-                                Article.date,
-                                Account.name   
+        $query = $this->pdo->prepare("SELECT   article.id,
+                                article.title,
+                                article.content,
+                                article.image,
+                                article.date,
+                                account.name   
                         FROM Article
                         Join Account
                         ON Article.writer=Account.email
-                        WHERE Article.id= :article_id");
+                        WHERE article.id = :article_id");
         $query->execute(['article_id' => $id]);
-        $article = $query->fetchAll();
 
-        return $article;
+        return $query->fetch();
     }
 }

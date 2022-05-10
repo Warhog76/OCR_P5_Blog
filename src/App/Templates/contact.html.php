@@ -2,7 +2,7 @@
 
 <div class="parallax-container">
     <div class="parallax">
-        <img src="images/accueil.png" alt="photo d'accueil"/>
+        <img src="../public/assets/images/accueil.png" alt="photo d'accueil"/>
     </div>
 </div>
 

@@ -1,17 +1,14 @@
 <?php
 
-namespace Controllers;
+namespace App\Controllers;
 
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 
-require 'vendor/autoload.php';
-require_once ('libraries/utils.php');
+class Contact {
 
-class Mail {
-
-    public function sendMail()
+    public function sendMail(): void
     {
         // si le bouton "Envoyer" est cliqué
         if (isset($_POST['submit'])) {
