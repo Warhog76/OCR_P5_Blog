@@ -60,5 +60,7 @@ class Articles extends Controller{
 
         $page= new Renderer();
         $page->render('blog', compact('articles'));
+
+
     }
 }

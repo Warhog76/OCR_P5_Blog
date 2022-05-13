@@ -15,10 +15,14 @@ class ArticleRepo extends Model
      */
     public function findAll() : array
     {
-
-        $results = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC");
-        return $results->fetchAll();
-
+        $articles = [];
+        $request = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC");
+        while ($datas = $request->fetch(PDO::FETCH_ASSOC))
+        {
+            $articles[] = new Article($datas);
+        }
+        $request->closeCursor();
+        return $articles;
     }
 
     /**
@@ -28,7 +32,7 @@ class ArticleRepo extends Model
     {
 
         $results = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC LIMIT 0,2");
-        return $results->fetchAll(PDO::FETCH_ASSOC);
+        return $results->fetchAll();
     }
 
     /**
