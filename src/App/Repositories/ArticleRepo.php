@@ -31,8 +31,14 @@ class ArticleRepo extends Model
     public function findLast(): array
     {
 
-        $results = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC LIMIT 0,2");
-        return $results->fetchAll();
+        $articles = [];
+        $request = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC LIMIT 0,2");
+        while ($datas = $request->fetch(PDO::FETCH_ASSOC))
+        {
+            $articles[] = new Article($datas);
+        }
+        $request->closeCursor();
+        return $articles;
     }
 
     /**

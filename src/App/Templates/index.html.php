@@ -16,22 +16,22 @@
 
                 <div class="card">
                     <div class="card-content">
-                        <h5 class="grey-text text-darken-2"><?= $article['title'] ?></h5>
-                        <h6 class="grey-text">Le <?= date("d-m-Y à H:i",strtotime($article['date']))?> par <?= $article['writer'] ?></h6>
+                        <h5 class="grey-text text-darken-2"><?= $article->getTitle() ?></h5>
+                        <h6 class="grey-text">Le <?= date("d-m-Y à H:i",strtotime($article->getDate()))?> par <?= $article->getWriter() ?></h6>
                     </div>
 
                     <div class="card-image">
-                        <img src="../public/assets/images/posts/<?= $article['image'] ?>" alt="<?= $article['title'] ?>">
+                        <img src="../public/assets/images/posts/<?= $article->getImage() ?>" alt="<?= $article->getTitle() ?>">
                     </div>
 
                     <div class="card-content">
                         <span class="card-title activator grey-text text-darken-a"><i class="material-icons right">more_vert</i></span>
-                        <a href="index.php?page=article&id=<?= $article['id'] ?>">"Voir l'article complet"</a>
+                        <a href="index.php?page=article&id=<?= $article->getId() ?>">"Voir l'article complet"</a>
                     </div>
 
                     <div class="card-reveal">
-                        <span class="card-title activator grey-text text-darken-a"><?= $article['title'] ?><i class="material-icons right">close</i></span>
-                        <p><?= substr(nl2br($article['content']),0,500) ?> ...</p>
+                        <span class="card-title activator grey-text text-darken-a"><?= $article->getTitle() ?><i class="material-icons right">close</i></span>
+                        <p><?= substr(nl2br($article->getContent()),0,500) ?> ...</p>
                     </div>
                 </div>
             </div>
