@@ -72,6 +72,7 @@ Class Article
         return $this->date;
     }
 
+
     public function getPosted(): int
     {
         return $this->posted;

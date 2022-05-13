@@ -15,6 +15,7 @@ abstract class Model
         $this->pdo = $database->getPdo();
     }
 
+
     /**
      * delete
      *
