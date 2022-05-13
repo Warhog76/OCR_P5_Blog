@@ -2,7 +2,10 @@
 
 namespace App\Repositories;
 
-class Article extends Model
+use PDO;
+use App\Models\Article;
+
+class ArticleRepo extends Model
 {
 
     protected $table = "Article";
@@ -14,9 +17,8 @@ class Article extends Model
     {
 
         $results = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC");
-        $articles = $results->fetchAll();
+        return $results->fetchAll();
 
-        return $articles;
     }
 
     /**
@@ -26,29 +28,20 @@ class Article extends Model
     {
 
         $results = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC LIMIT 0,2");
-        $articles = $results->fetchAll();
-
-        return $articles;
+        return $results->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
      * find article with it ID
      */
-    public function findOne(int $id): array
+    public function findOne(int $id): Article
     {
 
-        $query = $this->pdo->prepare("SELECT   article.id,
-                                article.title,
-                                article.content,
-                                article.image,
-                                article.date,
-                                account.name   
+        $query = $this->pdo->prepare("SELECT   *
                         FROM Article
-                        Join Account
-                        ON Article.writer=Account.email
                         WHERE article.id = :article_id");
         $query->execute(['article_id' => $id]);
-
-        return $query->fetch();
+        $results = $query->fetch(PDO::FETCH_ASSOC);
+        return new Article($results);
     }
 }

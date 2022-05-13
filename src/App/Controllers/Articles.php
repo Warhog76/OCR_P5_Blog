@@ -2,13 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Renderer;
-use App\Repositories\Article;
 use App\Repositories\Comment;
+use App\Repositories\ArticleRepo;
 
 class Articles extends Controller{
 
-    protected $modelName = Article::class;
+    protected $modelName = ArticleRepo::class;
 
     public function index()
     {
@@ -23,7 +22,7 @@ class Articles extends Controller{
     public function show()
     {
 
-        $articleModel = new Article();
+        $articleModel = new ArticleRepo();
         $commentModel = new Comment();
         $page= new Renderer();
 

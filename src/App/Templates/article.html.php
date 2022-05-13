@@ -1,15 +1,16 @@
 </div>
     <div class="parallax-container">
         <div class="parallax">
-            <img src="../public/assets/images/posts/<?= $article['image'] ?>" alt="<?= $article['title'] ?>"/>
+            <img src="../public/assets/images/posts/<?= $article->getImage() ?>" alt="<?= $article->getTitle() ?>"/>
        </div>
+
 
     </div>
     <div class="container">
 
-        <h2><?= $article['title'] ?></h2>
-        <h6>Par <?= $article['name'] ?> le <?= date("d/m/Y à H:i", strtotime($article['date'])) ?></h6>
-        <p><?= nl2br($article['content']); ?></p>
+        <h2><?= $article->getTitle() ?></h2>
+        <h6>Par <?= $article->getWriter() ?> le <?= date("d/m/Y à H:i", strtotime($article->getDate())) ?></h6>
+        <p><?= nl2br($article->getContent()); ?></p>
     </div>
 
 <div class="container">

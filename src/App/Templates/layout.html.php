@@ -14,7 +14,9 @@
 <body>
 
 <?php include '../src/app/templates/topbar.html.php';?>
-    <?= $pageContent ?>
+
+<?= $pageContent ?>
+
 <?php include '../src/app/templates/footer.html.php';?>
 
 <!--JavaScript at end of body for optimized loading-->
