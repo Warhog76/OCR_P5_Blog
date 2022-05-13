@@ -7,32 +7,32 @@ Class Comment
     /**
      * @var int
      */
-    protected int $id;
+    private int $id;
 
     /**
      * @var string
      */
-    protected string $name;
+    private string $name;
 
     /**
      * @var string
      */
-    protected string $comment;
+    private string $comment;
 
     /**
      * @var string
      */
-    protected string $date;
+    private string $date;
 
     /**
      * @var int
      */
-    protected int $article_id;
+    private int $article_id;
 
     /**
      * @var int
      */
-    protected int $seen;
+    private int $seen;
 
     /**
      * @return int

@@ -7,37 +7,37 @@ Class Article
     /**
      * @var int
      */
-    protected int $id;
+    private int $id;
 
     /**
      * @var string
      */
-    protected string $title;
+    private string $title;
 
     /**
      * @var string
      */
-    protected string $content;
+    private string $content;
 
     /**
      * @var string
      */
-    protected string $image;
+    private string $image;
 
     /**
      * @var string
      */
-    protected string $writer;
+    private string $writer;
 
     /**
      * @var string
      */
-    protected string $date;
+    private string $date;
 
     /**
      * @var int
      */
-    protected int $posted;
+    private int $posted;
 
     /**
      * @return int

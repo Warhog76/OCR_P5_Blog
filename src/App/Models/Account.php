@@ -7,32 +7,32 @@ Class Account
     /**
      * @var int
      */
-    protected int $id;
+    private int $id;
 
     /**
      * @var string
      */
-    protected string $name;
+    private string $name;
 
     /**
      * @var string
      */
-    protected string $surname;
+    private string $surname;
 
     /**
      * @var string
      */
-    protected string $password;
+    private string $password;
 
     /**
      * @var string
      */
-    protected string $email;
+    private string $email;
 
     /**
      * @var string
      */
-    protected string $typeAccount;
+    private string $typeAccount;
 
     /**
      * @return int
