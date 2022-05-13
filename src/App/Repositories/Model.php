@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Database;
+use App\Repositories\Database;
 
 abstract class Model
 {

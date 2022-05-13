@@ -8,7 +8,7 @@ class Article extends Model
     protected $table = "Article";
 
     /**
-     * find all writed articles
+     * find all articles
      */
     public function findAll() : array
     {
@@ -20,7 +20,7 @@ class Article extends Model
     }
 
     /**
-     * find 2 last writed articles order by date desc
+     * find 2 last articles order by date desc
      */
     public function findLast(): array
     {

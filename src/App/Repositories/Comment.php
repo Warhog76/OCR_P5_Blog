@@ -35,13 +35,7 @@ class Comment extends Model
         $addComment = $this->pdo->prepare($sql);
 
         //execution
-        $rec = $addComment->execute($c);
+        $addComment->execute($c);
 
-        //verification
-        if ($rec) {
-            echo "commentaire enregistré";
-        }else{
-            echo "une erreur est survenue";
-        }
     }
 }

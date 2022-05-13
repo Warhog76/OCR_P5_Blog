@@ -18,9 +18,9 @@ class Routers
         $page= new Renderer();
 
         if($_GET['page'] === 'home' || $_GET['page'] === null) {
-           $postController->index();
+            $postController->index();
         }elseif ($_GET['page'] === 'blog'){
-        $postController->showAll();
+            $postController->showAll();
         }elseif ($_GET['page'] === 'article'){
             $postController->show();
             $commentController->addComments();
