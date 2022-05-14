@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Repositories\Comment;
+use App\Repositories\CommentRepo;
 use App\Repositories\ArticleRepo;
 
 class Articles extends Controller{
@@ -23,7 +23,7 @@ class Articles extends Controller{
     {
 
         $articleModel = new ArticleRepo();
-        $commentModel = new Comment();
+        $commentModel = new CommentRepo();
         $page= new Renderer();
 
          /**

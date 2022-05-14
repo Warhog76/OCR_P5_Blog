@@ -16,25 +16,17 @@
 <div class="container">
     <hr>
 
-    <?php if (count($commentaires) === 0) : ?>
-
-        <h4>Il n'y a pas encore de commentaires pour cet article... SOYEZ LE PREMIER!</h4>
-
-    <?php else : ?>
-
-        <h3>Il y a déjà <?= count($commentaires) ?> commentaires : </h3>
 
         <?php foreach ($commentaires as $commentaire) : ?>
 
-            <h4>Commentaire de <?= $commentaire['name'] ?></h4>
-            <small>Le <?= $commentaire['date'] ?></small>
+            <h4>Commentaire de <?= $commentaire->getName() ?></h4>
+            <small>Le <?= $commentaire->getDate() ?></small>
             <blockquote>
-                <em><?= $commentaire['comment'] ?></em>
+                <em><?= $commentaire->getComment() ?></em>
             </blockquote>
 
         <?php endforeach ?>
 
-    <?php endif ?>
 </div>
 
 <div class="container">

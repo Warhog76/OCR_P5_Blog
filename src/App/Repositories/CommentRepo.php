@@ -2,7 +2,10 @@
 
 namespace App\Repositories;
 
-class Comment extends Model
+use App\Models\Comment;
+use PDO;
+
+class CommentRepo extends Repository
 {
     protected $table = "Comment";
 
@@ -12,10 +15,16 @@ class Comment extends Model
      */
     public function findAll(int $id): array
     {
-
+        $commentaires = [];
         $query = $this->pdo->prepare("SELECT * FROM Comment WHERE article_id = :article_id ORDER BY date DESC");
         $query->execute(['article_id' => $id]);
-        return $query->fetchAll();
+        while ($results = $query->fetch(PDO::FETCH_ASSOC)){
+
+            $commentaires [] = new Comment($results);
+        }
+        $query->closeCursor();
+
+        return $commentaires;
     }
 
     public function addComment($name,$email,$comment){

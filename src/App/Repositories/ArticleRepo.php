@@ -5,7 +5,7 @@ namespace App\Repositories;
 use PDO;
 use App\Models\Article;
 
-class ArticleRepo extends Model
+class ArticleRepo extends Repository
 {
 
     protected $table = "Article";
