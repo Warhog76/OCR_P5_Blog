@@ -17,17 +17,17 @@ class Routers
         $commentController = new Comments();
         $page= new Renderer();
 
-        if($_GET['page'] === 'home' || $_GET['page'] === null) {
-            $postController->index();
-        }elseif ($_GET['page'] === 'blog'){
-            $postController->showAll();
-        }elseif ($_GET['page'] === 'article'){
-            $postController->show();
-            $commentController->addComments();
-        }elseif ($_GET['page'] === 'contact'){
-            $page->render('contact');
-            $mailController->sendMail();
-        }
+        switch ($_GET['page']){
+            case "home" || null:
+                $postController->index();
+            case "blog":
+                $postController->showAll();
+            case "article":
+                $postController->show();
+                $commentController->addComments();
+            case "contact":
+                $page->render('contact');
+                $mailController->sendMail();
     }
 
     public function redirect(string $url): void
