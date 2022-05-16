@@ -26,7 +26,22 @@ class Routers
             $commentController->addComments();
         }elseif ($_GET['page'] === 'contact'){
             $page->render('contact');
-            $mailController->sendMail();
+            $mailController->sendMail();}
+    }
+
+    public function getBack(): void
+    {
+        $postController = new Articles();
+        $commentController = new Comments();
+        $page= new Renderer();
+
+        if($_GET['page'] === 'dashboard'){
+            $page->renderBack('dashboard');
+        }elseif ($_GET['page'] === 'list'){
+            $page->renderBack('list');
+        }elseif ($_GET['page'] === 'write'){
+            $page->renderBack('write');
+            $postController->post();
         }
     }
 

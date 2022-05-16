@@ -15,6 +15,18 @@ Class Renderer{
 
         require('../src/App/Templates/layout.html.php');
     }
+
+    public function renderBack(string $path, array $variables=[]): void
+    {
+
+        extract($variables);
+
+        ob_start();
+        require('../admin/Templates/'.$path.'.html.php');
+        $pageContent = ob_get_clean();
+
+        require('../admin/Templates/layout.html.php');
+    }
 }
 
 
