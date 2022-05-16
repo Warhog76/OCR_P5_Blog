@@ -19,7 +19,7 @@
                 <div class="col s12 m6 l4">
                     <img src="../public/assets/images/posts/<?= $article->getImage() ?>" class="materialboxed responsive-img" alt="<?= $article->getTitle() ?>" >
                     <br>
-                    <a class="btn light-blue waves-effect waves-light" href="index.php?page=post&id=<?= $article->getId() ?>">Voir l'article complet</a>
+                    <a class="btn light-blue waves-effect waves-light" href="index.php?page=article&id=<?= $article->getId() ?>">Voir l'article complet</a>
                 </div>
 
             </div>

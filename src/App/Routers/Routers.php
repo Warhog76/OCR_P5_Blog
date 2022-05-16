@@ -35,10 +35,12 @@ class Routers
         $commentController = new Comments();
         $page= new Renderer();
 
-        if($_GET['page'] === 'dashboard'){
+        if($_GET['page'] === 'dashboard' || $_GET['page'] === null){
             $commentController->findUnseen();
         }elseif ($_GET['page'] === 'list'){
             $postController->getAll();
+        }elseif ($_GET['page'] === 'article') {
+            $postController->modify();
         }elseif ($_GET['page'] === 'write'){
             $page->renderBack('write');
             $postController->post();

@@ -10,6 +10,11 @@
         </div>
 
         <div class="input-field col s12">
+            <input type="text" name="chapo" id="chapo"/>
+            <label for="title">Chapo de l'article</label>
+        </div>
+
+        <div class="input-field col s12">
             <textarea name="content" id="content" class="materialize-textarea"></textarea>
             <label for="content">Contenu de l'article</label>
         </div>

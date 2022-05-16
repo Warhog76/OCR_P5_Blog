@@ -1,14 +1,7 @@
-<?php
-$post = get_post();
-
-if($post == false){
-    header("location:index.php?pages=error");
-}?>
-
 </div>
 <div class="parallax-container">
     <div class="parallax">
-        <img src="../images/posts/<?= $post->image ?>" alt="<?= $post->title ?>"/>
+        <img src="../public/assets/images/posts/<?= $article->getImage() ?>" alt="<?= $article->getTitle() ?>"/>
     </div>
 </div>
 
@@ -16,12 +9,17 @@ if($post == false){
     <form method="post">
         <div class="row">
             <div class="input-field col s12">
-                <input type="text" name="title" id="title" value="<?= $post->title ?>"/>
+                <input type="text" name="title" id="title" value="<?= $article->getTitle() ?>"/>
                 <label for="title">Titre de l'article</label>
             </div>
 
             <div class="input-field col s12">
-                <textarea id="content" name="content" class="materialize-textarea"><?= $post->content ?></textarea>
+                <input type="text" name="chapo" id="chapo" value="<?= $article->getChapo() ?>"/>
+                <label for="title">Chapo de l'article</label>
+            </div>
+
+            <div class="input-field col s12">
+                <textarea id="content" name="content" class="materialize-textarea"><?= $article->getContent() ?></textarea>
                 <label for="content">Contenu de l'article</label>
             </div>
 
@@ -30,7 +28,7 @@ if($post == false){
                 <div class="switch">
                     <label>
                         Non
-                        <input type="checkbox" name="public" <?php echo ($post->posted == "1")?"checked" : "" ?>/>
+                        <input type="checkbox" name="public" <?php echo ($article->getPosted() == "1")?"checked" : "" ?>/>
                         <span class="lever"></span>
                         Oui
                     </label>
