@@ -4,12 +4,12 @@ namespace App\Controllers;
 
 abstract class Controller {
 
-    protected $model;
-    protected $modelName;
+    protected $repository;
+    protected $repositoryName;
 
     public function __construct()
     {
 
-        $this->model = new $this->modelName();
+        $this->repository = new $this->repositoryName();
     }
 }

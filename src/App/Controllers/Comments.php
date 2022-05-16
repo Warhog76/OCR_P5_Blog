@@ -6,11 +6,11 @@ use App\Repositories\CommentRepo;
 
 class Comments extends Controller{
 
-    protected $modelName = CommentRepo::class;
+    protected $repositoryName = CommentRepo::class;
 
     public function addComments()
     {
-        $commentaire = new Comments();
+        $commentaire = new CommentRepo();
 
         if(isset($_POST['submit'])){
 

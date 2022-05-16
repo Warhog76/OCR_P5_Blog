@@ -7,12 +7,12 @@ use App\Repositories\ArticleRepo;
 
 class Articles extends Controller{
 
-    protected $modelName = ArticleRepo::class;
+    protected $repositoryName = ArticleRepo::class;
 
     public function index()
     {
 
-        $articles = $this->model->findLast();
+        $articles = $this->repository->findLast();
         $pageTitle = "Accueil";
 
         $page= new Renderer();
@@ -22,8 +22,8 @@ class Articles extends Controller{
     public function show()
     {
 
-        $articleModel = new ArticleRepo();
-        $commentModel = new CommentRepo();
+        $articleRepo = new ArticleRepo();
+        $commentRepo = new CommentRepo();
         $page= new Renderer();
 
          /**
@@ -42,12 +42,12 @@ class Articles extends Controller{
         /**
          * 2. Récupération de l'article en question
          */
-        $article = $articleModel->findOne($article_id);
+        $article = $articleRepo->findOne($article_id);
 
         /**
          * 3. Récupération des commentaires de l'article en question
          */
-        $commentaires = $commentModel->findAll($article_id);
+        $commentaires = $commentRepo->findAll($article_id);
 
         $page->render('article', compact('article','commentaires'));
 
@@ -56,7 +56,7 @@ class Articles extends Controller{
     public function showAll()
     {
 
-        $articles = $this->model->findAll();
+        $articles = $this->repository->findAll();
 
         $page= new Renderer();
         $page->render('blog', compact('articles'));
