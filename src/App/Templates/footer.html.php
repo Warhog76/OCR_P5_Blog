@@ -5,7 +5,7 @@
 
             <div class="col l6 s12">
                 <h5 class="white-text">Location</h5>
-                <p class="grey-text text-lighten-4">Rue de la ferme Dufresne<br>76210, Bernieres.<br>France</p>
+                <p class="grey-text text-lighten-4">Rue de la ferme Dufresne<br>Bernieres, 76210<br>France.</p>
             </div>
 
             <div class="col l3 s12">
