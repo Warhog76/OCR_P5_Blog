@@ -55,46 +55,25 @@ class ArticleRepo extends Repository
         return new Article($results);
     }
 
-   /* public function post($title, $content, $posted)
+    public function postArticle($article): bool|\PDOStatement
     {
 
-        // variable declaration
-        $p = [
-            'title' => $title,
-            'content' => $content,
-            'writer' => $_SESSION['admin'],
-            'posted' => $posted
-        ];
-
-        $sql = "INSERT INTO Article (title, content, writer, date, posted)
-            VALUES (:title,:content,:writer,NOW(),:posted)";
-
-        $addArticle = $this->pdo->prepare($sql);
-        $addArticle->execute($p);
-        $id = $this->pdo->lastInsertId();
-        header("Location:index.php?page=post&id=" . $id);
+        $query = $this->pdo->prepare('INSERT INTO Article (title, chapo, content, date, posted)
+            VALUES (:title,:chapo, :content,NOW(),:posted)');
+        $query->bindValue(':title', $article->getTitle());
+        $query->bindValue(':chapo', $article->getChapo());
+        $query->bindValue(':content', $article->getContent());
+        $query->bindValue(':posted', $article->getPosted());
+        $query->execute();
+        $query->closeCursor();
+        return $query;
     }
-
-    public function post_img($tmp_name, $extension)
-    {
-
-        $id = $this->pdo->lastInsertId();
-        $i = [
-            'id' => $id,
-            'image' => $id . $extension      //$id = 25 , $extension = .jpg      $id.$extension = "25".".jpg" = 25.jpg
-        ];
-
-        $sql = "UPDATE Article SET image = :image WHERE id = :id";
-        $req = $this->pdo->prepare($sql);
-        $req->execute($i);
-        move_uploaded_file($tmp_name, "../images/posts/" . $id . $extension);
-        header("Location:index.php?page=post&id=" . $id);
-    } */
 
     public function editArticle($article): bool|\PDOStatement
     {
 
         $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), posted= :posted WHERE id = :id');
+        $query->bindValue(':id', $article->getId());
         $query->bindValue(':title', $article->getTitle());
         $query->bindValue(':chapo', $article->getChapo());
         $query->bindValue(':content', $article->getContent());

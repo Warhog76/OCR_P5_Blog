@@ -75,54 +75,51 @@ class Articles extends Controller{
 
     public function post()
     {
+        $articleRepo = new ArticleRepo();
 
-        if(isset($_POST['submit'])){
-            $title = htmlspecialchars(trim($_POST['title']));
-            $content = htmlspecialchars(trim($_POST['content']));
-            $posted = isset($_POST['public']) ? "1" : "0";
+        if(isset($_POST['submit']))
+        {
+            $data = [];
+            $data['title'] = htmlspecialchars(trim($_POST['title']));
+            $data['chapo'] = htmlspecialchars(trim($_POST['chapo']));
+            $data['content'] = htmlspecialchars(trim($_POST['content']));
+            $data['posted'] = isset($_POST['public']) ? "1" : "0";
 
-            $errors = [];
+            if(empty($data['title']) || empty($data['chapo']) || empty($data['content']))
+            {
 
-            if(empty($title) || empty($content)){
-                $errors['empty'] = "Veuillez remplir tous les champs";
-            }
+            ?>
+                <div class="card red">
+                    <div class="card-content white-text">
+                        <?php
+                        echo "Veuillez remplir tous les champs"
+                        ?>
+                    </div>
+                </div>
 
-            if(!empty($_FILES['image']['name'])){
-                $file = $_FILES['image']['name'];
-                $extensions = ['.png','.jpg','.jpeg','.gif','.PNG','.JPG','.JPEG','.GIF'];  //Ensemble des extensions autorisées
-                $extension = strrchr($file,'.');
+            <?php
 
-            if(!in_array($extension,$extensions)){      //Permet de contrôler si l'extension de l'image est valide ou non
-                $errors['image'] = "Cette image n'est pas valable";
-            }
-        }
+                if(!empty($_FILES['image']['name'])) {
+                    $file = $_FILES['image']['name'];
+                    $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble des extensions autorisées
+                    $extension = strrchr($file, '.');
+                    $errors = [];
 
-        if(!empty($errors)){
-        ?>
-
-        <div class="card red">
-            <div class="card-content white-text">
-                <?php
-                foreach($errors as $error){
-                    echo $error."<br/>";
+                    if (!in_array($extension, $extensions)) {      //Permet de contrôler si l'extension de l'image est valide ou non
+                        $errors['image'] = "Cette image n'est pas valable";
+                    }
                 }
-                ?>
-            </div>
-        </div>
-
-        <?php
-        }else{
-            $newArticle = new ArticleRepo();
-            $newArticle->post($title,$content,$posted);
-
-            if(!empty($_FILES['image']['name'])){
-                $newArticle->post_img($_FILES['image']['tmp_name'], $extension);
             }else{
-                $id = $this->repository->lastInsertId();
-                header("Location:../index.php?page=post&id=".$id);
+                $article = new Article($data);
+                $result = $articleRepo->postArticle($article);
+
+                if($result)
+                {
+                    $id = $this->repository->lastInsertId();
+                    header("Location:../index.php?page=post&id=".$id);
+                }
             }
         }
-    }
     }
 
     public function modify()
@@ -149,13 +146,14 @@ class Articles extends Controller{
 
         if(isset($_POST['submit']))
         {
-            $article['id'] = $_GET['id'];
-            $article['title'] = htmlspecialchars(trim($_POST['title']));
-            $article['chapo'] = htmlspecialchars(trim($_POST['chapo']));
-            $article['content'] = htmlspecialchars(trim($_POST['content']));
-            $article['posted'] = isset($_POST['public']) ? "1" : "0";
+            $data = [];
+            $data['id'] = $_GET['id'];
+            $data['title'] = htmlspecialchars(trim($_POST['title']));
+            $data['chapo'] = htmlspecialchars(trim($_POST['chapo']));
+            $data['content'] = htmlspecialchars(trim($_POST['content']));
+            $data['posted'] = isset($_POST['public']) ? "1" : "0";
 
-            if(empty($article['title']) ||empty($article['content'])){
+            if(empty($data['title']) ||empty($data['content'])){
                 ?>
 
                 <div class="card red">
@@ -168,7 +166,7 @@ class Articles extends Controller{
 
         <?php
             }else{
-
+                $article = new Article($data);
                 $result = $articleRepo->editArticle($article);
 
                 if($result)
