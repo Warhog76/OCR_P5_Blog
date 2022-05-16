@@ -62,6 +62,17 @@ class Articles extends Controller{
 
     }
 
+    public function getAll()
+    {
+
+        $articles = $this->repository->getAll();
+
+        $page= new Renderer();
+        $page->renderBack('list', compact('articles'));
+
+    }
+
+
     public function post()
     {
 
@@ -113,13 +124,40 @@ class Articles extends Controller{
     }
     }
 
-    public function getAll()
+    public function modify()
     {
 
-        $articles = $this->repository->getAll();
+    if(isset($_POST['submit'])){
+        $title = htmlspecialchars(trim($_POST['title']));
+        $content = htmlspecialchars(trim($_POST['content']));
+        $posted = isset($_POST['public']) ? "1" : "0";
+        $id = $_GET['id'];
+        $errors = [];
 
-        $page= new Renderer();
-        $page->renderBack('list', compact('articles'));
+        if(empty($title) || empty($content)){
+            $errors['empty'] = "Veuillez remplir tous les champs";
+        }
 
+        if(!empty($errors)){
+            ?>
+            <div class="container">
+                <div class="card red">
+                    <div class="card-content white-text">
+                        <?php
+                        foreach($errors as $error){
+                            echo $error."<br/>";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }else{
+            edit($title,$content,$posted,$id);
+            header("Location:index.php?page=list");
+        }
     }
+    }
+
+
 }

@@ -1,54 +1,16 @@
-
 <?php
-
 $post = get_post();
 
 if($post == false){
     header("location:index.php?pages=error");
+}?>
 
-}
-
-
-?>
 </div>
 <div class="parallax-container">
     <div class="parallax">
         <img src="../images/posts/<?= $post->image ?>" alt="<?= $post->title ?>"/>
     </div>
 </div>
-
-<?php
-if(isset($_POST['submit'])){
-    $title = htmlspecialchars(trim($_POST['title']));
-    $content = htmlspecialchars(trim($_POST['content']));
-    $posted = isset($_POST['public']) ? "1" : "0";
-    $id = $_GET['id'];
-    $errors = [];
-
-    if(empty($title) || empty($content)){
-        $errors['empty'] = "Veuillez remplir tous les champs";
-    }
-
-    if(!empty($errors)){
-        ?>
-        <div class="container">
-            <div class="card red">
-                <div class="card-content white-text">
-                    <?php
-                    foreach($errors as $error){
-                        echo $error."<br/>";
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
-        <?php
-    }else{
-        edit($title,$content,$posted,$id);
-        header("Location:index.php?page=list");
-    }
-}
-?>
 
 <div class="container">
     <form method="post">

@@ -10,7 +10,7 @@
                 <li class="<?php echo ($page=="dashboard")?"active" : "";?>"> <a href="index.php?page=dashboard"><i class="material-icons">dashboard</i></a> </li>
                 <li class="<?php echo ($page=="write")?"active" : "";?>"> <a href="index.php?page=write"><i class="material-icons">edit</i></a> </li>
                 <li class="<?php echo ($page=="list")?"active" : "";?>"> <a href="index.php?page=list"><i class="material-icons">view_list</i></a> </li>
-                <li><a href="../index.php?page=home">Quitter</a></li>
+                <li><a href="../public/index.php?page=home">Quitter</a></li>
                 <li><a href="index.php?page=logout">Déconnexion</a></li>
             </ul>
 
@@ -18,7 +18,7 @@
                 <li class="<?php echo ($page=="dashboard")?"active" : "";?>"> <a href="index.php?page=dashboard">Tableau de bord</a> </li>
                 <li class="<?php echo ($page=="write")?"active" : "";?>"> <a href="index.php?page=write">Publier</a> </li>
                 <li class="<?php echo ($page=="list")?"active" : "";?>"> <a href="index.php?page=list">Liste des articles</i></a> </li>
-                <li><a href="../index.php?page=home">Quitter</a></li>
+                <li><a href="../public/index.php?page=home">Quitter</a></li>
                 <li><a href="index.php?page=logout">Déconnexion</a></li>
             </ul>
         </div>
