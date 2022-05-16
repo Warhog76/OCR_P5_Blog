@@ -1,11 +1,11 @@
-<footer class="page-footer light-blue">
+<footer class="page-footer grey darken-1">
 
     <div class="container">
         <div class="row">
 
             <div class="col l6 s12">
                 <h5 class="white-text">Location</h5>
-                <p class="grey-text text-lighten-4">Adresse <br>zip code, ville.</p>
+                <p class="grey-text text-lighten-4">Rue de la ferme Dufresne<br>76210, Bernieres.<br>France</p>
             </div>
 
             <div class="col l3 s12">
@@ -13,8 +13,6 @@
                 <ul>
                     <li><a class="white-text" href="#!">Link 1</a></li>
                     <li><a class="white-text" href="#!">Link 2</a></li>
-                    <li><a class="white-text" href="#!">Link 3</a></li>
-                    <li><a class="white-text" href="#!">Link 4</a></li>
                 </ul>
             </div>
 
@@ -23,14 +21,12 @@
                 <ul>
                     <li><a class="white-text" href="#!">Link 1</a></li>
                     <li><a class="white-text" href="#!">Link 2</a></li>
-                    <li><a class="white-text" href="#!">Link 3</a></li>
-                    <li><a class="white-text" href="#!">Link 4</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <div class="footer-copyright light-blue">
+    <div class="footer-copyright grey darken-1">
         <div class="container">
             Made by <a class="white-text text-lighten-3" href="https://materializecss.com">Materialize</a>
         </div>

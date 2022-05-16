@@ -1,10 +1,10 @@
-<nav class="light-blue">
+<nav class="grey darken-1">
     <div class="container">
         <div class="nav-wrapper">
 
             <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 
-            <a href="index.php?page=home" class="brand-logo">NL-DEV</a>
+            <a href="index.php?page=home" class="brand-logo">Frelsi.com</a>
 
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li class="<?= ($page=="home")?"active" : "";?>"> <a href="index.php?page=home">Accueil</a> </li>

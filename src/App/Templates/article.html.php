@@ -8,8 +8,9 @@
     </div>
     <div class="container">
 
-        <h2><?= $article->getTitle() ?></h2>
-        <h6>Par <?= $article->getWriter() ?> le <?= date("d/m/Y à H:i", strtotime($article->getDate())) ?></h6>
+        <h2><?= $article->getTitle() ?></h2><hr>
+        <h4><?= $article->getChapo() ?></h4><br>
+        <h6>Par <?= $article->getWriter() ?> le <?= date("d/m/Y à H:i", strtotime($article->getDate())) ?></h6><br>
         <p><?= nl2br($article->getContent()); ?></p>
     </div>
 
