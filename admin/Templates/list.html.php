@@ -4,10 +4,8 @@
 <hr>
 
 <?php
-
-foreach($articles as $article){
-
-    ?>
+    foreach($articles as $article){
+?>
 
     <div class="row">
         <div class="col s12 m12 l12">
@@ -28,7 +26,7 @@ foreach($articles as $article){
         </div>
     </div>
 
-    <?php
+<?php
 }
 ?>
 </div>
