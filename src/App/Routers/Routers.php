@@ -36,7 +36,7 @@ class Routers
         $page= new Renderer();
 
         if($_GET['page'] === 'dashboard'){
-            $page->renderBack('dashboard');
+            $commentController->findUnseen();
         }elseif ($_GET['page'] === 'list'){
             $page->renderBack('list');
         }elseif ($_GET['page'] === 'write'){

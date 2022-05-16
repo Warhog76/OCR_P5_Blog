@@ -2,17 +2,11 @@
 
 <h2>Tableau de bord</h2>
 
-<div class="row">
-
-
-</div>
-
 <h4>Commentaires non lus</h4>
 
 <table>
     <thead>
 
-    <th>Article</th>
     <th>Commentaire</th>
     <th>Actions</th>
 
@@ -21,36 +15,34 @@
     <tbody>
 
     <?php
-    if(!empty($comments)) {
-        foreach($comments as $comment){
+    if(!empty($commentaires)) {
+        foreach($commentaires as $commentaire){
             ?>
 
-            <tr id="commentaire_ <?= $comment->id ?>">
+            <tr id="commentaire_ <?= $commentaire->getId() ?>">
 
-                <td><?= $comment->title ?></td>
-                <td><?= substr($comment->comment,0,100) ?> ...</td>
+                <td><?= substr($commentaire->getComment(),0,100) ?> ...</td>
                 <td>
-                    <a href="#" id="<?= $comment->id ?>" class="btn-floating btn-small waves-effect waves-light green see_comment">
+                    <a href="#" id="<?= $commentaire->getId() ?>" class="btn-floating btn-small waves-effect waves-light green see_comment">
                         <i class="material-icons">done</i></a>
-                    <a href="#" id="<?= $comment->id ?>" class="btn-floating btn-small waves-effect waves-light red delete_comment">
+                    <a href="#" id="<?= $commentaire->getId() ?>" class="btn-floating btn-small waves-effect waves-light red delete_comment">
                         <i class="material-icons">delete</i></a>
-                    <a href="#comment_<?= $comment->id ?>" class="btn-floating btn-small waves-effect waves-light blue modal-trigger">
+                    <a href="#comment_<?= $commentaire->getId() ?>" class="btn-floating btn-small waves-effect waves-light blue modal-trigger">
                         <i class="material-icons">more_vert</i></a>
 
-                    <div class="modal" id="comment_<?= $comment->id ?>">
+                    <div class="modal" id="comment_<?= $commentaire->getId() ?>">
                         <div class="modal-content">
-                            <h4><?= $comment->title ?></h4>
 
                             <p>Commentaire posté par
-                                <strong><?= $comment->name . " (" . $comment->email . ")</strong><br/>Le " . date("d/m/Y à H:i", strtotime($comment->date)) ?>
+                                <strong><?= $commentaire->getName() . " (" . $commentaire->getEmail() . ")</strong><br/>Le " . date("d/m/Y à H:i", strtotime($commentaire->getDate())) ?>
                             </p>
                             <hr/>
-                            <p><?= nl2br($comment->comment) ?></p>
+                            <p><?= nl2br($commentaire->getComment()) ?></p>
                         </div>
                         <div class="modal-footer">
-                            <a href="#" id="<?= $comment->id ?>" class="modal-action modal-close waves-effect waves-green btn-flat see_comment">
+                            <a href="#" id="<?= $commentaire->getId() ?>" class="modal-action modal-close waves-effect waves-green btn-flat see_comment">
                                 <i class="material-icons">done</i></a>
-                            <a href="#" id="<?= $comment->id ?>" class="modal-action modal-close waves-effect waves-red btn-flat delete_comment">
+                            <a href="#" id="<?= $commentaire->getId() ?>" class="modal-action modal-close waves-effect waves-red btn-flat delete_comment">
                                 <i class="material-icons">delete</i></a>
                         </div>
                     </div>

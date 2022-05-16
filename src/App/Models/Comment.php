@@ -17,6 +17,11 @@ Class Comment
     /**
      * @var string
      */
+    private string $email;
+
+    /**
+     * @var string
+     */
     private string $comment;
 
     /**
@@ -89,6 +94,24 @@ Class Comment
     public function setName(string $name): Comment
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return Comment
+     */
+    public function setEmail(string $email): Comment
+    {
+        $this->email = $email;
         return $this;
     }
 
