@@ -38,7 +38,7 @@ class Routers
         if($_GET['page'] === 'dashboard'){
             $commentController->findUnseen();
         }elseif ($_GET['page'] === 'list'){
-            $page->renderBack('list');
+            $postController->getAll();
         }elseif ($_GET['page'] === 'write'){
             $page->renderBack('write');
             $postController->post();

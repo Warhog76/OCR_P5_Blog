@@ -13,10 +13,9 @@ class Articles extends Controller{
     {
 
         $articles = $this->repository->findLast();
-        $pageTitle = "Accueil";
 
         $page= new Renderer();
-        $page->render('index', compact('pageTitle','articles'));
+        $page->render('index', compact('articles'));
     }
 
     public function show()
@@ -112,5 +111,15 @@ class Articles extends Controller{
             }
         }
     }
+    }
+
+    public function getAll()
+    {
+
+        $articles = $this->repository->getAll();
+
+        $page= new Renderer();
+        $page->renderBack('list', compact('articles'));
+
     }
 }

@@ -25,6 +25,18 @@ class ArticleRepo extends Repository
         return $articles;
     }
 
+    public function getAll() : array
+    {
+        $articles = [];
+        $request = $this->pdo->query("SELECT * FROM Article ORDER BY date DESC");
+        while ($datas = $request->fetch(PDO::FETCH_ASSOC))
+        {
+            $articles[] = new Article($datas);
+        }
+        $request->closeCursor();
+        return $articles;
+    }
+
     /**
      * find 2 last articles order by date desc
      */
