@@ -26,24 +26,12 @@ class Routers
             $commentController->addComments();
         }elseif ($_GET['page'] === 'contact'){
             $page->render('contact');
-            $mailController->sendMail();}
-    }
-
-    public function getBack(): void
-    {
-
-        $postController = new Articles();
-        $commentController = new Comments();
-        $page= new Renderer();
-
-        if/*($_GET['page'] != 'login' & !isset($_SESSION['admin'])){
-            $page->renderBack('login');
-            $accountController->login();
-        }elseif*/($_GET['page'] === 'dashboard' || $_GET['page'] === null){
+            $mailController->sendMail();
+        }elseif($_GET['page'] === 'dashboard' || $_GET['page'] === null){
             $commentController->findUnseen();
         }elseif ($_GET['page'] === 'list'){
             $postController->getAll();
-        }elseif ($_GET['page'] === 'article') {
+        }elseif ($_GET['page'] === 'articlemod') {
             $postController->modify();
         }elseif ($_GET['page'] === 'write'){
             $page->renderBack('write');
@@ -52,12 +40,4 @@ class Routers
             $page->renderBack('logout');
         }
     }
-
-    public function redirect(string $url): void
-    {
-
-        header("Location: $url");
-        exit();
-    }
-
 }

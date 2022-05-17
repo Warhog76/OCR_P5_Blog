@@ -6,6 +6,3 @@ require '../vendor/autoload.php';
 
 $router = new Routers();
 $router->get();
-
-$routerBack = new Routers();
-$routerBack->getBack();
