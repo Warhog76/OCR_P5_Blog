@@ -4,7 +4,6 @@ namespace App\Routers;
 
 use App\Controllers\Articles;
 use App\Controllers\Comments;
-use App\Controllers\Accounts;
 use App\Controllers\Contact;
 use App\Controllers\Renderer;
 
@@ -32,7 +31,7 @@ class Routers
 
     public function getBack(): void
     {
-        $accountController = new Accounts();
+
         $postController = new Articles();
         $commentController = new Comments();
         $page= new Renderer();

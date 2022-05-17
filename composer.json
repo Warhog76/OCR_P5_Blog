@@ -9,5 +9,13 @@
         "phpmailer/phpmailer": "^6.6",
       "ext-ctype": "*",
         "ext-pdo": "*"
+    },
+    "require-dev": {
+        "phpro/grumphp": "^1.12"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpro/grumphp": true
+        }
     }
 }
