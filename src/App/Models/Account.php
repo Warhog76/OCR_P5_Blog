@@ -22,6 +22,11 @@ Class Account
     /**
      * @var string
      */
+    private string $username;
+
+    /**
+     * @var string
+     */
     private string $password;
 
     /**
@@ -85,6 +90,24 @@ Class Account
     public function setSurname(string $surname): Account
     {
         $this->surname = $surname;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     * @return Account
+     */
+    public function setUsername(string $username): Account
+    {
+        $this->username = $username;
         return $this;
     }
 

@@ -4,6 +4,7 @@ namespace App\Routers;
 
 use App\Controllers\Articles;
 use App\Controllers\Comments;
+use App\Controllers\Accounts;
 use App\Controllers\Contact;
 use App\Controllers\Renderer;
 
@@ -31,11 +32,15 @@ class Routers
 
     public function getBack(): void
     {
+        $accountController = new Accounts();
         $postController = new Articles();
         $commentController = new Comments();
         $page= new Renderer();
 
-        if($_GET['page'] === 'dashboard' || $_GET['page'] === null){
+        if/*($_GET['page'] != 'login' & !isset($_SESSION['admin'])){
+            $page->renderBack('login');
+            $accountController->login();
+        }elseif*/($_GET['page'] === 'dashboard' || $_GET['page'] === null){
             $commentController->findUnseen();
         }elseif ($_GET['page'] === 'list'){
             $postController->getAll();
@@ -44,6 +49,8 @@ class Routers
         }elseif ($_GET['page'] === 'write'){
             $page->renderBack('write');
             $postController->post();
+        }elseif ($_GET['page'] === 'logout') {
+            $page->renderBack('logout');
         }
     }
 

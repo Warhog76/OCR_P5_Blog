@@ -99,7 +99,7 @@ class Articles extends Controller{
 
             <?php
 
-                if(!empty($_FILES['image']['name'])) {
+                /*if(!empty($_FILES['image']['name'])) {
                     $file = $_FILES['image']['name'];
                     $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble des extensions autorisées
                     $extension = strrchr($file, '.');
@@ -108,16 +108,11 @@ class Articles extends Controller{
                     if (!in_array($extension, $extensions)) {      //Permet de contrôler si l'extension de l'image est valide ou non
                         $errors['image'] = "Cette image n'est pas valable";
                     }
-                }
+                }*/
             }else{
                 $article = new Article($data);
                 $result = $articleRepo->postArticle($article);
 
-                if($result)
-                {
-                    $id = $this->repository->lastInsertId();
-                    header("Location:../index.php?page=post&id=".$id);
-                }
             }
         }
     }
