@@ -47,4 +47,18 @@ class CommentRepo extends Repository
         $addComment->execute($c);
 
     }
+
+    public function findUnseen(): array
+    {
+        $commentaires = [];
+        $query = $this->pdo->query("SELECT  * FROM Comment WHERE seen = '0' ORDER BY date ASC");
+
+        while ($results = $query->fetch(PDO::FETCH_ASSOC)){
+
+            $commentaires [] = new Comment($results);
+        }
+        $query->closeCursor();
+
+        return $commentaires;
+    }
 }

@@ -10,40 +10,40 @@ class ArticleRepo extends Repository
 
     protected $table = "Article";
 
-    /**
-     * find all articles
-     */
-    public function findAll() : array
+    public function findAll(): array
     {
         $articles = [];
         $request = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC");
-        while ($datas = $request->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($datas = $request->fetch(PDO::FETCH_ASSOC)) {
             $articles[] = new Article($datas);
         }
         $request->closeCursor();
         return $articles;
     }
 
-    /**
-     * find 2 last articles order by date desc
-     */
+    public function getAll(): array
+    {
+        $articles = [];
+        $request = $this->pdo->query("SELECT * FROM Article ORDER BY date DESC");
+        while ($datas = $request->fetch(PDO::FETCH_ASSOC)) {
+            $articles[] = new Article($datas);
+        }
+        $request->closeCursor();
+        return $articles;
+    }
+
     public function findLast(): array
     {
 
         $articles = [];
         $request = $this->pdo->query("SELECT * FROM Article WHERE posted='1' ORDER BY date DESC LIMIT 0,2");
-        while ($datas = $request->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($datas = $request->fetch(PDO::FETCH_ASSOC)) {
             $articles[] = new Article($datas);
         }
         $request->closeCursor();
         return $articles;
     }
 
-    /**
-     * find article with it ID
-     */
     public function findOne(int $id): Article
     {
 
@@ -53,5 +53,33 @@ class ArticleRepo extends Repository
         $query->execute(['article_id' => $id]);
         $results = $query->fetch(PDO::FETCH_ASSOC);
         return new Article($results);
+    }
+
+    public function postArticle($article): bool|\PDOStatement
+    {
+
+        $query = $this->pdo->prepare('INSERT INTO Article (title, chapo, content, date, posted)
+            VALUES (:title,:chapo, :content,NOW(),:posted)');
+        $query->bindValue(':title', $article->getTitle());
+        $query->bindValue(':chapo', $article->getChapo());
+        $query->bindValue(':content', $article->getContent());
+        $query->bindValue(':posted', $article->getPosted());
+        $query->execute();
+        $query->closeCursor();
+        return $query;
+    }
+
+    public function editArticle($article): bool|\PDOStatement
+    {
+
+        $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), posted= :posted WHERE id = :id');
+        $query->bindValue(':id', $article->getId());
+        $query->bindValue(':title', $article->getTitle());
+        $query->bindValue(':chapo', $article->getChapo());
+        $query->bindValue(':content', $article->getContent());
+        $query->bindValue(':posted', $article->getPosted());
+        $query->execute();
+        $query->closeCursor();
+        return $query;
     }
 }

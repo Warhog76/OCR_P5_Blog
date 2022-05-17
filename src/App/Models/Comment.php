@@ -17,6 +17,11 @@ Class Comment
     /**
      * @var string
      */
+    private string $email;
+
+    /**
+     * @var string
+     */
     private string $comment;
 
     /**
@@ -27,12 +32,12 @@ Class Comment
     /**
      * @var int
      */
-    private int $article_id;
+    private int $seen;
 
     /**
      * @var int
      */
-    private int $seen;
+    private int $article_id;
 
     public function __construct($datas = [])
     {
@@ -95,6 +100,24 @@ Class Comment
     /**
      * @return string
      */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return Comment
+     */
+    public function setEmail(string $email): Comment
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getComment(): string
     {
         return $this->comment;
@@ -131,6 +154,24 @@ Class Comment
     /**
      * @return int
      */
+    public function getSeen(): int
+    {
+        return $this->seen;
+    }
+
+    /**
+     * @param int $seen
+     * @return Comment
+     */
+    public function setSeen(int $seen): Comment
+    {
+        $this->seen = $seen;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
     public function getArticleId(): int
     {
         return $this->article_id;
@@ -146,23 +187,6 @@ Class Comment
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSeen(): int
-    {
-        return $this->seen;
-    }
-
-    /**
-     * @param int $seen
-     * @return Comment
-     */
-    public function setSeen(int $seen): Comment
-    {
-        $this->seen = $seen;
-        return $this;
-    }
 
 
 

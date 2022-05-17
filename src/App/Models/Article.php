@@ -44,6 +44,10 @@ Class Article
      */
     private int $posted;
 
+    /**
+     * @var int
+     */
+    private int $Account_id;
 
     public function __construct($datas = [])
     {
@@ -207,6 +211,24 @@ Class Article
     public function setPosted(int $posted): Article
     {
         $this->posted = $posted;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAccountId(): int
+    {
+        return $this->Account_id;
+    }
+
+    /**
+     * @param int $Account_id
+     * @return Article
+     */
+    public function setAccountId(int $Account_id): Article
+    {
+        $this->Account_id = $Account_id;
         return $this;
     }
 
