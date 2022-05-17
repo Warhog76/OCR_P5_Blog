@@ -10,10 +10,10 @@ Class Renderer{
         extract($variables);
 
         ob_start();
-        require('../src/App/Templates/'.$path.'.html.php');
+        require('../src/App/Templates/Public/'.$path.'.html.php');
         $pageContent = ob_get_clean();
 
-        require('../src/App/Templates/layout.html.php');
+        require('../src/App/Templates/Public/layout.html.php');
     }
 
     public function renderBack(string $path, array $variables=[]): void

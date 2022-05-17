@@ -13,11 +13,11 @@
 
 <body>
 
-<?php include '../src/app/templates/topbar.html.php';?>
+<?php include '../src/app/templates/Public/topbar.html.php';?>
 
 <?= $pageContent ?>
 
-<?php include '../src/app/templates/footer.html.php';?>
+<?php include '../src/app/templates/Public/footer.html.php';?>
 
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
