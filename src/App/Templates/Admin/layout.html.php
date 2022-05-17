@@ -13,7 +13,7 @@
 
 <body>
 
-<?php include 'Templates/topbar.html.php';?>
+<?php include '../src/App/Templates/Admin/topbar.html.php';?>
 
 <?= $pageContent ?>
 

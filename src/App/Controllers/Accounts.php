@@ -20,7 +20,7 @@ class Accounts extends Controller
 
             if(empty($email) || empty($password)){
                 $errors['empty'] = "Tous les champs n'ont pas été remplis!";
-            }else if($this->repository->isAdmin($email,$password) == 0){
+            }elseif($this->repository->isAdmin($email,$password) == 0){
                 $errors['exist']  = "Accès refusé";
             }
 
@@ -43,4 +43,35 @@ class Accounts extends Controller
             }
         }
     }
+
+    public function register(){
+        /*if(isset($_POST['submit'])){
+            $email = htmlspecialchars(trim($_POST['email']));
+            $token = htmlspecialchars(trim($_POST['token']));
+
+            $errors = [];
+
+            if(empty($email) || empty($token)){
+                $errors['empty'] = "Tous les champs n'ont pas été remplis";
+            }else if(is_modo($email,$token) == 0){
+                $errors['exist'] = "Ce modérateur n'existe pas";
+            }
+
+            if(!empty($errors)){
+                ?>
+                <div class="card red">
+                    <div class="card-content white-text">
+                        <?php
+                        foreach($errors as $error){
+                            echo $error."<br/>";
+                        }
+                        ?>
+                    </div>
+                </div>
+                <?php
+            }else{
+                $_SESSION['admin'] = $email;
+                header("Location:index.php?page=password");
+            }*/
+        }
 }

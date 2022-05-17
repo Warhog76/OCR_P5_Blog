@@ -22,10 +22,10 @@ Class Renderer{
         extract($variables);
 
         ob_start();
-        require('../admin/Templates/'.$path.'.html.php');
+        require('../src/App/Templates/Admin/'.$path.'.html.php');
         $pageContent = ob_get_clean();
 
-        require('../admin/Templates/layout.html.php');
+        require('../src/App/Templates/Admin/layout.html.php');
     }
 }
 
