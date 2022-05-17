@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Repositories\Comment;
+use App\Repositories\CommentRepo;
 
 class Comments extends Controller{
 
-    protected $modelName = Comment::class;
+    protected $repositoryName = CommentRepo::class;
 
     public function addComments()
     {
-        $commentaire = new Comment();
+        $commentaire = new CommentRepo();
 
         if(isset($_POST['submit'])){
 
