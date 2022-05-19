@@ -1,4 +1,2 @@
 grumphp:
-    tasks:
-        phplint: ~
-
+    tasks: { phplint: null }
