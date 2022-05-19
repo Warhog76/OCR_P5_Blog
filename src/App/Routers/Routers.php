@@ -27,11 +27,11 @@ class Routers
         }elseif ($_GET['page'] === 'contact'){
             $page->render('contact');
             $mailController->sendMail();
-        }elseif($_GET['page'] === 'dashboard' || $_GET['page'] === null){
+        }elseif($_GET['page'] === 'dashboard'){
             $commentController->findUnseen();
         }elseif ($_GET['page'] === 'list'){
             $postController->getAll();
-        }elseif ($_GET['page'] === 'articlemod') {
+        }elseif ($_GET['page'] === 'post') {
             $postController->modify();
         }elseif ($_GET['page'] === 'write'){
             $page->renderBack('write');
