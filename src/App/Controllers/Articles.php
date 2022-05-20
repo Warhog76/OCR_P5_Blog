@@ -35,10 +35,6 @@ class Articles extends Controller{
             $article_id = $_GET['id'];
         }
 
-        if (!$article_id) {
-            die("Vous devez préciser un paramètre `id` dans l'URL !");
-        }
-
         /**
          * 2. Récupération de l'article en question
          */
