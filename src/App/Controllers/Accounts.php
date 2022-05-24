@@ -6,9 +6,8 @@ use App\Models\Account;
 use App\Repositories\AccountRepo;
 use App\Controllers\Renderer;
 
-class Accounts extends Controller
+class Accounts
 {
-    protected $repositoryName = AccountRepo::class;
 
     public function login(){
 

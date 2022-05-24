@@ -4,13 +4,15 @@ namespace App\Controllers;
 
 use App\Repositories\CommentRepo;
 
-class Comments extends Controller{
+class Comments {
 
-    protected $repositoryName = CommentRepo::class;
+    public function __construct(
+        private CommentRepo $comment,
+        private Renderer $page,
+    ){}
 
-    public function addComments()
+    public function addComments(): void
     {
-        $commentaire = new CommentRepo();
 
         if (isset($_POST['submit'])) {
 
@@ -41,17 +43,16 @@ class Comments extends Controller{
 
 
             } else {
-                $commentaire->addComment($name, $email, $comment);
+                $this->comment->addComment($name, $email, $comment);
             }
         }
     }
 
-    public function findUnseen()
+    public function findUnseen(): void
     {
-        $commentaires = $this->repository->findUnseen();
+        $commentaires = $this->comment->findUnseen();
 
-        $page= new Renderer();
-        $page->renderBack('dashboard', compact('commentaires'));
+        $this->page->renderBack('dashboard', compact('commentaires'));
 
     }
 

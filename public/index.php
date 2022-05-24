@@ -16,8 +16,11 @@ $router = new Routers(
         new CommentRepo(),
         new Renderer(),
     ),
-    new Comments(),
+    new Comments(
+        new CommentRepo(),
+        new Renderer(),
+    ),
     new Contact(),
-    new renderer(),
+    new Renderer(),
 );
 $router->get();
