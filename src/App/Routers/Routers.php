@@ -10,34 +10,38 @@ use App\Controllers\Renderer;
 class Routers
 {
 
+    public function __construct(
+        private Articles $postController,
+        private Comments $commentController,
+        private Contact $mailController,
+        private Renderer $page,
+    )
+    {}
+
     public function get(): void
     {
-        $postController = new Articles();
-        $mailController = new Contact();
-        $commentController = new Comments();
-        $page= new Renderer();
 
         if($_GET['page'] === 'home' || $_GET['page'] === null) {
-            $postController->index();
+            $this->postController->index();
         }elseif ($_GET['page'] === 'blog'){
-            $postController->showAll();
+            $this->postController->showAll();
         }elseif ($_GET['page'] === 'article'){
-            $postController->show();
-            $commentController->addComments();
+            $this->postController->show();
+            $this->commentController->addComments();
         }elseif ($_GET['page'] === 'contact'){
-            $page->render('contact');
-            $mailController->sendMail();
+            $this->page->render('contact');
+            $this->mailController->sendMail();
         }elseif($_GET['page'] === 'dashboard'){
-            $commentController->findUnseen();
+            $this->commentController->findUnseen();
         }elseif ($_GET['page'] === 'list'){
-            $postController->getAll();
+            $this->postController->getAll();
         }elseif ($_GET['page'] === 'post') {
-            $postController->modify();
+            $this->postController->modify();
         }elseif ($_GET['page'] === 'write'){
-            $page->renderBack('write');
-            $postController->post();
+            $this->page->renderBack('write');
+            $this->postController->post();
         }elseif ($_GET['page'] === 'logout') {
-            $page->renderBack('logout');
+            $this->page->renderBack('logout');
         }
     }
 }
