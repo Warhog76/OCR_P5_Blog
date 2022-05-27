@@ -4,61 +4,44 @@ namespace App\Routers;
 
 use App\Controllers\Articles;
 use App\Controllers\Comments;
-use App\Controllers\Accounts;
 use App\Controllers\Contact;
 use App\Controllers\Renderer;
 
 class Routers
 {
 
+    public function __construct(
+        private Articles $postController,
+        private Comments $commentController,
+        private Contact $mailController,
+        private Renderer $page,
+    )
+    {}
+
     public function get(): void
     {
-        $postController = new Articles();
-        $mailController = new Contact();
-        $commentController = new Comments();
-        $page= new Renderer();
 
-        if($_GET['page'] === 'home' || $_GET['page'] === 'dashboard' || $_GET['page'] === null) {
-            $postController->index();
+        if($_GET['page'] === 'home' || $_GET['page'] === null) {
+            $this->postController->index();
         }elseif ($_GET['page'] === 'blog'){
-            $postController->showAll();
+            $this->postController->showAll();
         }elseif ($_GET['page'] === 'article'){
-            $postController->show();
-            $commentController->addComments();
+            $this->postController->show();
+            $this->commentController->addComments();
         }elseif ($_GET['page'] === 'contact'){
-            $page->render('contact');
-            $mailController->sendMail();}
-    }
-
-    public function getBack(): void
-    {
-        $accountController = new Accounts();
-        $postController = new Articles();
-        $commentController = new Comments();
-        $page= new Renderer();
-
-        if/*($_GET['page'] != 'login' & !isset($_SESSION['admin'])){
-            $page->renderBack('login');
-            $accountController->login();
-        }elseif*/($_GET['page'] === 'dashboard' || $_GET['page'] === null){
-            $commentController->findUnseen();
+            $this->page->render('contact');
+            $this->mailController->sendMail();
+        }elseif($_GET['page'] === 'dashboard'){
+            $this->commentController->findUnseen();
         }elseif ($_GET['page'] === 'list'){
-            $postController->getAll();
-        }elseif ($_GET['page'] === 'article') {
-            $postController->modify();
+            $this->postController->getAll();
+        }elseif ($_GET['page'] === 'post') {
+            $this->postController->modify();
         }elseif ($_GET['page'] === 'write'){
-            $page->renderBack('write');
-            $postController->post();
+            $this->page->renderBack('write');
+            $this->postController->post();
         }elseif ($_GET['page'] === 'logout') {
-            $page->renderBack('logout');
+            $this->page->renderBack('logout');
         }
     }
-    
-    public function redirect(string $url): void
-    {
-
-        header("Location: $url");
-        exit();
-    }
-
 }

@@ -6,76 +6,55 @@ use App\Models\Article;
 use App\Repositories\CommentRepo;
 use App\Repositories\ArticleRepo;
 
-class Articles extends Controller{
+class Articles{
 
-    protected $repositoryName = ArticleRepo::class;
+    public function __construct(
+            private ArticleRepo $post,
+            private CommentRepo $comment,
+            private Renderer $page,
+    ){}
 
-    public function index()
+    public function index(): void
     {
 
-        $articles = $this->repository->findLast();
-
-        $page= new Renderer();
-        $page->render('index', compact('articles'));
+        $articles = $this->post->findLast();
+        $this->page->render('index', compact('articles'));
     }
 
-    public function show()
+    public function show(): void
     {
 
-        $articleRepo = new ArticleRepo();
-        $commentRepo = new CommentRepo();
-        $page= new Renderer();
-
-         /**
-         * 1. Récupération du param "id" et vérification de celui-ci
-         */
         $article_id = null;
 
         if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
             $article_id = $_GET['id'];
         }
 
-        if (!$article_id) {
-            die("Vous devez préciser un paramètre `id` dans l'URL !");
-        }
+        $article = $this->post->findOne($article_id);
+        $commentaires = $this->comment->findAll($article_id);
 
-        /**
-         * 2. Récupération de l'article en question
-         */
-        $article = $articleRepo->findOne($article_id);
-
-        /**
-         * 3. Récupération des commentaires de l'article en question
-         */
-        $commentaires = $commentRepo->findAll($article_id);
-
-        $page->render('article', compact('article','commentaires'));
+        $this->page->render('article', compact('article','commentaires'));
 
     }
 
-    public function showAll()
+    public function showAll(): void
     {
 
-        $articles = $this->repository->findAll();
-
-        $page= new Renderer();
-        $page->render('blog', compact('articles'));
+        $articles = $this->post->findAll();
+        $this->page->render('blog', compact('articles'));
 
     }
 
-    public function getAll()
+    public function getAll(): void
     {
 
-        $articles = $this->repository->getAll();
-
-        $page= new Renderer();
-        $page->renderBack('list', compact('articles'));
+        $articles = $this->post->getAll();
+        $this->page->renderBack('list', compact('articles'));
 
     }
 
-    public function post()
+    public function post(): void
     {
-        $articleRepo = new ArticleRepo();
 
         if(isset($_POST['submit']))
         {
@@ -110,18 +89,14 @@ class Articles extends Controller{
                     }
                 }*/
             }else{
-                $article = new Article($data);
-                $result = $articleRepo->postArticle($article);
+                $result = $this->post->postArticle($this->post);
 
             }
         }
     }
 
-    public function modify()
+    public function modify(): void
     {
-
-        $articleRepo = new ArticleRepo();
-        $page= new Renderer();
 
         /**
          * 1. Récupération du param "id" et vérification de celui-ci
@@ -135,9 +110,9 @@ class Articles extends Controller{
         /**
          * 2. Récupération de l'article en question
          */
-        $article = $articleRepo->findOne($article_id);
+        $article = $this->post->findOne($article_id);
 
-        $page->renderBack('article', compact('article'));
+        $this->page->renderBack('article', compact('article'));
 
         if(isset($_POST['submit']))
         {
@@ -161,8 +136,8 @@ class Articles extends Controller{
 
         <?php
             }else{
-                $article = new Article($data);
-                $result = $articleRepo->editArticle($article);
+
+                $result = $this->post->editArticle($article);
 
                 if($result)
                 {
