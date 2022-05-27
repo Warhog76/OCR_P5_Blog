@@ -1,2 +1,10 @@
 grumphp:
-    tasks: { phplint: null }
+    tasks:
+        phplint: ~
+        phpunit:
+            config_file: ~
+            testsuite: ~
+            group: [ ]
+            exclude_group: [ ]
+            always_execute: false
+            order: null
