@@ -2,13 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\Account;
 use App\Repositories\AccountRepo;
-use App\Controllers\Renderer;
 
-class Accounts extends Controller
+class Accounts
 {
-    protected $repositoryName = AccountRepo::class;
+    public function __construct(
+        private AccountRepo $accountRepo,
+        private Renderer $page,
+
+    ){}
 
     public function login(){
 
@@ -20,7 +22,7 @@ class Accounts extends Controller
 
             if(empty($email) || empty($password)){
                 $errors['empty'] = "Tous les champs n'ont pas été remplis!";
-            }elseif($this->repository->isAdmin($email,$password) == 0){
+            }elseif($this->accountRepo->isAdmin($email,$password) == 0){
                 $errors['exist']  = "Accès refusé";
             }
 
@@ -38,14 +40,13 @@ class Accounts extends Controller
                 <?php
             }else{
                 $_SESSION['admin'] = $email;
-                $page = new Renderer();
-               $page->renderBack('dashboard');
+                $this->page->renderBack('dashboard');
             }
         }
     }
 
     public function register(){
-        /*if(isset($_POST['submit'])){
+        if(isset($_POST['submit'])){
             $email = htmlspecialchars(trim($_POST['email']));
             $token = htmlspecialchars(trim($_POST['token']));
 
@@ -53,7 +54,7 @@ class Accounts extends Controller
 
             if(empty($email) || empty($token)){
                 $errors['empty'] = "Tous les champs n'ont pas été remplis";
-            }else if(is_modo($email,$token) == 0){
+            }else if($this->accountRepo->is_modo($email,$token) == 0){
                 $errors['exist'] = "Ce modérateur n'existe pas";
             }
 
@@ -72,6 +73,7 @@ class Accounts extends Controller
             }else{
                 $_SESSION['admin'] = $email;
                 header("Location:index.php?page=password");
-            }*/
+            }
         }
+    }
 }
