@@ -4,12 +4,13 @@ namespace App\Controllers;
 
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Contact {
 
     /**
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function sendMail(): void
     {

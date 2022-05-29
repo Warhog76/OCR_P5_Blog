@@ -15,6 +15,7 @@ require '../vendor/autoload.php';
 $router = new Routers(
     new Accounts(
         new AccountRepo(),
+        new Renderer(),
     ),
     new Articles(
         new ArticleRepo(),

@@ -2,7 +2,8 @@
 
 namespace App\Controllers;
 
-Class Renderer{
+Class Renderer
+{
 
     public function render(string $path, array $variables=[]): void
     {

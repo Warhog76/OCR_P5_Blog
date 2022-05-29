@@ -40,6 +40,16 @@ Class Account
     private string $typeAccount;
 
     /**
+     * @var string
+     */
+    private string $token;
+
+    /**
+     * @var string
+     */
+    private string $confirmed_at;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -162,6 +172,42 @@ Class Account
     public function setTypeAccount(string $typeAccount): Account
     {
         $this->typeAccount = $typeAccount;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     * @return Account
+     */
+    public function setToken(string $token): Account
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfirmedAt(): string
+    {
+        return $this->confirmed_at;
+    }
+
+    /**
+     * @param string $confirmed_at
+     * @return Account
+     */
+    public function setConfirmedAt(string $confirmed_at): Account
+    {
+        $this->confirmed_at = $confirmed_at;
         return $this;
     }
 

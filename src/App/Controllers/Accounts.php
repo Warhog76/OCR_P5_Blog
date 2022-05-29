@@ -8,6 +8,7 @@ class Accounts
 {
     public function __construct(
         private AccountRepo $accountRepo,
+        private Renderer $page,
 
     ){}
 
@@ -35,7 +36,8 @@ class Accounts
         }
     }*/
 
-    public function register(){
+    public function register(): void
+    {
 
         $username = htmlspecialchars(trim($_POST['username']));
         $email = htmlspecialchars(trim($_POST['email']));
@@ -75,7 +77,29 @@ class Accounts
                     } else {
                         //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                         $this->accountRepo->registerUser();
+
+                        header('Location: index.php?page=login');
                     }
         }
+    }
+
+    public function confirm(): void
+    {
+
+        $user_id = $_GET['id'];
+        $token = $_GET['token'];
+
+        $results= $this->accountRepo->confirmUser($user_id);
+
+        if($results->token == $token){
+            $this->accountRepo->validateUser($user_id);
+            session_start();
+            $_SESSION['flash']['success'] = 'Votre compte a bien été validé';
+            header('Location: index.php?page=home');
+        }else{
+            $_SESSION['flash']['danger'] = "Ce token n'est plus valide";
+            header('Location: index.php?page=login');
+        }
+
     }
 }

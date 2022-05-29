@@ -7,6 +7,7 @@ use App\Controllers\Articles;
 use App\Controllers\Comments;
 use App\Controllers\Contact;
 use App\Controllers\Renderer;
+use PHPMailer\PHPMailer\Exception;
 
 class Routers
 {
@@ -20,6 +21,9 @@ class Routers
     )
     {}
 
+    /**
+     * @throws Exception
+     */
     public function get(): void
     {
 
@@ -30,6 +34,8 @@ class Routers
         }elseif ($_GET['page'] === 'register'){
             $this->page->renderLog('register');
             $this->accountController->register();
+        }elseif ($_GET['page'] === 'confirm'){
+            $this->accountController->confirm();
         }elseif ($_GET['page'] === 'blog'){
             $this->postController->showAll();
         }elseif ($_GET['page'] === 'article'){
