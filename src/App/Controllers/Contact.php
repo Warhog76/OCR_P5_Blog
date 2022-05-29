@@ -8,6 +8,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Contact {
 
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public function sendMail(): void
     {
         // si le bouton "Envoyer" est cliqué

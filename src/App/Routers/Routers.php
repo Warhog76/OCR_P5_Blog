@@ -2,6 +2,7 @@
 
 namespace App\Routers;
 
+use App\Controllers\Accounts;
 use App\Controllers\Articles;
 use App\Controllers\Comments;
 use App\Controllers\Contact;
@@ -11,6 +12,7 @@ class Routers
 {
 
     public function __construct(
+        private Accounts $accountController,
         private Articles $postController,
         private Comments $commentController,
         private Contact $mailController,
@@ -23,6 +25,11 @@ class Routers
 
         if($_GET['page'] === 'home' || $_GET['page'] === null) {
             $this->postController->index();
+        }elseif ($_GET['page'] === 'login'){
+            $this->page->renderLog('login');
+        }elseif ($_GET['page'] === 'register'){
+            $this->page->renderLog('register');
+            $this->accountController->register();
         }elseif ($_GET['page'] === 'blog'){
             $this->postController->showAll();
         }elseif ($_GET['page'] === 'article'){
@@ -41,7 +48,7 @@ class Routers
             $this->page->renderBack('write');
             $this->postController->post();
         }elseif ($_GET['page'] === 'logout') {
-            $this->page->renderBack('logout');
+            $this->page->render('logout');
         }
     }
 }

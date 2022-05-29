@@ -28,7 +28,8 @@
                         <i class="material-icons left">perm_identity</i>
                         Se connecter
                     </button>
-                    <br/>
+                    <br/><br/>
+                    <a href="index.php?page=register">Nouvel utilisateur</a>
                 </div>
             </form>
         </div>

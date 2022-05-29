@@ -8,11 +8,10 @@ class Accounts
 {
     public function __construct(
         private AccountRepo $accountRepo,
-        private Renderer $page,
 
     ){}
 
-    public function login(){
+    /*public function login(){
 
         if(isset($_POST['submit'])){
             $email = htmlspecialchars(trim($_POST['email']));
@@ -27,37 +26,40 @@ class Accounts
             }
 
             if(!empty($errors)){
-                ?>
-                <div class="card red">
-                    <div class="card-content white-text">
-                        <?php
-                        foreach($errors as $error){
-                            echo $error."<br/>";
-                        }
-                        ?>
-                    </div>
-                </div>
-                <?php
-            }else{
-                $_SESSION['admin'] = $email;
+                    "message d'erreur";
+            }elseif($_SESSION['admin'] = $email){                ;
                 $this->page->renderBack('dashboard');
+            }else{
+                //retour page accueil pour simple user
             }
         }
-    }
+    }*/
 
     public function register(){
-        if(isset($_POST['submit'])){
-            $email = htmlspecialchars(trim($_POST['email']));
-            $token = htmlspecialchars(trim($_POST['token']));
 
+        $username = htmlspecialchars(trim($_POST['username']));
+        $email = htmlspecialchars(trim($_POST['email']));
+        $password = htmlspecialchars(trim($_POST['password']));
+        $passwordConfirm = htmlspecialchars(trim($_POST['password_confirm']));
+
+        if(!empty($_POST)){
             $errors = [];
-
-            if(empty($email) || empty($token)){
-                $errors['empty'] = "Tous les champs n'ont pas été remplis";
-            }else if($this->accountRepo->is_modo($email,$token) == 0){
-                $errors['exist'] = "Ce modérateur n'existe pas";
+            if(empty($username)|| !preg_match('/^[\w_]+$/', $username)) {
+                $errors['username'] = "Votre pseudo est invalide";
+            }else{
+                $user = $this->accountRepo->isUser($username);
+                if($user){
+                    $errors['username'] = "Ce pseudo existe déjà";
+                }
             }
 
+            if(empty($email)|| !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = "Votre email est invalide";
+            }
+
+            if (empty($password) || $password != $passwordConfirm) {
+                $errors['password'] = "Vous devez rentrer un mot de passe valide";
+            }
             if(!empty($errors)){
                 ?>
                 <div class="card red">
@@ -70,10 +72,10 @@ class Accounts
                     </div>
                 </div>
                 <?php
-            }else{
-                $_SESSION['admin'] = $email;
-                header("Location:index.php?page=password");
-            }
+                    } else {
+                        //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
+                        $this->accountRepo->registerUser();
+                    }
         }
     }
 }
