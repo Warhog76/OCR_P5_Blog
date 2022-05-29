@@ -8,8 +8,6 @@ class Accounts
 {
     public function __construct(
         private AccountRepo $accountRepo,
-        private Renderer $page,
-
     ){}
 
     /*public function login(){

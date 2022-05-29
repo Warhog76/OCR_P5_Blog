@@ -20,7 +20,7 @@ class AccountRepo extends Repository
         $req->execute([$_POST['username'], $password, $_POST['email'], $token]);
         $user_id = $this->pdo->lastInsertId();
         mail($_POST['email'], 'Confirmation de votre compte', "Afin de valider votre compte, merci de cliquer sur ce lien\n\n
-        http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm?id=$user_id&token=$token");
+        http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=$user_id&token=$token");
     }
 
     public function confirmUser($user_id)
