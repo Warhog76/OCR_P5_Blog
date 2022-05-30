@@ -17,9 +17,9 @@ class Contact {
         // si le bouton "Envoyer" est cliqué
         if (isset($_POST['submit'])) {
 
-            $email = htmlspecialchars($_POST['mail']);
-            $subject = htmlspecialchars($_POST['subject']);
-            $message = htmlspecialchars(stripslashes(trim($_POST['message'])));
+            $email = htmlspecialchars(filter_input(INPUT_POST, 'mail'));
+            $subject = htmlspecialchars(filter_input(INPUT_POST, 'subject'));
+            $message = htmlspecialchars(stripslashes(trim(filter_input(INPUT_POST, 'message'))));
 
             if (empty($_POST['name']) || empty($email) || empty($message)) {
                 $errors['empty'] = "Tous les champs n'ont pas été remplis";

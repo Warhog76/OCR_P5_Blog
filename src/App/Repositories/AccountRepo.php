@@ -15,11 +15,11 @@ class AccountRepo extends Repository
     public function registerUser()
     {
         $req = $this->pdo->prepare("INSERT INTO Account SET username = ?, password = ?, email = ?, token = ?");
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_BCRYPT);
         $token = $this->str_random(60);
-        $req->execute([$_POST['username'], $password, $_POST['email'], $token]);
+        $req->execute([filter_input(INPUT_POST, 'username'), $password, filter_input(INPUT_POST, 'email'), $token]);
         $user_id = $this->pdo->lastInsertId();
-        mail($_POST['email'], 'Confirmation de votre compte', "Afin de valider votre compte, merci de cliquer sur ce lien\n\n
+        mail(filter_input(INPUT_POST, 'email'), 'Confirmation de votre compte', "Afin de valider votre compte, merci de cliquer sur ce lien\n\n
         http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=$user_id&token=$token");
     }
 

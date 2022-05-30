@@ -17,9 +17,9 @@ class Comments {
         if (isset($_POST['submit'])) {
 
             // variable declaration
-            $comment = htmlspecialchars($_POST['comment']);
-            $name = htmlspecialchars($_POST['name']);
-            $email = htmlspecialchars($_POST['email']);
+            $comment = htmlspecialchars(filter_input(INPUT_POST, 'comment'));
+            $name = htmlspecialchars(filter_input(INPUT_POST, 'name'));
+            $email = htmlspecialchars(filter_input(INPUT_POST, 'email'));
             $errors = [];
 
             if (empty($name) || empty($email) || empty($comment)) {

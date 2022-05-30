@@ -27,33 +27,33 @@ class Routers
     public function get(): void
     {
 
-        if($_GET['page'] === 'home' || $_GET['page'] === null) {
+        if(filter_input(INPUT_GET, 'page') === 'home' || filter_input(INPUT_GET, 'page') === null) {
             $this->postController->index();
-        }elseif ($_GET['page'] === 'login'){
+        }elseif (filter_input(INPUT_GET, 'page') === 'login'){
             $this->page->renderLog('login');
-        }elseif ($_GET['page'] === 'register'){
+        }elseif (filter_input(INPUT_GET, 'page') === 'register'){
             $this->page->renderLog('register');
             $this->accountController->register();
-        }elseif ($_GET['page'] === 'confirm'){
+        }elseif (filter_input(INPUT_GET, 'page') === 'confirm'){
             $this->accountController->confirm();
-        }elseif ($_GET['page'] === 'blog'){
+        }elseif (filter_input(INPUT_GET, 'page') === 'blog'){
             $this->postController->showAll();
-        }elseif ($_GET['page'] === 'article'){
+        }elseif (filter_input(INPUT_GET, 'page') === 'article'){
             $this->postController->show();
             $this->commentController->addComments();
-        }elseif ($_GET['page'] === 'contact'){
+        }elseif (filter_input(INPUT_GET, 'page') === 'contact'){
             $this->page->render('contact');
             $this->mailController->sendMail();
-        }elseif($_GET['page'] === 'dashboard'){
+        }elseif(filter_input(INPUT_GET, 'page') === 'dashboard'){
             $this->commentController->findUnseen();
-        }elseif ($_GET['page'] === 'list'){
+        }elseif (filter_input(INPUT_GET, 'page') === 'list'){
             $this->postController->getAll();
-        }elseif ($_GET['page'] === 'post') {
+        }elseif (filter_input(INPUT_GET, 'page') === 'post') {
             $this->postController->modify();
-        }elseif ($_GET['page'] === 'write'){
+        }elseif (filter_input(INPUT_GET, 'page') === 'write'){
             $this->page->renderBack('write');
             $this->postController->post();
-        }elseif ($_GET['page'] === 'logout') {
+        }elseif (filter_input(INPUT_GET, 'page') === 'logout') {
             $this->page->render('logout');
         }
     }

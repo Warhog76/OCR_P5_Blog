@@ -26,8 +26,8 @@ class Articles{
 
         $article_id = null;
 
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
+        if (!empty(filter_input(INPUT_GET, 'id')) && ctype_digit(filter_input(INPUT_GET, 'id'))) {
+            $article_id = filter_input(INPUT_GET, 'id');
         }
 
         $article = $this->post->findOne($article_id);
@@ -59,9 +59,9 @@ class Articles{
         if(isset($_POST['submit']))
         {
             $data = [];
-            $data['title'] = htmlspecialchars(trim($_POST['title']));
-            $data['chapo'] = htmlspecialchars(trim($_POST['chapo']));
-            $data['content'] = htmlspecialchars(trim($_POST['content']));
+            $data['title'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'title')));
+            $data['chapo'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'chapo')));
+            $data['content'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'content')));
             $data['posted'] = isset($_POST['public']) ? "1" : "0";
 
             if(empty($data['title']) || empty($data['chapo']) || empty($data['content']))
@@ -103,8 +103,8 @@ class Articles{
          */
         $article_id = null;
 
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
+        if (!empty(filter_input(INPUT_GET, 'id')) && ctype_digit(filter_input(INPUT_GET, 'id'))) {
+            $article_id = filter_input(INPUT_GET, 'id');
         }
 
         /**
@@ -118,9 +118,9 @@ class Articles{
         {
             $data = [];
             $data['id'] = $_GET['id'];
-            $data['title'] = htmlspecialchars(trim($_POST['title']));
-            $data['chapo'] = htmlspecialchars(trim($_POST['chapo']));
-            $data['content'] = htmlspecialchars(trim($_POST['content']));
+            $data['title'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'title')));
+            $data['chapo'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'chapo')));
+            $data['content'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'content')));
             $data['posted'] = isset($_POST['public']) ? "1" : "0";
 
             if(empty($data['title']) ||empty($data['content'])){

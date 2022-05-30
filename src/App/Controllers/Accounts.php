@@ -37,10 +37,10 @@ class Accounts
     public function register(): void
     {
 
-        $username = htmlspecialchars(trim($_POST['username']));
-        $email = htmlspecialchars(trim($_POST['email']));
-        $password = htmlspecialchars(trim($_POST['password']));
-        $passwordConfirm = htmlspecialchars(trim($_POST['password_confirm']));
+        $username = htmlspecialchars(trim(filter_input(INPUT_POST, 'username')));
+        $email = htmlspecialchars(trim(filter_input(INPUT_POST, 'email')));
+        $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
+        $passwordConfirm = htmlspecialchars(trim(filter_input(INPUT_POST, 'password_confirm')));
 
         if(!empty($_POST)){
             $errors = [];
@@ -84,8 +84,8 @@ class Accounts
     public function confirm(): void
     {
 
-        $user_id = $_GET['id'];
-        $token = $_GET['token'];
+        $user_id = filter_input(INPUT_GET, 'id');
+        $token = filter_input(INPUT_GET, 'token');
 
         $results= $this->accountRepo->confirmUser($user_id);
 

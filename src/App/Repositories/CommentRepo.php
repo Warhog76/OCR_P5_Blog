@@ -33,7 +33,7 @@ class CommentRepo extends Repository
             'name'        => $name,
             'email'       => $email,
             'comment'     => $comment,
-            'article_id'  => $_GET["id"]
+            'article_id'  => filter_input(INPUT_GET, 'id')
         );
 
         //ecriture de la requete
