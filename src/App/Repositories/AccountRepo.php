@@ -11,7 +11,7 @@ class AccountRepo extends Repository
 
     public function isUser($user)
     {
-        $req = $this->pdo->prepare("SELECT * FROM Account WHERE email = ?");
+        $req = $this->pdo->prepare("SELECT * FROM Account WHERE email = ? AND confirmed_at IS NOT NULL");
         $req->execute([$user]);
         return $results = $req->fetch();
     }
