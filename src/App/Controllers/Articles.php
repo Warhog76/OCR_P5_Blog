@@ -62,7 +62,7 @@ class Articles{
         $data['title'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'title')));
         $data['chapo'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'chapo')));
         $data['content'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'content')));
-        $data['posted'] = isset($_POST['public']) ? "1" : "0";
+        $data['posted'] = filter_input(INPUT_POST, 'public') !== null ? "1" : "0";
         return $data;
     }
 

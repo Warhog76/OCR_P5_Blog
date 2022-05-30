@@ -10,31 +10,46 @@ class Accounts
         private AccountRepo $accountRepo,
     ){}
 
-    /*public function login(){
+    public function login(): void
+    {
 
-        if(isset(filter_input(INPUT_POST, 'submit'))){
+        if(isset($_POST)){
             $email = htmlspecialchars(trim(filter_input(INPUT_POST, 'email')));
             $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
 
             $errors = [];
+            $results = $this->accountRepo->isUser($email);
 
             if(empty($email) || empty($password)){
                 $errors['empty'] = "Tous les champs n'ont pas été remplis!";
-            }elseif($this->accountRepo->isAdmin($email,$password) == 0){
+            }elseif($results->email == null){
                 $errors['exist']  = "Accès refusé";
-            }
+            }elseif(password_verify($password, $results->password)){
+                $errors['exist']  = "Mot de passe incorrect";
+            };
 
             if(!empty($errors)){
-                    "message d'erreur";
-            }elseif($_SESSION['admin'] = $email){                ;
-                $this->page->renderBack('dashboard');
+                    ?>
+                <div class="container">
+                    <div class="card red">
+                        <div class="card-content white-text">
+                            <?php
+                            foreach($errors as $error){
+                                echo $error."<br/>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <?php
             }else{
-                //retour page accueil pour simple user
-            }
+                $_SESSION['admin'] = $email;
+                header('Location: index.php?page=home');
+            };
         }
-    }*/
+    }
 
-    public function register(): string
+    public function register(): void
     {
 
         $username = htmlspecialchars(trim(filter_input(INPUT_POST, 'username')));
@@ -42,30 +57,39 @@ class Accounts
         $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
         $passwordConfirm = htmlspecialchars(trim(filter_input(INPUT_POST, 'password_confirm')));
 
-        if(!empty(filter_input(INPUT_POST, ''))){
+        if (!empty($_POST)){
             $errors = [];
-            if(empty($username)|| !preg_match('/^[\w_]+$/', $username)) {
+            if (empty($username) || !preg_match('/^[\w_]+$/', $username)) {
                 $errors['username'] = "Votre pseudo est invalide";
             }else{
-                $user = $this->accountRepo->isUser($username);
+                $user = $this->accountRepo->isRegister($username);
                 if($user){
                     $errors['username'] = "Ce pseudo existe déjà";
                 }
             }
-
-            if(empty($email)|| !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errors['email'] = "Votre email est invalide";
             }
-
-            if (empty($password) || $password != $passwordConfirm) {
+            if(empty($password) || $password != $passwordConfirm) {
                 $errors['password'] = "Vous devez rentrer un mot de passe valide";
             }
+
             if(!empty($errors)){
-                foreach($errors as $error){
-                    return $error;
-                }
+                ?>
+                <div class="container">
+                    <div class="card red">
+                        <div class="card-content white-text">
+                            <?php
+                            foreach($errors as $error){
+                                echo $error."<br/>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <?php
             }else{
-            //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
+                //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $this->accountRepo->registerUser();
                 header('Location: index.php?page=login');
             }
@@ -80,9 +104,10 @@ class Accounts
 
         $results= $this->accountRepo->confirmUser($user_id);
 
+        session_start();
+
         if($results->token == $token){
             $this->accountRepo->validateUser($user_id);
-            session_start();
             $_SESSION['flash']['success'] = 'Votre compte a bien été validé';
             header('Location: index.php?page=home');
         }else{
