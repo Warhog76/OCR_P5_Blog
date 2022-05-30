@@ -12,7 +12,7 @@ class Accounts
 
     /*public function login(){
 
-        if(isset($_POST['submit'])){
+        if(isset(filter_input(INPUT_POST, 'submit'))){
             $email = htmlspecialchars(trim(filter_input(INPUT_POST, 'email')));
             $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
 
@@ -34,7 +34,7 @@ class Accounts
         }
     }*/
 
-    public function register(): void
+    public function register(): string
     {
 
         $username = htmlspecialchars(trim(filter_input(INPUT_POST, 'username')));
@@ -61,23 +61,14 @@ class Accounts
                 $errors['password'] = "Vous devez rentrer un mot de passe valide";
             }
             if(!empty($errors)){
-                ?>
-                <div class="card red">
-                    <div class="card-content white-text">
-                        <?php
-                        foreach($errors as $error){
-                            echo $error."<br/>";
-                        }
-                        ?>
-                    </div>
-                </div>
-                <?php
-                    } else {
-                        //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
-                        $this->accountRepo->registerUser();
-
-                        header('Location: index.php?page=login');
-                    }
+                foreach($errors as $error){
+                    return $error;
+                }
+            }else{
+            //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
+                $this->accountRepo->registerUser();
+                header('Location: index.php?page=login');
+            }
         }
     }
 
