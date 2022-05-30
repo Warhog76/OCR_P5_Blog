@@ -2,10 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Account;
-use PDO;
-use phpDocumentor\Reflection\Types\Array_;
-
 class AccountRepo extends Repository
 {
 

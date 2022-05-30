@@ -1,19 +1,8 @@
 <?php
-session_start();
-echo '</pre>';
-print_r($_SESSION);
-echo '</pre>';
 
-
-use App\Repositories\AccountRepo;
-use App\Repositories\ArticleRepo;
-use App\Repositories\CommentRepo;
+use App\Repositories\{AccountRepo,ArticleRepo,CommentRepo};
 use App\Routers\Routers;
-use App\Controllers\Accounts;
-use App\Controllers\Articles;
-use App\Controllers\Comments;
-use App\Controllers\Contact;
-use App\Controllers\Renderer;
+use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
 
 require '../vendor/autoload.php';
 

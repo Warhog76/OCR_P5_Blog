@@ -21,6 +21,7 @@ class Accounts
                 $user = $this->accountRepo->isUser($email);
 
                 if(password_verify($password, $user->password)) {
+                    session_start();
                     $_SESSION['auth'] = $user;
                     $_SESSION['flash']['success'] = 'Vous êtes désormais connecté';
                     header('Location: index.php?page=home');
@@ -84,5 +85,18 @@ class Accounts
             header('Location: index.php?page=login');
         }
 
+    }
+
+    public function loggedOnly(): void
+    {
+
+        if(session_status() == PHP_SESSION_NONE){
+            session_start();
+        }
+        if (!isset($_SESSION['auth'])){
+            $_SESSION['flash']['danger'] = "Vous n'avez pas les droit pour accéder à cette page";
+            header('Location: index.php?page=login');
+            exit();
+        }
     }
 }
