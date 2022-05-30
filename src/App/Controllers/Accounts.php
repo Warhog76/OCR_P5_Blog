@@ -13,8 +13,8 @@ class Accounts
     /*public function login(){
 
         if(isset($_POST['submit'])){
-            $email = htmlspecialchars(trim($_POST['email']));
-            $password = htmlspecialchars(trim($_POST['password']));
+            $email = htmlspecialchars(trim(filter_input(INPUT_POST, 'email')));
+            $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
 
             $errors = [];
 

@@ -53,16 +53,26 @@ class Articles{
 
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function getArr(array $data): array
+    {
+        $data['title'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'title')));
+        $data['chapo'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'chapo')));
+        $data['content'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'content')));
+        $data['posted'] = isset($_POST['public']) ? "1" : "0";
+        return $data;
+    }
+
     public function post(): void
     {
 
         if(isset($_POST['submit']))
         {
             $data = [];
-            $data['title'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'title')));
-            $data['chapo'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'chapo')));
-            $data['content'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'content')));
-            $data['posted'] = isset($_POST['public']) ? "1" : "0";
+            $data = $this->getArr($data);
 
             if(empty($data['title']) || empty($data['chapo']) || empty($data['content']))
             {
@@ -118,10 +128,7 @@ class Articles{
         {
             $data = [];
             $data['id'] = $_GET['id'];
-            $data['title'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'title')));
-            $data['chapo'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'chapo')));
-            $data['content'] = htmlspecialchars(trim(filter_input(INPUT_POST, 'content')));
-            $data['posted'] = isset($_POST['public']) ? "1" : "0";
+            $data = $this->getArr($data);
 
             if(empty($data['title']) ||empty($data['content'])){
                 ?>

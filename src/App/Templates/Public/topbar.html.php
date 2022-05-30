@@ -10,12 +10,14 @@
                 <li class="<?= ($page=="home")?"active" : "";?>"> <a href="index.php?page=home">Accueil</a> </li>
                 <li class="<?= ($page=="blog")?"active" : "";?>"> <a href="index.php?page=blog">Blog</a> </li>
                 <li class="<?= ($page=="contact")?"active" : "";?>"> <a href="index.php?page=contact">Contact</a></li>
+                <li class=""><a href="index.php?page=login"><i class="material-icons">account_circle</i></a></li>
             </ul>
 
             <ul class="sidenav" id="mobile-menu">
                 <li class="<?= ($page=="home")?"active" : "";?>"> <a href="index.php?page=home">Accueil</a> </li>
                 <li class="<?= ($page=="blog")?"active" : "";?>"> <a href="index.php?page=blog">Blog</a> </li>
                 <li class="<?= ($page=="contact")?"active" : "";?>"> <a href="index.php?page=contact">Contact</a></li>
+                <li class=""><a href="index.php?page=login">Se connecter<i class="medium material-icons">account_circle</i></a></li>
             </ul>
         </div>
     </div>
