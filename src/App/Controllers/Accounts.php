@@ -42,7 +42,7 @@ class Accounts
         $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
         $passwordConfirm = htmlspecialchars(trim(filter_input(INPUT_POST, 'password_confirm')));
 
-        if(!empty($_POST)){
+        if(!empty(filter_input(INPUT_POST, ''))){
             $errors = [];
             if(empty($username)|| !preg_match('/^[\w_]+$/', $username)) {
                 $errors['username'] = "Votre pseudo est invalide";
