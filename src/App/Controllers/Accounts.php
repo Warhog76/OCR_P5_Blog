@@ -33,7 +33,7 @@ class Accounts extends Controller
                         <div class="container">
                             <div class="card red">
                                 <div class="card-content white-text">
-                                    "Identifiant ou mot de passe incorrect"<br/>
+                                    "Identifiant ou mot de passe incorrect"
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@ class Accounts extends Controller
 
             $errors = [];
 
-            if (empty($username) || !preg_match('/^[\w_]+$/', $username)) {
+            if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
                 $errors['username'] = "Votre pseudo est invalide";
             }else{
                 $user = $this->accountRepo->isRegister($username);
@@ -70,21 +70,19 @@ class Accounts extends Controller
                 $errors['mdp'] = "Vous devez rentrer un mot de passe valide";
             }
 
-            if (!empty($errors)) {
+            if(!empty($errors)) {
 
                 echo '<div class="container">
-                <div class="card red">
-                <div class="card-content white-text">';
+                            <div class="card red">
+                                <div class="card-content white-text">';
 
-                foreach ($errors as $error) {
-                    echo $error . "<br/>";
-                }
-
+                                    foreach ($errors as $error) {
+                                    echo $error . "<br/>";
+                                    }
                 echo '</div></div>
             </div>';
 
-
-            } else {
+            }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $users = $this->accountRepo->registerUser();
 
@@ -115,8 +113,6 @@ class Accounts extends Controller
                 $mail->Subject = 'Confirmation de votre compte';
                 $mail->Body = "Afin de valider votre compte, 
                 merci de cliquer sur ce lien suivant :<br><br> http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=" .$user_id. "&token=" .$token. " ";
-                $mail->AltBody = "Afin de valider votre compte, 
-                merci de cliquer sur ce lien suivant :<br><br> http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=" .$user_id. "&token=" .$token. " ";
 
                 $mail->send();
 
@@ -137,10 +133,17 @@ class Accounts extends Controller
 
         if($results->token == $token){
             $this->accountRepo->validateUser($user_id);
-            $_SESSION['flash']['success'] = 'Votre compte a bien été validé';
             header('Location: index.php?page=home');
         }else{
-            $_SESSION['flash']['danger'] = "Ce token n'est plus valide";
+            ?>
+            <div class="container">
+                <div class="card red">
+                    <div class="card-content white-text">
+                        "Ce token n'est plus valide"
+                    </div>
+                </div>
+            </div>
+            <?php
             header('Location: index.php?page=login');
         }
 
@@ -183,7 +186,15 @@ class Accounts extends Controller
                     exit();
 
                 }else{
-                    $_SESSION['flash']['danger'] = "Aucun compte ne correspond à cet email";
+                    ?>
+                        <div class="container">
+                            <div class="card red">
+                                <div class="card-content white-text">
+                                "Aucun compte ne correspond à cet email"
+                                </div>
+                            </div>
+                        </div>
+                    <?php
                 }
             }
         }
