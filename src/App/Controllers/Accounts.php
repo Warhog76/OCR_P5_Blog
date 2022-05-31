@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Repositories\AccountRepo;
 
-class Accounts
+class Accounts extends Controller
 {
     public function __construct(
         private AccountRepo $accountRepo,
@@ -60,6 +60,7 @@ class Accounts
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $this->accountRepo->registerUser();
+
                 $_SESSION['flash']['success'] = 'Un email vient de vous être envoyé afin de valider votre compte';
                 header('Location: index.php?page=login');
             }
@@ -87,16 +88,21 @@ class Accounts
 
     }
 
-    public function loggedOnly(): void
+    public function newPassword(): void
     {
 
-        if(session_status() == PHP_SESSION_NONE){
-            session_start();
-        }
-        if (!isset($_SESSION['auth'])){
-            $_SESSION['flash']['danger'] = "Vous n'avez pas les droit pour accéder à cette page";
-            header('Location: index.php?page=login');
-            exit();
+        $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
+        $passwordConfirm = htmlspecialchars(trim(filter_input(INPUT_POST, 'password_confirm')));
+
+        if (!empty($_POST)){
+
+            if(empty($password) || $password != $passwordConfirm) {
+                $_SESSION['flash']['danger'] = "Les mots de passes ne correspondent pas";
+            }else{
+                //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
+                $this->accountRepo->password();
+                $_SESSION['flash']['success'] = 'Votre nouveau mot de passe a bien été changé';
+            }
         }
     }
 }

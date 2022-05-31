@@ -6,7 +6,8 @@ use App\Models\Article;
 use App\Repositories\CommentRepo;
 use App\Repositories\ArticleRepo;
 
-class Articles{
+class Articles extends Controller
+{
 
     public function __construct(
             private ArticleRepo $post,

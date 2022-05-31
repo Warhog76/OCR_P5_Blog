@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use App\Repositories\CommentRepo;
 
-class Comments {
+class Comments extends Controller
+{
 
     public function __construct(
         private CommentRepo $comment,

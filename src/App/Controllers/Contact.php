@@ -7,7 +7,8 @@ namespace App\Controllers;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-class Contact {
+class Contact extends Controller
+{
 
     /**
      * @throws Exception
