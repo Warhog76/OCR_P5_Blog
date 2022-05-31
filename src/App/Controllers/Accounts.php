@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\AccountRepo;
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Accounts extends Controller
@@ -35,6 +36,9 @@ class Accounts extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function register(): void
     {
 
@@ -43,7 +47,7 @@ class Accounts extends Controller
         $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
         $passwordConfirm = htmlspecialchars(trim(filter_input(INPUT_POST, 'password_confirm')));
 
-        if (!empty($_POST)){
+        if (filter_input(INPUT_POST, 'submit') !== null){
 
             if (empty($username) || !preg_match('/^[\w_]+$/', $username)) {
                 $_SESSION['flash']['danger'] = "Votre pseudo est invalide";
@@ -64,6 +68,8 @@ class Accounts extends Controller
 
                 $user_id = $user['id'];
                 $token = $user['token'];
+
+                var_dump($user_id);
 
                 //Create an instance; passing `true` enables exceptions
                 $mail = new PHPMailer();
@@ -88,9 +94,9 @@ class Accounts extends Controller
                 $mail->isHTML(true);   //Set email format to HTML
                 $mail->Subject = 'Confirmation de votre compte';
                 $mail->Body = "Afin de valider votre compte, 
-                merci de cliquer sur ce lien \n\n http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=".$user_id."&token=".$token;
+                merci de cliquer sur ce lien suivant :<br><br> http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=" .$user_id. "&token=" .$token. " ";
                 $mail->AltBody = "Afin de valider votre compte, 
-                merci de cliquer sur ce lien \n\n http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=".$user_id."&token=".$token;
+                merci de cliquer sur ce lien suivant :<br><br> http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=" .$user_id. "&token=" .$token. " ";
 
                 $mail->send();
 
@@ -127,7 +133,7 @@ class Accounts extends Controller
         $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
         $passwordConfirm = htmlspecialchars(trim(filter_input(INPUT_POST, 'password_confirm')));
 
-        if (!empty($_POST)){
+        if (filter_input(INPUT_POST, 'submit') !== null){
 
             if(empty($password) || $password != $passwordConfirm) {
                 $_SESSION['flash']['danger'] = "Les mots de passes ne correspondent pas";

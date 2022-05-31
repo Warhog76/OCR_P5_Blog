@@ -4,9 +4,7 @@ namespace App\Controllers;
 
 abstract class Controller
 {
-    public function __construct(){
-        session_start();
-    }
+    public function __construct(){}
 
     protected function loggedOnly(): void
     {
