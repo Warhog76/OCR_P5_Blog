@@ -50,6 +50,16 @@ Class Account
     private string $confirmed_at;
 
     /**
+     * @var string
+     */
+    private string $reset_token;
+
+    /**
+     * @var string
+     */
+    private string $reset_at;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -211,8 +221,39 @@ Class Account
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getResetToken(): string
+    {
+        return $this->reset_token;
+    }
 
+    /**
+     * @param string $reset_token
+     * @return Account
+     */
+    public function setResetToken(string $reset_token): Account
+    {
+        $this->reset_token = $reset_token;
+        return $this;
+    }
 
+    /**
+     * @return string
+     */
+    public function getResetAt(): string
+    {
+        return $this->reset_at;
+    }
 
-
+    /**
+     * @param string $reset_at
+     * @return Account
+     */
+    public function setResetAt(string $reset_at): Account
+    {
+        $this->reset_at = $reset_at;
+        return $this;
+    }
 }

@@ -6,7 +6,7 @@ abstract class Controller
 {
     public function __construct(){}
 
-    protected function loggedOnly(): void
+    /*protected function loggedOnly(): void
     {
 
         if(session_status() == PHP_SESSION_NONE){
@@ -17,7 +17,7 @@ abstract class Controller
             header('Location: index.php?page=login');
             exit();
         }
-    }
+    }*/
 
     function str_random($length): string
     {

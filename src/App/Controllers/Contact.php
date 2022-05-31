@@ -16,13 +16,13 @@ class Contact extends Controller
     public function sendMail(): void
     {
         // si le bouton "Envoyer" est cliqué
-        if (isset($_POST['submit'])) {
+        if (filter_input(INPUT_POST, 'submit') !== null) {
 
             $email = htmlspecialchars(filter_input(INPUT_POST, 'mail'));
             $subject = htmlspecialchars(filter_input(INPUT_POST, 'subject'));
             $message = htmlspecialchars(stripslashes(trim(filter_input(INPUT_POST, 'message'))));
 
-            if (empty($_POST['name']) || empty($email) || empty($message)) {
+            if (empty(filter_input(INPUT_POST, 'name')) || empty($email) || empty($message)) {
                 $errors['empty'] = "Tous les champs n'ont pas été remplis";
             } else {
 

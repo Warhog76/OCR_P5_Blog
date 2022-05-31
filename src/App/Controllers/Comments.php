@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\CommentRepo;
+use phpDocumentor\Reflection\Types\Null_;
 
 class Comments extends Controller
 {
@@ -15,7 +16,7 @@ class Comments extends Controller
     public function addComments(): void
     {
 
-        if (isset($_POST['submit'])) {
+        if (filter_input(INPUT_POST, 'submit') !==  null) {
 
             // variable declaration
             $comment = htmlspecialchars(filter_input(INPUT_POST, 'comment'));
