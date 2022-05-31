@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\AccountRepo;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class Accounts extends Controller
 {
@@ -59,7 +60,39 @@ class Accounts extends Controller
                 $_SESSION['flash']['danger'] = "Vous devez rentrer un mot de passe valide";
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
-                $this->accountRepo->registerUser();
+                $user = $this->accountRepo->registerUser();
+
+                $user_id = $user['id'];
+                $token = $user['token'];
+
+                //Create an instance; passing `true` enables exceptions
+                $mail = new PHPMailer();
+
+                //Server settings
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host = '127.0.0.1';                           //Set the SMTP server to send through
+                $mail->Port = 1025;                                  //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                $mail->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    )
+                );
+
+                //Recipients
+                $mail->setFrom($email, 'Mailer');
+                $mail->addAddress('joe@example.com', 'Joe User');
+
+                //Content
+                $mail->isHTML(true);   //Set email format to HTML
+                $mail->Subject = 'Confirmation de votre compte';
+                $mail->Body = "Afin de valider votre compte, 
+                merci de cliquer sur ce lien \n\n http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=".$user_id."&token=".$token;
+                $mail->AltBody = "Afin de valider votre compte, 
+                merci de cliquer sur ce lien \n\n http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=".$user_id."&token=".$token;
+
+                $mail->send();
 
                 $_SESSION['flash']['success'] = 'Un email vient de vous être envoyé afin de valider votre compte';
                 header('Location: index.php?page=login');
@@ -88,7 +121,7 @@ class Accounts extends Controller
 
     }
 
-    public function newPassword(): void
+    public function modPassword(): void
     {
 
         $password = htmlspecialchars(trim(filter_input(INPUT_POST, 'password')));
@@ -100,9 +133,36 @@ class Accounts extends Controller
                 $_SESSION['flash']['danger'] = "Les mots de passes ne correspondent pas";
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
-                $this->accountRepo->password();
+                $this->accountRepo->modPassword();
                 $_SESSION['flash']['success'] = 'Votre nouveau mot de passe a bien été changé';
             }
         }
+    }
+
+    public function remember()
+    {
+        if(filter_input(INPUT_POST, 'submit') !== null){
+            $email = htmlspecialchars(trim(filter_input(INPUT_POST, 'email')));
+
+            if(!empty($email)) {
+                $user = $this->accountRepo->lost($email);
+
+                if($user){
+                    $id = $user['id'];
+                    $reset_token = $this->str_random(60);
+
+                    $this->accountRepo->newPassword($reset_token,$id);
+
+                    $_SESSION['flash']['success'] = 'Un email vient de vous être envoyé avec les instructions à suivre pour votre mot de passe ';
+                    header('Location: index.php?page=login');
+                    exit();
+
+                }else{
+                    $_SESSION['flash']['danger'] = "Aucun compte ne correspond à cet email";
+                }
+            }
+        }
+
+
     }
 }

@@ -28,9 +28,12 @@ class Routers
         }elseif (filter_input(INPUT_GET, 'page') === 'login'){
             $this->page->renderLog('login');
             $this->accountController->login();
+        }elseif (filter_input(INPUT_GET, 'page') === 'remember'){
+            $this->page->renderLog('remember');
+            $this->accountController->remember();
         }elseif (filter_input(INPUT_GET, 'page') === 'account'){
             $this->page->render('account');
-            $this->accountController->newPassword();
+            $this->accountController->modPassword();
         }elseif (filter_input(INPUT_GET, 'page') === 'register'){
             $this->page->renderLog('register');
             $this->accountController->register();

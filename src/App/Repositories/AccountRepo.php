@@ -9,7 +9,7 @@ class AccountRepo extends Repository
     {
         $req = $this->pdo->prepare("SELECT * FROM Account WHERE email = ? AND confirmed_at IS NOT NULL");
         $req->execute([$user]);
-        return $results = $req->fetch();
+        return $req->fetch();
     }
 
     public function isRegister($user)
@@ -19,16 +19,14 @@ class AccountRepo extends Repository
         return $req->fetch();
     }
 
-    public function registerUser(): void
+    public function registerUser()
     {
         $req = $this->pdo->prepare("INSERT INTO Account SET username = ?, password = ?, email = ?, token = ?");
         $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_BCRYPT);
         $token = $this->str_random(60);
         $req->execute([filter_input(INPUT_POST, 'username'), $password, filter_input(INPUT_POST, 'email'), $token]);
+        return $req->fetch();
 
-        $user_id = $this->pdo->lastInsertId();
-        mail(filter_input(INPUT_POST, 'email'), 'Confirmation de votre compte', "Afin de valider votre compte, merci de cliquer sur ce lien\n\n
-        http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=$user_id&token=$token");
     }
 
     public function confirmUser($user_id)
@@ -45,14 +43,26 @@ class AccountRepo extends Repository
 
     }
 
-    public function password()
+    public function modPassword()
     {
 
         $user_id = $_SESSION['auth']->id;
         $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_BCRYPT);
 
         $this->pdo->prepare('UPDATE Account SET password = ? WHERE id = ?')->execute([$password, $user_id]);
+    }
 
+    public function lost($user)
+    {
+        $req = $this->pdo->prepare("SELECT * FROM Account WHERE email = ? AND confirmed_at IS NOT NULL");
+        $req->execute([$user]);
+        return $req->fetch();
+    }
+
+    public function newPassword($token, $id)
+    {
+
+        $this->pdo->prepare("UPDATE Account SET reset_token = ?, reset_at = NOW() where id = ?")->execute([$token, $id]);
     }
 
 }

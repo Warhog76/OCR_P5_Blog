@@ -11,6 +11,8 @@
     <h3>Mon compte</h3>
     <hr><br>
 
+    <p>Vous pouvez, avec ce formulaire, modifier votre mot de passe.</p><br>
+
     <form method="post">
         <div class="row">
             <div class="input-field col s12">
