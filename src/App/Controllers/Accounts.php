@@ -25,20 +25,24 @@ class Accounts extends Controller
                 if(password_verify($password, $user->password)) {
                     session_start();
                     $_SESSION['auth'] = $user;
-                    $_SESSION['flash']['success'] = 'Vous êtes désormais connecté';
                     header('Location: index.php?page=home');
                     exit();
 
                 }else{
-                    $_SESSION['flash']['danger'] = "Identifiant ou mot de passe incorrect";
+                    ?>
+                        <div class="container">
+                            <div class="card red">
+                                <div class="card-content white-text">
+                                    "Identifiant ou mot de passe incorrect""<br/>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
                 }
             }
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function register(): void
     {
 
@@ -49,27 +53,43 @@ class Accounts extends Controller
 
         if (filter_input(INPUT_POST, 'submit') !== null){
 
+            $errors = [];
+
             if (empty($username) || !preg_match('/^[\w_]+$/', $username)) {
-                $_SESSION['flash']['danger'] = "Votre pseudo est invalide";
+                $errors['username'] = "Votre pseudo est invalide";
             }else{
                 $user = $this->accountRepo->isRegister($username);
                 if($user){
-                    $_SESSION['flash']['danger'] = "Ce pseudo existe déjà";
+                    $errors['exist'] = "Ce pseudo existe déjà";
                 }
             }
             if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $_SESSION['flash']['danger'] = "Votre email est invalide";
+                $errors['email'] = "Votre email est invalide";
             }
             if(empty($password) || $password != $passwordConfirm) {
-                $_SESSION['flash']['danger'] = "Vous devez rentrer un mot de passe valide";
-            }else{
+                $errors['mdp'] = "Vous devez rentrer un mot de passe valide";
+            }
+
+            if (!empty($errors)) {
+
+                echo '<div class="container">
+                <div class="card red">
+                <div class="card-content white-text">';
+
+                foreach ($errors as $error) {
+                    echo $error . "<br/>";
+                }
+
+                echo '</div></div>
+            </div>';
+
+
+            } else {
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
-                $user = $this->accountRepo->registerUser();
+                $users = $this->accountRepo->registerUser();
 
-                $user_id = $user['id'];
-                $token = $user['token'];
-
-                var_dump($user_id);
+                $user_id = $users['id'];
+                $token = $users['token'];
 
                 //Create an instance; passing `true` enables exceptions
                 $mail = new PHPMailer();
@@ -100,7 +120,6 @@ class Accounts extends Controller
 
                 $mail->send();
 
-                $_SESSION['flash']['success'] = 'Un email vient de vous être envoyé afin de valider votre compte';
                 header('Location: index.php?page=login');
             }
         }

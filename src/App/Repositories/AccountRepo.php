@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use PDO;
+
 class AccountRepo extends Repository
 {
 
@@ -25,7 +27,7 @@ class AccountRepo extends Repository
         $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_BCRYPT);
         $token = $this->str_random(60);
         $req->execute([filter_input(INPUT_POST, 'username'), $password, filter_input(INPUT_POST, 'email'), $token]);
-        return $req->fetch();
+        return $req->fetch(PDO::FETCH_ASSOC);
 
     }
 

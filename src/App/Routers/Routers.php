@@ -20,6 +20,16 @@ class Routers
     )
     {}
 
+    /* if($_SESSION['auth'] == 'user' || $_SESSION['auth'] == NULL){
+     *       page = register/login/logout/account/home/blog/article/contact
+     * }else($_SESSION['auth'] == 'admin'){
+     *       page = ALL
+     * }
+     *
+     *
+     *
+     */
+
     public function get(): void
     {
 
