@@ -33,7 +33,7 @@ class Accounts extends Controller
                         <div class="container">
                             <div class="card red">
                                 <div class="card-content white-text">
-                                    "Identifiant ou mot de passe incorrect""<br/>
+                                    "Identifiant ou mot de passe incorrect"<br/>
                                 </div>
                             </div>
                         </div>
