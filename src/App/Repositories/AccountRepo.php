@@ -2,16 +2,17 @@
 
 namespace App\Repositories;
 
+use App\Models\Account;
 use PDO;
 
 class AccountRepo extends Repository
 {
 
-    public function isUser($user)
+    public function isUser($mail)
     {
         $req = $this->pdo->prepare("SELECT * FROM Account WHERE email = ? AND confirmed_at IS NOT NULL");
-        $req->execute([$user]);
-        return $req->fetch();
+        $req->execute([$mail]);
+        return$req->fetch();
     }
 
     public function isRegister($user)
@@ -21,13 +22,15 @@ class AccountRepo extends Repository
         return $req->fetch();
     }
 
-    public function registerUser()
+    public function registerUser($username,$password,$email): array
     {
         $req = $this->pdo->prepare("INSERT INTO Account SET username = ?, password = ?, email = ?, token = ?");
-        $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_BCRYPT);
+        $password = password_hash($password, PASSWORD_BCRYPT);
         $token = $this->str_random(60);
-        $req->execute([filter_input(INPUT_POST, 'username'), $password, filter_input(INPUT_POST, 'email'), $token]);
-        return $req->fetch(PDO::FETCH_ASSOC);
+        $req->execute([$username, $password, $email, $token]);
+
+        $user_id=$this->pdo->lastInsertId();
+        return compact('user_id','token');
 
     }
 
@@ -45,20 +48,22 @@ class AccountRepo extends Repository
 
     }
 
-    public function modPassword()
+    public function modPassword($password)
     {
 
         $user_id = $_SESSION['auth']->id;
-        $password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_BCRYPT);
+        $password = password_hash($password, PASSWORD_BCRYPT);
 
         $this->pdo->prepare('UPDATE Account SET password = ? WHERE id = ?')->execute([$password, $user_id]);
     }
 
-    public function lost($user)
+    public function lost($user): Account
     {
-        $req = $this->pdo->prepare("SELECT * FROM Account WHERE email = ? AND confirmed_at IS NOT NULL");
-        $req->execute([$user]);
-        return $req->fetch();
+
+        $query = $this->pdo->prepare("SELECT * FROM Account WHERE email = :email AND confirmed_at IS NOT NULL");
+        $query->execute(['email' => $user]);
+        $results = $query->fetch(PDO::FETCH_ASSOC);
+        return new Account($results);
     }
 
     public function newPassword($token, $id)

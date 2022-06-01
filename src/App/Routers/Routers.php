@@ -2,11 +2,7 @@
 
 namespace App\Routers;
 
-use App\Controllers\Accounts;
-use App\Controllers\Articles;
-use App\Controllers\Comments;
-use App\Controllers\Contact;
-use App\Controllers\Renderer;
+use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
 
 class Routers
 {
@@ -20,53 +16,78 @@ class Routers
     )
     {}
 
-    /* if($_SESSION['auth'] == 'user' || $_SESSION['auth'] == NULL){
-     *       page = register/login/logout/account/home/blog/article/contact
-     * }else($_SESSION['auth'] == 'admin'){
-     *       page = ALL
-     * }
-     *
-     *
-     *
-     */
-
-    public function get(): void
+    public function get($get, $post): void
     {
 
-        if(filter_input(INPUT_GET, 'page') === 'home' || filter_input(INPUT_GET, 'page') === null) {
+        if($get['page'] === 'home' || $get['page'] === null) {
             $this->postController->index();
-        }elseif (filter_input(INPUT_GET, 'page') === 'login'){
+        }elseif ($get['page'] === 'login'){
+           $password=$email=$submit=null;
+            if(isset($post['submit'])){
+                $password=$post['password'];
+                $email=$post['email'];
+                $submit=$post['submit'];
+            }
+            $this->accountController->login($password,$email,$submit);
             $this->page->renderLog('login');
-            $this->accountController->login();
-        }elseif (filter_input(INPUT_GET, 'page') === 'remember'){
+        }elseif ($get['page'] === 'remember'){
+            $email=$submit=null;
+            if(isset($post['submit'])){
+                $email=$post['email'];
+                $submit=$post['submit'];
+            }
+            $this->accountController->remember($email, $submit);
             $this->page->renderLog('remember');
-            $this->accountController->remember();
-        }elseif (filter_input(INPUT_GET, 'page') === 'account'){
+        }elseif ($get['page'] === 'account'){
+            $password=$passwordConfirm=$submit=null;
+            if(isset($post['submit'])){
+                $password=$post['password'];
+                $passwordConfirm=$post['password_confirm'];
+                $submit=$post['submit'];
+            }
+            $this->accountController->modPassword($password,$passwordConfirm,$submit);
             $this->page->render('account');
-            $this->accountController->modPassword();
-        }elseif (filter_input(INPUT_GET, 'page') === 'register'){
+        }elseif($get['page'] === 'register'){
+            $username=$password=$passwordConfirm=$email=$submit=null;
+            if(isset($post['submit'])){
+                $username=$post['username'];
+                $password=$post['password'];
+                $passwordConfirm=$post['password_confirm'];
+                $email=$post['email'];
+                $submit=$post['submit'];
+            }
+            $this->accountController->register($username,$password,$passwordConfirm,$email,$submit);
             $this->page->renderLog('register');
-            $this->accountController->register();
-        }elseif (filter_input(INPUT_GET, 'page') === 'confirm'){
-            $this->accountController->confirm();
-        }elseif (filter_input(INPUT_GET, 'page') === 'blog'){
+        }elseif($get['page'] === 'confirm'){
+            $userId=$get['id'];
+            $token=$get['token'];
+            $this->accountController->confirm($userId,$token);
+        }elseif ($get['page'] === 'blog'){
             $this->postController->showAll();
-        }elseif (filter_input(INPUT_GET, 'page') === 'article'){
+        }elseif ($get['page'] === 'article'){
             $this->postController->show();
             $this->commentController->addComments();
-        }elseif (filter_input(INPUT_GET, 'page') === 'contact'){
+        }elseif ($get['page'] === 'contact'){
             $this->page->render('contact');
-            $this->mailController->sendMail();
-        }elseif(filter_input(INPUT_GET, 'page') === 'dashboard'){
+            $email=$subject=$message=$submit=null;
+            if(isset($post['submit'])){
+                $email=$post['email'];
+                $subject=$post['subject'];
+                $message=$post['message'];
+                $submit=$post['submit'];
+            }
+            $this->mailController->sendMail($email,$subject,$message,$submit);
+
+        }elseif($get['page'] === 'dashboard'){
             $this->commentController->findUnseen();
-        }elseif (filter_input(INPUT_GET, 'page') === 'list'){
+        }elseif ($get['page'] === 'list'){
             $this->postController->getAll();
-        }elseif (filter_input(INPUT_GET, 'page') === 'post') {
+        }elseif ($get['page'] === 'post') {
             $this->postController->modify();
-        }elseif (filter_input(INPUT_GET, 'page') === 'write'){
+        }elseif ($get['page'] === 'write'){
             $this->page->renderBack('write');
             $this->postController->post();
-        }elseif (filter_input(INPUT_GET, 'page') === 'logout') {
+        }elseif ($get['page'] === 'logout') {
             $this->page->render('logout');
         }
     }

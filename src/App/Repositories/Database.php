@@ -27,9 +27,4 @@ Class Database
 
         return $pdo;
     }
-
-    /*public function lastInsertId(){
-        return $this->pdo->lastInsertId();
-    }*/
-
 }

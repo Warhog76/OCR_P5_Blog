@@ -12,16 +12,6 @@ Class Account
     /**
      * @var string
      */
-    private string $name;
-
-    /**
-     * @var string
-     */
-    private string $surname;
-
-    /**
-     * @var string
-     */
     private string $username;
 
     /**
@@ -59,6 +49,27 @@ Class Account
      */
     private string $reset_at;
 
+    public function __construct($datas = [])
+    {
+        if (!empty($datas))
+        {
+            $this->hydrate($datas);
+        }
+    }
+
+    public function hydrate($datas): void
+    {
+        foreach ($datas as $key => $value)
+        {
+            $method = 'set'.ucfirst($key);
+
+            if (is_callable([$this, $method]))
+            {
+                $this->$method($value);
+            }
+        }
+    }
+
     /**
      * @return int
      */
@@ -77,43 +88,7 @@ Class Account
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Account
-     */
-    public function setName(string $name): Account
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSurname(): string
-    {
-        return $this->surname;
-    }
-
-    /**
-     * @param string $surname
-     * @return Account
-     */
-    public function setSurname(string $surname): Account
-    {
-        $this->surname = $surname;
-        return $this;
-    }
-
-    /**
+        /**
      * @return string
      */
     public function getUsername(): string
@@ -191,16 +166,6 @@ Class Account
     public function getToken(): string
     {
         return $this->token;
-    }
-
-    /**
-     * @param string $token
-     * @return Account
-     */
-    public function setToken(string $token): Account
-    {
-        $this->token = $token;
-        return $this;
     }
 
     /**
