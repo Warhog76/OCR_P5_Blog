@@ -28,7 +28,7 @@
                 <div class="switch">
                     <label>
                         Non
-                        <input type="checkbox" name="public" <?php echo ($article->getPosted() == "1")?"checked" : "" ?>/>
+                        <input type="checkbox" id="public" name="public" <?php echo ($article->getPosted() == "1")?"checked" : "" ?>/>
                         <span class="lever"></span>
                         Oui
                     </label>

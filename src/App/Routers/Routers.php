@@ -21,6 +21,7 @@ class Routers
 
         if($get['page'] === 'home' || $get['page'] === null) {
             $this->postController->index();
+
         }elseif ($get['page'] === 'login'){
            $password=$email=$submit=null;
             if(isset($post['submit'])){
@@ -30,6 +31,7 @@ class Routers
             }
             $this->accountController->login($password,$email,$submit);
             $this->page->renderLog('login');
+
         }elseif ($get['page'] === 'remember'){
             $email=$submit=null;
             if(isset($post['submit'])){
@@ -38,6 +40,7 @@ class Routers
             }
             $this->accountController->remember($email, $submit);
             $this->page->renderLog('remember');
+
         }elseif ($get['page'] === 'account'){
             $password=$passwordConfirm=$submit=null;
             if(isset($post['submit'])){
@@ -47,6 +50,7 @@ class Routers
             }
             $this->accountController->modPassword($password,$passwordConfirm,$submit);
             $this->page->render('account');
+
         }elseif($get['page'] === 'register'){
             $username=$password=$passwordConfirm=$email=$submit=null;
             if(isset($post['submit'])){
@@ -58,15 +62,27 @@ class Routers
             }
             $this->accountController->register($username,$password,$passwordConfirm,$email,$submit);
             $this->page->renderLog('register');
+
         }elseif($get['page'] === 'confirm'){
             $userId=$get['id'];
             $token=$get['token'];
             $this->accountController->confirm($userId,$token);
+
         }elseif ($get['page'] === 'blog'){
             $this->postController->showAll();
+
         }elseif ($get['page'] === 'article'){
-            $this->postController->show();
-            $this->commentController->addComments();
+            $id = $get['id'];
+            $comment=$name=$email=$submit=null;
+            if(isset($post['submit'])) {
+                $comment = $post['comment'];
+                $name = $post['name'];
+                $email = $post['email'];
+                $submit = $post['submit'];
+            }
+            $this->postController->show($id);
+            $this->commentController->addComments($comment,$name,$email,$submit);
+
         }elseif ($get['page'] === 'contact'){
             $this->page->render('contact');
             $email=$subject=$message=$submit=null;
@@ -80,13 +96,34 @@ class Routers
 
         }elseif($get['page'] === 'dashboard'){
             $this->commentController->findUnseen();
+
         }elseif ($get['page'] === 'list'){
             $this->postController->getAll();
+
         }elseif ($get['page'] === 'post') {
-            $this->postController->modify();
+            $id = $get['id'];
+            $title=$chapo=$content=$submit=$posted=null;
+            if(isset($post['submit'])) {
+                $title = $post['title'];
+                $chapo = $post['chapo'];
+                $content = $post['content'];
+                $posted = $post['public'];
+                $submit = $post['submit'];
+            }
+            $this->postController->modify($id,$submit,$title,$chapo,$content,$posted);
+
         }elseif ($get['page'] === 'write'){
+            $title=$chapo=$content=$submit=$posted=null;
+            if(isset($post['submit'])) {
+                $title = $post['title'];
+                $chapo = $post['chapo'];
+                $content = $post['content'];
+                $posted = $post['public'];
+                $submit = $post['submit'];
+            }
+            $this->postController->post($submit,$title,$chapo,$content,$posted);
             $this->page->renderBack('write');
-            $this->postController->post();
+
         }elseif ($get['page'] === 'logout') {
             $this->page->render('logout');
         }

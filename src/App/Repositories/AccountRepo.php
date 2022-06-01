@@ -8,11 +8,12 @@ use PDO;
 class AccountRepo extends Repository
 {
 
-    public function isUser($mail)
+    public function isUser($mail): Account
     {
-        $req = $this->pdo->prepare("SELECT * FROM Account WHERE email = ? AND confirmed_at IS NOT NULL");
-        $req->execute([$mail]);
-        return$req->fetch();
+        $query = $this->pdo->prepare("SELECT * FROM Account WHERE email = ? AND confirmed_at IS NOT NULL");
+        $query->execute([$mail]);
+        $results = $query->fetch(PDO::FETCH_ASSOC);
+        return new Account($results);
     }
 
     public function isRegister($user)
@@ -34,12 +35,13 @@ class AccountRepo extends Repository
 
     }
 
-    public function confirmUser($user_id)
+    public function confirmUser($user_id): Account
     {
 
-        $req = $this->pdo->prepare('SELECT * FROM Account WHERE id = ?');
-        $req->execute([$user_id]);
-        return $req->fetch();
+        $query = $this->pdo->prepare('SELECT * FROM Account WHERE id = ?');
+        $query->execute([$user_id]);
+        $results = $query->fetch(PDO::FETCH_ASSOC);
+        return new Account($results);
     }
 
     public function validateUser($user_id)

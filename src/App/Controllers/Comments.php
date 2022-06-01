@@ -13,15 +13,11 @@ class Comments extends Controller
         private Renderer $page,
     ){}
 
-    public function addComments(): void
+    public function addComments($comment,$name,$email,$submit): void
     {
 
-        if (filter_input(INPUT_POST, 'submit') !==  null) {
+        if ($submit !==  null) {
 
-            // variable declaration
-            $comment = htmlspecialchars(filter_input(INPUT_POST, 'comment'));
-            $name = htmlspecialchars(filter_input(INPUT_POST, 'name'));
-            $email = htmlspecialchars(filter_input(INPUT_POST, 'email'));
             $errors = [];
 
             if (empty($name) || empty($email) || empty($comment)) {

@@ -20,11 +20,10 @@ class Accounts extends Controller
             if(!empty($email) && !empty($password)) {
                 $user = $this->accountRepo->isUser($email);
 
-                if(password_verify($password, $user->password)) {
+                if(password_verify($password, $user->getPassword())) {
                     session_start();
-                    $_SESSION['auth'] = $user->email;
+                    $_SESSION['auth'] = $user->getEmail();
                     header('Location: index.php?page=home');
-                    exit();
 
                 }else{
                     ?>
@@ -98,7 +97,7 @@ class Accounts extends Controller
 
         session_start();
 
-        if($results->token == $token){
+        if($results->getToken() == $token){
             $this->accountRepo->validateUser($userId);
             header('Location: index.php?page=home');
         }else{
@@ -147,10 +146,7 @@ class Accounts extends Controller
                             http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=" .$id. "&token=" .$reset_token. " ";
 
                 $this->mailer($email,$subject,$message);
-
-                    $_SESSION['flash']['success'] = 'Un email vient de vous être envoyé avec les instructions à suivre pour votre mot de passe ';
-                    header('Location: index.php?page=login');
-                    exit();
+                header('Location: index.php?page=login');
 
             }else{
                     ?>
