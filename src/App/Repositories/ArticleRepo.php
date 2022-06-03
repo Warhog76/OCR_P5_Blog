@@ -10,7 +10,6 @@ class ArticleRepo extends Repository
 
     protected $table = "Article";
 
-
     public function findAll(): array
     {
         $articles = [];

@@ -68,6 +68,17 @@ class Routers
             $token=$get['token'];
             $this->accountController->confirm($userId,$token);
 
+        }elseif($get['page'] === 'reset'){
+            $userId=$get['id'];
+            $token=$get['token'];
+            $password=$passwordConfirm=null;
+            if(isset($post['submit'])){
+                $password=$post['password'];
+                $passwordConfirm=$post['password_confirm'];
+            }
+            $this->accountController->reset($userId,$token,$password,$passwordConfirm);
+            $this->page->renderLog('reset');
+
         }elseif ($get['page'] === 'blog'){
             $this->postController->showAll();
 

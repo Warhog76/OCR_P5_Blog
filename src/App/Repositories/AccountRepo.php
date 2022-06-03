@@ -16,11 +16,12 @@ class AccountRepo extends Repository
         return new Account($results);
     }
 
-    public function isRegister($user)
+    public function isRegister($user): Account
     {
-        $req = $this->pdo->prepare("SELECT id FROM Account WHERE username = ?");
-        $req->execute([$user]);
-        return $req->fetch();
+        $query = $this->pdo->prepare("SELECT id FROM Account WHERE username = ?");
+        $query->execute([$user]);
+        $results = $query->fetch(PDO::FETCH_ASSOC);
+        return new Account($results);
     }
 
     public function registerUser($username,$password,$email): array
@@ -74,4 +75,20 @@ class AccountRepo extends Repository
         $this->pdo->prepare("UPDATE Account SET reset_token = ?, reset_at = NOW() where id = ?")->execute([$token, $id]);
     }
 
+    public function checkUser($user_id,$token): Account
+    {
+
+        $query = $this->pdo->prepare("SELECT * FROM Account WHERE id = ? AND reset_token = ? AND reset_at > DATE_SUB(NOW(), INTERVAL 30 MINUTE)");
+        $query->execute([$user_id,$token]);
+        $results = $query->fetch(PDO::FETCH_ASSOC);
+        return new Account($results);
+    }
+
+    public function reinitPassword($password,$user_id)
+    {
+
+        $password = password_hash($password, PASSWORD_BCRYPT);
+
+        $this->pdo->prepare('UPDATE Account SET password = ?, reset_token = NULL, reset_at = NULL  WHERE id = ?')->execute([$password, $user_id]);
+    }
 }

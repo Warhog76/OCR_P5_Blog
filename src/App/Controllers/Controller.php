@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 abstract class Controller
@@ -28,7 +29,7 @@ abstract class Controller
     }
 
     /**
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function mailer($email,$subject,$message): void
     {

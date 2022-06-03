@@ -136,14 +136,15 @@ class Accounts extends Controller
             if(!empty($email)) {
                 $user = $this->accountRepo->lost($email);
 
+                if($user){
                     $id = $user->getId();
                     $reset_token = $this->str_random(60);
 
                     $this->accountRepo->newPassword($reset_token,$id);
 
-                $subject = 'Confirmation de votre compte';
-                $message = "Afin de valider votre compte, merci de cliquer sur ce lien suivant :<br><br> 
-                            http://localhost:8888/OCR_P5_Blog/public/index.php?page=confirm&id=" .$id. "&token=" .$reset_token. " ";
+                $subject = 'Réinitialisation de votre mot de passe';
+                $message = "Afin de reinitialiser votre mot de passe, merci de cliquer sur ce lien suivant :<br><br> 
+                            http://localhost:8888/OCR_P5_Blog/public/index.php?page=reset&id=" .$id. "&token=" .$reset_token. " ";
 
                 $this->mailer($email,$subject,$message);
                 header('Location: index.php?page=login');
@@ -161,4 +162,38 @@ class Accounts extends Controller
                 }
             }
         }
+        }
+
+    public function reset($userId,$token,$password,$passwordConfirm){
+
+        if(isset($userId) && isset($token)){
+
+            $user = $this->accountRepo->checkUser($userId,$token);
+
+            if($user){
+
+                if(!empty($password) || $password == $passwordConfirm) {
+
+                    $this->accountRepo->reinitPassword($password,$userId);
+                    header('location: index.php?page=account');
+                }
+            }else{
+                ?>
+                <div class="container">
+                    <div class="card red">
+                        <div class="card-content white-text">
+                            "Ce token n'est plus valide"
+                        </div>
+                    </div>
+                </div>
+                <?php
+                header('Location: index.php?page=login');
+            }
+
+        }else{
+            header('location : index.php?page=login');
+        }
+
+
+    }
 }
