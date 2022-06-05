@@ -127,11 +127,8 @@ class Articles extends Controller
                 </div>
         <?php
             }else{
-                $result = $this->post->editArticle($data);
-                if($result)
-                {
-                    header("Location: index.php?p=article&id=" .$article->getId(). " ");
-                }
+                $this->post->editArticle($data);
+                header("Location: index.php?p=article&id=" .$article->getId(). " ");
             }
         }
     }

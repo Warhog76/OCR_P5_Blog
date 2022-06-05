@@ -27,7 +27,7 @@ Class Account
     /**
      * @var string
      */
-    private string $typeAccount;
+    private string $function;
 
     /**
      * @var string
@@ -145,18 +145,18 @@ Class Account
     /**
      * @return string
      */
-    public function getTypeAccount(): string
+    public function getFunction(): string
     {
-        return $this->typeAccount;
+        return $this->function;
     }
 
     /**
-     * @param string $typeAccount
+     * @param string $function
      * @return Account
      */
-    public function setTypeAccount(string $typeAccount): Account
+    public function setFunction(string $function): Account
     {
-        $this->typeAccount = $typeAccount;
+        $this->function = $function;
         return $this;
     }
 
@@ -166,6 +166,16 @@ Class Account
     public function getToken(): string
     {
         return $this->token;
+    }
+
+   /**
+     * @param string $token
+     * @return Account
+     */
+    public function setToken(string $token): Account
+    {
+        $this->token = $token;
+        return $this;
     }
 
     /**

@@ -12,8 +12,9 @@ class AccountRepo extends Repository
     {
         $query = $this->pdo->prepare("SELECT * FROM Account WHERE email = ? AND confirmed_at IS NOT NULL");
         $query->execute([$mail]);
-        $results = $query->fetch(PDO::FETCH_ASSOC);
-        return new Account($results);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return new Account($result);
+
     }
 
     public function isRegister($user): Account
@@ -47,14 +48,14 @@ class AccountRepo extends Repository
 
     public function validateUser($user_id)
     {
-        $this->pdo->prepare('UPDATE Account SET token = NULL, confirmed_at=NOW() WHERE id = ?')->execute([$user_id]);
+        $this->pdo->prepare('UPDATE Account SET token = 0, confirmed_at=NOW() WHERE id = ?')->execute([$user_id]);
 
     }
 
-    public function modPassword($password)
+    public function modPassword($password,$session)
     {
 
-        $user_id = $_SESSION['auth']->id;
+        $user_id = $session['auth']->id;
         $password = password_hash($password, PASSWORD_BCRYPT);
 
         $this->pdo->prepare('UPDATE Account SET password = ? WHERE id = ?')->execute([$password, $user_id]);

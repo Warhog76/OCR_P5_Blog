@@ -22,4 +22,6 @@ $router = new Routers(
     new Contact(),
     new Renderer(),
 );
-$router->get($_GET,$_POST);
+
+$router->get($_GET,$_POST,$_SESSION);
+

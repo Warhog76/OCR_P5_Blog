@@ -3,8 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\AccountRepo;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
+use App\controllers\Session;
 
 class Accounts extends Controller
 {
@@ -12,7 +11,7 @@ class Accounts extends Controller
         private AccountRepo $accountRepo,
     ){}
 
-    public function login($password,$email,$submit): void
+    public function login($password,$email,$submit,$session): void
     {
 
         if($submit !== null){
@@ -21,9 +20,14 @@ class Accounts extends Controller
                 $user = $this->accountRepo->isUser($email);
 
                 if(password_verify($password, $user->getPassword())) {
+
                     session_start();
-                    $_SESSION['auth'] = $user->getEmail();
-                    header('Location: index.php?page=home');
+                    $session['auth'] = $user;
+
+                    var_dump($session['auth']);
+                    die();
+
+                    header('Location: index.php?page=account');
 
                 }else{
                     ?>
@@ -93,11 +97,14 @@ class Accounts extends Controller
     public function confirm($userId,$token): void
     {
 
+        var_dump($userId, $token);
+
         $results= $this->accountRepo->confirmUser($userId);
+        $confirmedToken = $results->getToken();
 
-        session_start();
+        var_dump($confirmedToken);
 
-        if($results->getToken() == $token){
+        if($confirmedToken == $token){
             $this->accountRepo->validateUser($userId);
             header('Location: index.php?page=home');
         }else{
@@ -115,16 +122,16 @@ class Accounts extends Controller
 
     }
 
-    public function modPassword($password,$passwordConfirm,$submit): void
+    public function modPassword($password,$passwordConfirm,$submit,$session): void
     {
 
         if($submit !== null){
             if(empty($password) || $password != $passwordConfirm) {
-                $_SESSION['flash']['danger'] = "Les mots de passes ne correspondent pas";
+                "Les mots de passes ne correspondent pas";
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
-                $this->accountRepo->modPassword($password);
-                $_SESSION['flash']['success'] = 'Votre nouveau mot de passe a bien été changé';
+                $this->accountRepo->modPassword($password,$session);
+                'Votre nouveau mot de passe a bien été changé';
             }
         }
     }
