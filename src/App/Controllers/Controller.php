@@ -7,7 +7,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 abstract class Controller
 {
-    public function __construct(){}
 
     function str_random($length): string
     {
@@ -46,8 +45,5 @@ abstract class Controller
         $mail->AltBody = $message;
 
         $mail->send();
-
-
-
     }
 }

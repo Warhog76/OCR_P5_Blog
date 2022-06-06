@@ -11,7 +11,7 @@ class Accounts extends Controller
         private AccountRepo $accountRepo,
     ){}
 
-    public function login($password,$email,$submit,$session): void
+    public function login($password,$email,$submit): void
     {
 
         if($submit !== null){

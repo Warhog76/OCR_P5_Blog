@@ -4,6 +4,7 @@
 namespace App\Routers;
 
 use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
+use PHPMailer\PHPMailer\Exception;
 
 class Routers
 {
@@ -15,10 +16,12 @@ class Routers
         private Contact  $mailController,
         private Renderer $page,
     )
-    {
-    }
+    {}
 
-    public function get($get, $post, $session): void
+    /**
+     * @throws Exception
+     */
+    public function get($get, $post): void
     {
 
         if ($get['page'] === 'home' || $get['page'] === null) :
