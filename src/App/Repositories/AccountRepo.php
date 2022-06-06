@@ -52,10 +52,10 @@ class AccountRepo extends Repository
 
     }
 
-    public function modPassword($password,$session)
+    public function modPassword($password,$userid)
     {
 
-        $user_id = $session['auth']->id;
+        $user_id = $userid['auth']->id;
         $password = password_hash($password, PASSWORD_BCRYPT);
 
         $this->pdo->prepare('UPDATE Account SET password = ? WHERE id = ?')->execute([$password, $user_id]);

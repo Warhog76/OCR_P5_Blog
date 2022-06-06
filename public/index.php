@@ -1,16 +1,15 @@
 <?php
 
-use App\Repositories\{AccountRepo,ArticleRepo,CommentRepo};
+use App\Repositories\{AccountRepo,ArticleRepo,CommentRepo,Session};
 use App\Routers\Routers;
 use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
 
 require '../vendor/autoload.php';
 
-session_start();
-
 $router = new Routers(
     new Accounts(
         new AccountRepo(),
+        new Session(),
     ),
     new Articles(
         new ArticleRepo(),

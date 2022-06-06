@@ -88,7 +88,7 @@ class Routers
                 $submit = $post['submit'];
             }
 
-            $this->accountController->login($password, $email, $submit, $session);
+            $this->accountController->login($password, $email, $submit);
             $this->page->renderLog('login');
 
         elseif ($get['page'] === 'account') :
@@ -98,7 +98,7 @@ class Routers
                 $passwordConfirm = $post['password_confirm'];
                 $submit = $post['submit'];
             }
-            $this->accountController->modPassword($password, $passwordConfirm, $submit, $session);
+            $this->accountController->modPassword($password, $passwordConfirm, $submit);
             $this->page->render('account');
 
         elseif ($get['page'] === 'reset') :
@@ -144,7 +144,6 @@ class Routers
 
         elseif ($get['page'] === 'logout') :
             session_destroy();
-            unset($session['auth'],);
             header('location: index.php?page=home');
         endif;
     }

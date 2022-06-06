@@ -9,6 +9,7 @@ class Accounts extends Controller
 {
     public function __construct(
         private AccountRepo $accountRepo,
+        private Session $session,
     ){}
 
     public function login($password,$email,$submit): void
@@ -21,9 +22,9 @@ class Accounts extends Controller
 
                 if(password_verify($password, $user->getPassword())) {
 
-                    Session::getInstance()->write('auth', $user->getFunction());
+                    $this->session->write('auth', $user->getFunction());
 
-                    header('Location: index.php?page=account');
+                        header('Location: index.php?page=account');
 
                 }else{
                     ?>
@@ -114,15 +115,16 @@ class Accounts extends Controller
 
     }
 
-    public function modPassword($password,$passwordConfirm,$submit,$session): void
+    public function modPassword($password,$passwordConfirm,$submit): void
     {
+        $userid = $this->session->read('auth');
 
         if($submit !== null){
             if(empty($password) || $password != $passwordConfirm) {
                 "Les mots de passes ne correspondent pas";
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
-                $this->accountRepo->modPassword($password,$session);
+                $this->accountRepo->modPassword($password,$userid);
                 'Votre nouveau mot de passe a bien été changé';
             }
         }
