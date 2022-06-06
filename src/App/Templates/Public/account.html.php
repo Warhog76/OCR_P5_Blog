@@ -8,7 +8,7 @@
 
 <div class="container">
 
-    <h3>Mon compte</h3>
+    <h3>Mon compte </h3>
     <hr><br>
 
     <p>Vous pouvez, avec ce formulaire, modifier votre mot de passe.</p><br>

@@ -84,8 +84,9 @@ class Routers
                 $email = $post['email'];
                 $submit = $post['submit'];
             }
-            $this->page->renderLog('login');
+
             $this->accountController->login($password, $email, $submit, $session);
+            $this->page->renderLog('login');
 
         elseif ($get['page'] === 'account') :
             $password = $passwordConfirm = $submit = null;
@@ -108,13 +109,13 @@ class Routers
             $this->accountController->reset($userId, $token, $password, $passwordConfirm);
             $this->page->renderLog('reset');
 
-        elseif (!isset($_SESSION['auth']) && $get['page'] === 'dashboard'):
+        elseif ($get['page'] === 'dashboard'):
             $this->commentController->findUnseen();
 
-        elseif (!isset($_SESSION['auth']) && $get['page'] === 'list') :
+        elseif ($get['page'] === 'list') :
             $this->postController->getAll();
 
-        elseif (!isset($_SESSION['auth']) && $get['page'] === 'post') :
+        elseif ($get['page'] === 'post') :
             $id = $get['id'];
             $title = $chapo = $content = $submit = $posted = null;
             if (isset($post['submit'])) {
@@ -126,7 +127,7 @@ class Routers
             }
             $this->postController->modify($id, $submit, $title, $chapo, $content, $posted);
 
-        elseif (!isset($_SESSION['auth']) && $get['page'] === 'write') :
+        elseif ($get['page'] === 'write') :
             $title = $chapo = $content = $submit = $posted = null;
             if (isset($post['submit'])) {
                 $title = $post['title'];
@@ -140,7 +141,7 @@ class Routers
 
         elseif ($get['page'] === 'logout') :
             session_destroy();
-            unset($session['email'],);
+            unset($session['auth'],);
             header('location: index.php?page=home');
         endif;
     }

@@ -6,6 +6,8 @@ use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
 
 require '../vendor/autoload.php';
 
+session_start();
+
 $router = new Routers(
     new Accounts(
         new AccountRepo(),

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\AccountRepo;
-use App\controllers\Session;
+use App\Repositories\Session;
 
 class Accounts extends Controller
 {
@@ -21,11 +21,7 @@ class Accounts extends Controller
 
                 if(password_verify($password, $user->getPassword())) {
 
-                    session_start();
-                    $session['auth'] = $user;
-
-                    var_dump($session['auth']);
-                    die();
+                    Session::getInstance()->write('auth', $user->getFunction());
 
                     header('Location: index.php?page=account');
 
@@ -97,12 +93,8 @@ class Accounts extends Controller
     public function confirm($userId,$token): void
     {
 
-        var_dump($userId, $token);
-
         $results= $this->accountRepo->confirmUser($userId);
         $confirmedToken = $results->getToken();
-
-        var_dump($confirmedToken);
 
         if($confirmedToken == $token){
             $this->accountRepo->validateUser($userId);
