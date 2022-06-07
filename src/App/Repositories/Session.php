@@ -6,7 +6,7 @@ Class Session{
 
     static Session $instance;
 
-    static function getInstance(): Session
+    public static function getInstance(): Session
     {
         if(!self::$instance){
             self::$instance = new Session();
