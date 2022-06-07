@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Repositories\AccountRepo;
 use App\Repositories\Session;
+use PHPMailer\PHPMailer\Exception;
 
 class Accounts extends Controller
 {
@@ -21,7 +22,7 @@ class Accounts extends Controller
                 $user = $this->accountRepo->isUser($email);
 
                 if(password_verify($password, $user->getPassword())) {
-
+                    Session::getInstance();
                     $this->session->write('auth', $user->getFunction());
 
                         header('Location: index.php?page=account');
@@ -41,6 +42,9 @@ class Accounts extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function register($username, $password, $passwordConfirm, $email, $submit): void
     {
         if ($submit !== null){
@@ -130,6 +134,9 @@ class Accounts extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function remember($email, $submit)
     {
         if($submit !== null){
