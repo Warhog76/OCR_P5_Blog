@@ -33,17 +33,12 @@ class CommentRepo extends Repository
             'name'        => $name,
             'email'       => $email,
             'comment'     => $comment,
-            'article_id'  => $_GET["id"]
+            'article_id'  => filter_input(INPUT_GET, 'id')
         );
 
-        //ecriture de la requete
         $sql = "INSERT INTO Comment (comment, name, email, date, article_id)
           VALUES (:comment,:name, :email, NOW(), :article_id)";
-
-        //preparation
         $addComment = $this->pdo->prepare($sql);
-
-        //execution
         $addComment->execute($c);
 
     }

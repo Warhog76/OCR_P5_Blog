@@ -19,7 +19,7 @@
 
                     <div class="input-field col s12">
                         <input type="password" id="password" name="password"/>
-                        <label for="password">Mot de passe</label>
+                        <label for="password">Mot de passe <a href="index.php?page=remember">(Mot de passe oublié)</a> </label>
                     </div>
                 </div>
 
@@ -28,7 +28,8 @@
                         <i class="material-icons left">perm_identity</i>
                         Se connecter
                     </button>
-                    <br/>
+                    <br/><br/>
+                    <a href="index.php?page=register">Nouvel utilisateur</a>
                 </div>
             </form>
         </div>

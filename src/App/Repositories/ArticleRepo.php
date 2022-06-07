@@ -10,7 +10,6 @@ class ArticleRepo extends Repository
 
     protected $table = "Article";
 
-
     public function findAll(): array
     {
         $articles = [];
@@ -61,11 +60,7 @@ class ArticleRepo extends Repository
 
         $query = $this->pdo->prepare('INSERT INTO Article (title, chapo, content, date, posted)
             VALUES (:title,:chapo, :content,NOW(),:posted)');
-        $query->bindValue(':title', $article->getTitle());
-        $query->bindValue(':chapo', $article->getChapo());
-        $query->bindValue(':content', $article->getContent());
-        $query->bindValue(':posted', $article->getPosted());
-        $query->execute();
+        $query->execute($article);
         $query->closeCursor();
         return $query;
     }
@@ -74,12 +69,7 @@ class ArticleRepo extends Repository
     {
 
         $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), posted= :posted WHERE id = :id');
-        $query->bindValue(':id', $article->getId());
-        $query->bindValue(':title', $article->getTitle());
-        $query->bindValue(':chapo', $article->getChapo());
-        $query->bindValue(':content', $article->getContent());
-        $query->bindValue(':posted', $article->getPosted());
-        $query->execute();
+        $query->execute($article);
         $query->closeCursor();
         return $query;
     }

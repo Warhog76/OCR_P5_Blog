@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Models\Article;
 use App\Repositories\CommentRepo;
 use App\Repositories\ArticleRepo;
 
-class Articles{
+class Articles extends Controller
+{
 
     public function __construct(
             private ArticleRepo $post,
@@ -21,13 +21,13 @@ class Articles{
         $this->page->render('index', compact('articles'));
     }
 
-    public function show(): void
+    public function show($id): void
     {
 
         $article_id = null;
 
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
+        if (!empty($id) && ctype_digit($id)) {
+            $article_id = $id;
         }
 
         $article = $this->post->findOne($article_id);
@@ -53,16 +53,16 @@ class Articles{
 
     }
 
-    public function post(): void
+    public function post($submit,$title,$chapo,$content,$posted): void
     {
 
-        if(isset($_POST['submit']))
+        if(isset($submit))
         {
             $data = [];
-            $data['title'] = htmlspecialchars(trim($_POST['title']));
-            $data['chapo'] = htmlspecialchars(trim($_POST['chapo']));
-            $data['content'] = htmlspecialchars(trim($_POST['content']));
-            $data['posted'] = isset($_POST['public']) ? "1" : "0";
+            $data['title'] = $title;
+            $data['chapo'] = $chapo;
+            $data['content'] = $content;
+            $data['posted'] = isset($posted) ? "1" : "0";
 
             if(empty($data['title']) || empty($data['chapo']) || empty($data['content']))
             {
@@ -89,43 +89,35 @@ class Articles{
                     }
                 }*/
             }else{
-                $result = $this->post->postArticle($this->post);
-
+                $this->post->postArticle($data);
             }
         }
     }
 
-    public function modify(): void
+    public function modify($id,$submit,$title,$chapo,$content,$posted): void
     {
 
-        /**
-         * 1. Récupération du param "id" et vérification de celui-ci
-         */
         $article_id = null;
 
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $article_id = $_GET['id'];
+        if (!empty($id) && ctype_digit($id)) {
+            $article_id = $id;
         }
 
-        /**
-         * 2. Récupération de l'article en question
-         */
         $article = $this->post->findOne($article_id);
 
         $this->page->renderBack('article', compact('article'));
 
-        if(isset($_POST['submit']))
+        if(isset($submit))
         {
             $data = [];
-            $data['id'] = $_GET['id'];
-            $data['title'] = htmlspecialchars(trim($_POST['title']));
-            $data['chapo'] = htmlspecialchars(trim($_POST['chapo']));
-            $data['content'] = htmlspecialchars(trim($_POST['content']));
-            $data['posted'] = isset($_POST['public']) ? "1" : "0";
+            $data['title'] = $title;
+            $data['chapo'] = $chapo;
+            $data['content'] = $content;
+            $data['posted'] = isset($posted) ? "1" : "0";
+            $data['id'] = $article_id;
 
-            if(empty($data['title']) ||empty($data['content'])){
+            if(empty($data['title']) || empty($data['chapo']) || empty($data['content'])){
                 ?>
-
                 <div class="card red">
                     <div class="card-content white-text">
                         <?php
@@ -133,16 +125,10 @@ class Articles{
                         ?>
                     </div>
                 </div>
-
         <?php
             }else{
-
-                $result = $this->post->editArticle($article);
-
-                if($result)
-                {
-                    header('Location: index.php?p=article&id=' . $article->getId());
-                }
+                $this->post->editArticle($data);
+                header("Location: index.php?p=article&id=" .$article->getId(). " ");
             }
         }
     }

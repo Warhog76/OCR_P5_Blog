@@ -3,29 +3,27 @@
         <div class="card-panel">
             <div class="row">
                 <div class="col s6 offset-s3">
-                    <img src="../img/modo.png" alt="Modérateur" width="100%"/>
+                    <img src="../public/assets/images/admin.png" alt="Modérateur" width="100%"/>
                 </div>
             </div>
-            <h4 class="center-align">Se connecter</h4>
+            <h4 class="center-align">Nouveau mot de passe</h4>
 
             <form method="post">
                 <div class="row">
                     <div class="input-field col s12">
-                        <input type="email" id="email" name="email"/>
-                        <label for="email">Adresse email</label>
+                        <input type="password" id="password" name="password" required/>
+                        <label for="password">Mot de passe</label>
                     </div>
                     <div class="input-field col s12">
-                        <input type="text" id="token" name="token"/>
-                        <label for="token">Code unique</label>
+                        <input type="password" id="password_confirm" name="password_confirm" required/>
+                        <label for="password_confirm">Confirmez votre mot de passe</label>
                     </div>
-                    <center>
+                    <div style="text-align: center;">
                         <button type="submit" name="submit" class="btn waves-effect waves-light light-blue">
                             <i class="material-icons left">perm_identity</i>
-                            Se connecter
+                            Réinitialiser mon mot de passe
                         </button>
-                        <br/><br/>
-                        <a href="index.php?page=login">Déjà modérateur</a>
-                    </center>
+                    </div>
                 </div>
 
             </form>

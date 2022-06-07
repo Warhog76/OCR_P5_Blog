@@ -3,3 +3,7 @@ $(document).ready(function(){
     $('.parallax').parallax();
     $('.modal').modal();
 });
+
+$("#alert_close").click(function () {
+    $("#alert_box").fadeOut("slow", function () {});
+});

@@ -11,16 +11,15 @@
             <div class="col l3 s12">
                 <h5 class="white-text horizontal">Links</h5>
                 <ul>
-                    <li><a class="white-text" href="#!">Link 1</a></li>
-                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="https://github.com/Warhog76">Github</a></li>
+                    <li><a class="white-text" href="www.linkedin.com/in/nicolas-leduey-505a09166">LinkedIn</a></li>
                 </ul>
             </div>
 
             <div class="col l3 s12">
                 <h5 class="white-text">Connect</h5>
                 <ul>
-                    <li><a class="white-text" href="#!">Link 1</a></li>
-                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <a class="btn-floating btn-medium waves-effect waves-light grey darken-3" href="index.php?page=dashboard"><i class="material-icons">computer</i></a>
                 </ul>
             </div>
         </div>

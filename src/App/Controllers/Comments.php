@@ -3,23 +3,21 @@
 namespace App\Controllers;
 
 use App\Repositories\CommentRepo;
+use phpDocumentor\Reflection\Types\Null_;
 
-class Comments {
+class Comments extends Controller
+{
 
     public function __construct(
         private CommentRepo $comment,
         private Renderer $page,
     ){}
 
-    public function addComments(): void
+    public function addComments($comment,$name,$email,$submit): void
     {
 
-        if (isset($_POST['submit'])) {
+        if ($submit !==  null) {
 
-            // variable declaration
-            $comment = htmlspecialchars($_POST['comment']);
-            $name = htmlspecialchars($_POST['name']);
-            $email = htmlspecialchars($_POST['email']);
             $errors = [];
 
             if (empty($name) || empty($email) || empty($comment)) {
