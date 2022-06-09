@@ -65,6 +65,22 @@ class ArticleRepo extends Repository
         return $query;
     }
 
+    public function postImg($tmp_name, $extension){
+
+        $imageId=$this->pdo->lastInsertId();
+        $image = [
+            'id'    =>  $imageId,
+            'image' =>  $imageId.$extension      //$id = 25 , $extension = .jpg      $id.$extension = "25".".jpg" = 25.jpg
+        ];
+
+        $sql = "UPDATE Article SET image = :image WHERE id = :id";
+        $query = $this->pdo->prepare($sql);
+        $query->execute($image);
+        move_uploaded_file($tmp_name,"../public/assets/images/posts/".$imageId.$extension);
+        header("Location:index.php?page=post&id=".$imageId);
+    }
+
+
     public function editArticle($article): bool|\PDOStatement
     {
 
