@@ -53,7 +53,7 @@ class Articles extends Controller
 
     }
 
-    public function post($submit,$title,$chapo,$content,$posted): void
+    public function post($submit,$title,$chapo,$content,$posted,$files): void
     {
 
         if(isset($submit))
@@ -69,8 +69,8 @@ class Articles extends Controller
                 $errors['empty'] = "Veuillez remplir tous les champs";
             }
 
-            if(!empty($_FILES['image']['name'])){
-                $file = $_FILES['image']['name'];
+            if(!empty($files['image']['name'])){
+                $file = $files['image']['name'];
                 $extensions = ['.png','.jpg','.jpeg','.gif','.PNG','.JPG','.JPEG','.GIF'];  //Ensemble de extensions autorisées
                 $extension = strrchr($file,'.');
 
@@ -94,8 +94,8 @@ class Articles extends Controller
             }else{
                 $this->post->postArticle($data);
 
-                if(!empty($_FILES['image']['name'])){
-                    $this->post->postImg($_FILES['image']['tmp_name'], $extension);
+                if(!empty($files['image']['name'])){
+                    $this->post->postImg($files['image']['tmp_name'], $extension);
             }
         }}
     }
