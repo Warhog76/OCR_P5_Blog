@@ -23,13 +23,11 @@
             <?php endforeach;
 
         }else{ ?>
-            <div class="container">
-                <div class="card green">
-                    <div class="card-content white-text">';
+            <div class="card green">
+                    <div class="card-content white-text">
 
-                        <?= "Commentaire enregistrée" . "<br/>"; ?>
+                        <?= "Votre email a bien été envoyé." . "<br/>"; ?>
                     </div>
-                </div>
             </div>
         <?php
         }
