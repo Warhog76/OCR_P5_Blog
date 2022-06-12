@@ -21,17 +21,17 @@ class Articles extends Controller
         $this->page->render('index', compact('articles'));
     }
 
-    public function show($id): void
+    public function show($postId): void
     {
 
-        $article_id = null;
+        $articleId = null;
 
-        if (!empty($id) && ctype_digit($id)) {
-            $article_id = $id;
+        if (!empty($postId) && ctype_digit($postId)) {
+            $articleId = $postId;
         }
 
-        $article = $this->post->findOne($article_id);
-        $commentaires = $this->comment->findAll($article_id);
+        $article = $this->post->findOne($articleId);
+        $commentaires = $this->comment->findAll($articleId);
 
         $this->page->render('article', compact('article','commentaires'));
 

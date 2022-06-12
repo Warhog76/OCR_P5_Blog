@@ -32,7 +32,7 @@ class Routers
             $this->postController->showAll();
 
         elseif ($get['page'] === 'article') :
-            $id = $get['id'];
+            $commentId = $get['id'];
             $comment = $name = $email = $submit = null;
             if (isset($post['submit'])) {
                 $comment = $post['comment'];
@@ -40,8 +40,8 @@ class Routers
                 $email = $post['email'];
                 $submit = $post['submit'];
             }
-            $this->postController->show($id);
-            $this->commentController->addComments($comment, $name, $email, $submit,$id);
+            $this->postController->show($commentId);
+            $this->commentController->addComments($comment, $name, $email, $submit,$commentId);
 
         elseif ($get['page'] === 'contact') :
             $email = $subject = $message = $submit = null;
@@ -117,12 +117,12 @@ class Routers
             $this->commentController->findUnseen();
 
         elseif ($get['page'] === 'validate') :
-            $id = $get['id'];
-            $this->commentController->validateComment($id);
+            $commentId = $get['id'];
+            $this->commentController->validateComment($commentId);
 
         elseif ($get['page'] === 'delete') :
-            $id = $get['id'];
-            $this->commentController->deleteComment($id);
+            $commentId = $get['id'];
+            $this->commentController->deleteComment($commentId);
 
         elseif ($get['page'] === 'list') :
             $this->postController->getAll();

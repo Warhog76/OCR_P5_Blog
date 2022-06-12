@@ -1,7 +1,14 @@
 <div class="parallax-container">
-    <div class="parallax">
-        <img src="../public/assets/images/accueil.png" alt="photo d'accueil"/>
-    </div>
+        <div class="container">
+            <br><br>
+            <h1 class="header center white-text text-lighten-2">Développeur WEB</h1>
+            <div class="row center">
+                <h5 class="header center white-text text-lighten-2">Ce que vous imaginez, nous le réalisons.</h5>
+            </div>
+        </div>
+        <div class="parallax">
+            <img src="../public/assets/images/accueil.png" alt="photo d'accueil"/>
+        </div>
 </div>
 
 <div class="container">

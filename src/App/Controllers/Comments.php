@@ -13,7 +13,7 @@ class Comments extends Controller
         private Renderer    $page,
     ){}
 
-    public function addComments($comment,$name,$email,$submit,$id): void
+    public function addComments($comment,$name,$email,$submit,$commentId): void
     {
 
         if (isset($submit)) {
@@ -41,7 +41,7 @@ class Comments extends Controller
 
 
             } else {
-                $this->commentRepo->addComment($name, $email, $comment,$id);
+                $this->commentRepo->addComment($name, $email, $comment,$commentId);
             }
         }
     }
@@ -54,16 +54,16 @@ class Comments extends Controller
 
     }
 
-    public function validateComment($id)
+    public function validateComment($commentId)
     {
-        $this->commentRepo->validComment($id);
+        $this->commentRepo->validComment($commentId);
         header('Location: index.php?page=dashboard');
 
     }
 
-    public function deleteComment($id)
+    public function deleteComment($commentId)
     {
-        $this->commentRepo->delComment($id);
+        $this->commentRepo->delComment($commentId);
         header('Location: index.php?page=dashboard');
 
     }
