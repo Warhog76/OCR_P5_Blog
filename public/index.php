@@ -19,6 +19,7 @@ $router = new Routers(
     new Comments(
         new CommentRepo(),
         new Renderer(),
+
     ),
     new Contact(),
     new Renderer(),

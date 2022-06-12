@@ -6,7 +6,6 @@
 
 <table>
     <thead>
-
     <th>Commentaire</th>
     <th>Actions</th>
 
@@ -23,9 +22,9 @@
 
                 <td><?= substr($commentaire->getComment(),0,100) ?> ...</td>
                 <td>
-                    <a href="#" id="<?= $commentaire->getId() ?>" class="btn-floating btn-small waves-effect waves-light green see_comment">
+                    <a href="index.php?page=validate&id=<?= $commentaire->getId() ?>" id="<?= $commentaire->getId() ?>" class="btn-floating btn-small waves-effect waves-light green see_comment">
                         <i class="material-icons">done</i></a>
-                    <a href="#" id="<?= $commentaire->getId() ?>" class="btn-floating btn-small waves-effect waves-light red delete_comment">
+                    <a href="index.php?page=delete&id=<?= $commentaire->getId() ?>" id="<?= $commentaire->getId() ?>" class="btn-floating btn-small waves-effect waves-light red delete_comment">
                         <i class="material-icons">delete</i></a>
                     <a href="#comment_<?= $commentaire->getId() ?>" class="btn-floating btn-small waves-effect waves-light blue modal-trigger">
                         <i class="material-icons">more_vert</i></a>
@@ -40,9 +39,9 @@
                             <p><?= nl2br($commentaire->getComment()) ?></p>
                         </div>
                         <div class="modal-footer">
-                            <a href="#" id="<?= $commentaire->getId() ?>" class="modal-action modal-close waves-effect waves-green btn-flat see_comment">
+                            <a href="index.php?page=validate&id=<?= $commentaire->getId() ?>" id="<?= $commentaire->getId() ?>" class="modal-action modal-close waves-effect waves-green btn-flat see_comment">
                                 <i class="material-icons">done</i></a>
-                            <a href="#" id="<?= $commentaire->getId() ?>" class="modal-action modal-close waves-effect waves-red btn-flat delete_comment">
+                            <a href="index.php?page=delete&id=<?= $commentaire->getId() ?>" id="<?= $commentaire->getId() ?>" class="modal-action modal-close waves-effect waves-red btn-flat delete_comment">
                                 <i class="material-icons">delete</i></a>
                         </div>
                     </div>

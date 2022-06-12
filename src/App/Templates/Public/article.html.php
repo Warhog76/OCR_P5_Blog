@@ -4,7 +4,6 @@
             <img src="../public/assets/images/posts/<?= $article->getImage() ?>" alt="<?= $article->getTitle() ?>"/>
        </div>
 
-
     </div>
     <div class="container">
 
@@ -43,6 +42,7 @@
     <h4>Commenter :</h4>
 
     <form method="post">
+
         <div class="row">
             <div class="input-field col s12 m6">
                 <input type="text" name="name" id="name"/>

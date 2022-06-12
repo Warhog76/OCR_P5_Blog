@@ -77,7 +77,7 @@ class ArticleRepo extends Repository
         $query = $this->pdo->prepare($sql);
         $query->execute($image);
         move_uploaded_file($tmp_name,"../public/assets/images/posts/".$imageId.$extension);
-        header("Location:index.php?page=post&id=".$imageId);
+        header("Location:index.php?page=article&id=".$imageId);
     }
 
 

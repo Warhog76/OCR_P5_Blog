@@ -8,6 +8,31 @@
 
 <div class="container">
 
+    <?php
+
+        if(is_array($errors) && count($errors) > 0){
+
+            foreach ($errors as $error) {
+
+        echo '
+            <div class="card red">
+                <div class="card-content white-text">';
+
+                    echo $error . "<br/>";
+
+            echo '
+            </div>
+        </div>';}
+    }elseif (is_array($errors) && count($errors) == 0){ ?>
+            <div class="card green">
+                <div class="card-content white-text">
+                    "Votre message a bien été envoyé"
+                </div>
+            </div>
+    <?php
+        }
+    ?>
+
     <h3>Contact</h3>
     <hr><br>
 

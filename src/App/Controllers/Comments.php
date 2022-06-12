@@ -9,14 +9,14 @@ class Comments extends Controller
 {
 
     public function __construct(
-        private CommentRepo $comment,
-        private Renderer $page,
+        private CommentRepo $commentRepo,
+        private Renderer    $page,
     ){}
 
-    public function addComments($comment,$name,$email,$submit): void
+    public function addComments($comment,$name,$email,$submit,$id): void
     {
 
-        if ($submit !==  null) {
+        if (isset($submit)) {
 
             $errors = [];
 
@@ -41,17 +41,30 @@ class Comments extends Controller
 
 
             } else {
-                $this->comment->addComment($name, $email, $comment);
+                $this->commentRepo->addComment($name, $email, $comment,$id);
             }
         }
     }
 
     public function findUnseen(): void
     {
-        $commentaires = $this->comment->findUnseen();
+        $commentaires = $this->commentRepo->findUnseen();
 
         $this->page->renderBack('dashboard', compact('commentaires'));
 
     }
 
+    public function validateComment($id)
+    {
+        $this->commentRepo->validComment($id);
+        header('Location: index.php?page=dashboard');
+
+    }
+
+    public function deleteComment($id)
+    {
+        $this->commentRepo->delComment($id);
+        header('Location: index.php?page=dashboard');
+
+    }
 }

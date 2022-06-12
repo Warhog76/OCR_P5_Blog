@@ -27,13 +27,13 @@ class CommentRepo extends Repository
         return $commentaires;
     }
 
-    public function addComment($name,$email,$comment){
+    public function addComment($name,$email,$comment,$id){
 
         $c = array(
             'name'        => $name,
             'email'       => $email,
             'comment'     => $comment,
-            'article_id'  => filter_input(INPUT_GET, 'id')
+            'article_id'  => $id
         );
 
         $sql = "INSERT INTO Comment (comment, name, email, date, article_id)
@@ -41,6 +41,17 @@ class CommentRepo extends Repository
         $addComment = $this->pdo->prepare($sql);
         $addComment->execute($c);
 
+    }
+
+    public function delComment($id): void
+    {
+        $this->pdo->exec("DELETE FROM Comment WHERE id= $id");
+    }
+
+    public function validComment($id): void
+    {
+
+        $this->pdo->exec("UPDATE Comment SET seen = '1' WHERE id= $id");
     }
 
     public function findUnseen(): array
