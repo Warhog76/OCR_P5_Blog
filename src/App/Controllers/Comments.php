@@ -21,20 +21,16 @@ class Comments extends Controller
 
             if (empty($name)) {
                 ErrorMessage::getError('Vous devez indiquez un nom', 'error');
-            }
-            if (empty($email)) {
+            } elseif (empty($email)) {
                 ErrorMessage::getError('Vous devez indiquez un email', 'error');
-            }
-            if (empty($comment)) {
+            } elseif (empty($comment)) {
                 ErrorMessage::getError('Votre message est manquant', 'error');
-            }
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 ErrorMessage::getError("votre adresse email n'est pas valide", 'error');
-            }
-
-        }else{
+            } else {
                 $this->commentRepo->addComment($name, $email, $comment, $commentId);
                 ErrorMessage::getError("Merci pour votre commentaire", 'success');
+            }
         }
     }
 

@@ -20,20 +20,16 @@ class Contact extends Controller
 
             if (empty($name)) {
                 ErrorMessage::getError('Vous devez indiquez un nom','error');
-            }
-            if (empty($email)) {
+            }elseif (empty($email)) {
                 ErrorMessage::getError('Vous devez indiquez un email','error');
-            }
-            if (empty($message)) {
+            }elseif (empty($message)) {
                 ErrorMessage::getError('Votre message est manquant','error');
-            }
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 ErrorMessage::getError("votre adresse email n'est pas valide",'error');
-            }
-
-        }else{
-                $this->mailer($email,$subject,$message);
+            }else{
+                $this->mailer($email, $subject, $message);
                 ErrorMessage::getError('votre email a bien été envoyé', 'success');
+            }
         }
     }
 }

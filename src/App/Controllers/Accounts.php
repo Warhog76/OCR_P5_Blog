@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\AccountRepo;
+use App\Repositories\ErrorMessage;
 use App\Repositories\Session;
 use PHPMailer\PHPMailer\Exception;
 
@@ -51,32 +52,18 @@ class Accounts extends Controller
             $errors = [];
 
             if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
-                $errors['username'] = "Votre pseudo est invalide";
+                ErrorMessage::getError('Votre Username est incorrect','error');
             }else{
                 $user = $this->accountRepo->isRegister($username);
                 if($user){
-                    $errors['exist'] = "Ce pseudo existe déjà";
+                    ErrorMessage::getError('Ce pseudo existe déjà','error');
                 }
             }
+
             if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors['email'] = "Votre email est invalide";
-            }
-            if(empty($password) || $password != $passwordConfirm) {
-                $errors['mdp'] = "Vous devez rentrer un mot de passe valide";
-            }
-
-            if(!empty($errors)) {
-
-                echo '<div class="container">
-                            <div class="card red">
-                                <div class="card-content white-text">';
-
-                                    foreach ($errors as $error) {
-                                    echo $error . "<br/>";
-                                    }
-                echo '</div></div>
-            </div>';
-
+                ErrorMessage::getError("votre adresse email n'est pas valide",'error');
+            }elseif(empty($password) || $password != $passwordConfirm) {
+                ErrorMessage::getError("Vous devez rentrer un mot de passe valide",'error');
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $users = $this->accountRepo->registerUser($username,$password,$email);
@@ -104,15 +91,7 @@ class Accounts extends Controller
             $this->accountRepo->validateUser($userId);
             header('Location: index.php?page=home');
         }else{
-            ?>
-            <div class="container">
-                <div class="card red">
-                    <div class="card-content white-text">
-                        "Ce token n'est plus valide"
-                    </div>
-                </div>
-            </div>
-            <?php
+            ErrorMessage::getError("ce token n'est plus valide",'error');
             header('Location: index.php?page=login');
         }
 
@@ -124,11 +103,12 @@ class Accounts extends Controller
 
         if($submit !== null){
             if(empty($password) || $password != $passwordConfirm) {
-                "Les mots de passes ne correspondent pas";
+                ErrorMessage::getError("Les mots de passes ne correspondent pas",'error');
+
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $this->accountRepo->modPassword($password,$userid);
-                'Votre nouveau mot de passe a bien été changé';
+                ErrorMessage::getError("Votre nouveau mot de passe a bien été changé",'success');
             }
         }
     }
@@ -156,20 +136,12 @@ class Accounts extends Controller
                 $this->mailer($email,$subject,$message);
                 header('Location: index.php?page=login');
 
-            }else{
-                    ?>
-                        <div class="container">
-                            <div class="card red">
-                                <div class="card-content white-text">
-                                "Aucun compte ne correspond à cet email"
-                                </div>
-                            </div>
-                        </div>
-                    <?php
+                }else{
+                ErrorMessage::getError("Aucun compte ne correspond à cet email",'error');
                 }
             }
         }
-        }
+    }
 
     public function reset($userId,$token,$password,$passwordConfirm){
 
@@ -185,15 +157,7 @@ class Accounts extends Controller
                     header('location: index.php?page=account');
                 }
             }else{
-                ?>
-                <div class="container">
-                    <div class="card red">
-                        <div class="card-content white-text">
-                            "Ce token n'est plus valide"
-                        </div>
-                    </div>
-                </div>
-                <?php
+                ErrorMessage::getError("ce token n'est plus valide",'error');
                 header('Location: index.php?page=login');
             }
 

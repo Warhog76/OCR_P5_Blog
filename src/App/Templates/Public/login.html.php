@@ -10,6 +10,10 @@
 
             <h4 class="center-align">Se connecter</h4>
 
+            <?php use App\Repositories\ErrorMessage;
+
+            ErrorMessage::displayError(); ?>
+
             <form method="post">
                 <div class="row">
                     <div class="input-field col s12">

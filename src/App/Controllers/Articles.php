@@ -66,15 +66,11 @@ class Articles extends Controller
 
             if (empty($data['title'])) {
                 ErrorMessage::getError('Vous devez indiquez un titre', 'error');
-            }
-            if (empty($data['chapo'])) {
+            }elseif(empty($data['chapo'])) {
                 ErrorMessage::getError('Vous devez indiquez un chapo', 'error');
-            }
-            if (empty($data['content'])) {
+            }elseif(empty($data['content'])) {
                 ErrorMessage::getError('Vous devez indiquez un texte', 'error');
-            }
-
-            if (!empty($files['image']['name'])) {
+            }elseif(!empty($files['image']['name'])) {
                 $file = $files['image']['name'];
                 $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble de extensions autorisées
                 $extension = strrchr($file, '.');
@@ -82,7 +78,7 @@ class Articles extends Controller
                 if (!in_array($extension, $extensions)) {      //Permet de controler si l'extension de l'image est valide ou non
                     ErrorMessage::getError("Cette image n'est pas valable", 'error');
                 }
-            } else {
+            }else{
                 $this->post->postArticle($data);
                 ErrorMessage::getError("Article bien enregistré", 'success');
 
@@ -117,11 +113,9 @@ class Articles extends Controller
 
             if (empty($data['title'])) {
                 ErrorMessage::getError('Vous devez indiquez un titre', 'error');
-            }
-            if (empty($data['chapo'])) {
+            }elseif(empty($data['chapo'])) {
                 ErrorMessage::getError('Vous devez indiquez un chapo', 'error');
-            }
-            if (empty($data['content'])) {
+            }elseif(empty($data['content'])) {
                 ErrorMessage::getError('Vous devez indiquez un texte', 'error');
             }else{
                 $this->post->editArticle($data);
