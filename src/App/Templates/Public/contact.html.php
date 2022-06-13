@@ -8,33 +8,12 @@
 
 <div class="container">
 
-    <?php
-        if(is_array($errors) && count($errors) > 0){
-
-            foreach ($errors as $error) : ?>
-                <div class="container">
-                    <div class="card red">
-                        <div class="card-content white-text">
-
-                            <?= $error . "<br/>"; ?>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach;
-
-        }else{ ?>
-            <div class="card green">
-                    <div class="card-content white-text">
-
-                        <?= "Votre email a bien été envoyé." . "<br/>"; ?>
-                    </div>
-            </div>
-        <?php
-        }
-        ?>
-
     <h3>Contact</h3>
     <hr><br>
+
+<?php use App\Repositories\ErrorMessage;
+
+ErrorMessage::displayError(); ?>
 
     <form method="post">
         <div class="row">

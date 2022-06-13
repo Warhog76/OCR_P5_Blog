@@ -4,7 +4,6 @@
 namespace App\Routers;
 
 use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
-use App\Repositories\CommentRepo;
 use PHPMailer\PHPMailer\Exception;
 
 class Routers
@@ -44,14 +43,15 @@ class Routers
             $this->commentController->addComments($comment, $name, $email, $submit,$commentId);
 
         elseif ($get['page'] === 'contact') :
-            $email = $subject = $message = $submit = null;
+            $name = $email = $subject = $message = $submit = null;
             if (isset($post['submit'])) {
+                $name = $post['name'];
                 $email = $post['email'];
                 $subject = $post['subject'];
                 $message = $post['message'];
                 $submit = $post['submit'];
             }
-            $this->mailController->sendMail($email, $subject, $message, $submit);
+            $this->mailController->sendMail($name, $email, $subject, $message, $submit);
             $this->page->render('contact');
 
         elseif ($get['page'] === 'confirm') :
@@ -79,7 +79,6 @@ class Routers
             }
             $this->accountController->register($username, $password, $passwordConfirm, $email, $submit);
             $this->page->renderLog('register');
-
 
         elseif ($get['page'] === 'login') :
             $password = $email = $submit = null;

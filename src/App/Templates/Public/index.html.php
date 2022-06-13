@@ -1,9 +1,9 @@
 <div class="parallax-container">
         <div class="container">
             <br><br>
-            <h1 class="header center white-text text-lighten-2">Développeur WEB</h1>
+            <h1 class="header center white-text text-lighten-2">Développeur junior PHP</h1>
             <div class="row center">
-                <h5 class="header center white-text text-lighten-2">Ce que vous imaginez, nous le réalisons.</h5>
+                <h5 class="header center white-text text-lighten-2">"Ce que vous imaginez, nous le réalisons."</h5>
             </div>
             <div class="row center">
                 <a href="../public/assets/upload/monCV.pdf" id="download-button" class="btn-large waves-effect waves-light grey darken-1">MON CV</a>

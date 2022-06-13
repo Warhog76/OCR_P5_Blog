@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\CommentRepo;
+use App\Repositories\ErrorMessage;
 use phpDocumentor\Reflection\Types\Null_;
 
 class Comments extends Controller
@@ -18,31 +19,24 @@ class Comments extends Controller
 
         if (isset($submit)) {
 
-            $errors = [];
-
-            if (empty($name) || empty($email) || empty($comment)) {
-                $errors['empty'] = "Tous les champs n'ont pas été remplis";
-            } else {
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $errors['email'] = "L'adresse email n'est pas valide";
-                }
+            if (empty($name)) {
+                ErrorMessage::getError('Vous devez indiquez un nom', 'error');
             }
-            if (!empty($errors)) {
-
-                echo '<div class="card red">
-                <div class="card-content white-text">';
-
-                foreach ($errors as $error) {
-                    echo $error . "<br/>";
-                }
-
-                echo '</div>
-            </div>';
-
-
-            } else {
-                $this->commentRepo->addComment($name, $email, $comment,$commentId);
+            if (empty($email)) {
+                ErrorMessage::getError('Vous devez indiquez un email', 'error');
             }
+            if (empty($comment)) {
+                ErrorMessage::getError('Votre message est manquant', 'error');
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                ErrorMessage::getError("votre adresse email n'est pas valide", 'error');
+            }
+
+            if($name && $email && $comment !== null){
+                $this->commentRepo->addComment($name, $email, $comment, $commentId);
+                ErrorMessage::getError("Merci pour votre commentaire", 'success');}
+
+
         }
     }
 

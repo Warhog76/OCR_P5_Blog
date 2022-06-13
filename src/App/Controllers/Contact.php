@@ -4,8 +4,8 @@ namespace App\Controllers;
 
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
+use App\Repositories\ErrorMessage;
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
 
 class Contact extends Controller
 {
@@ -13,23 +13,27 @@ class Contact extends Controller
     /**
      * @throws Exception
      */
-    public function sendMail($email,$subject,$message,$submit): void
+    public function sendMail($name,$email,$subject,$message,$submit): void
     {
         // si le bouton "Envoyer" est cliqué
         if ($submit !== null) {
 
-            $errors = [];
-
-            if (empty(filter_input(INPUT_POST, 'name')) || empty($email) || empty($message)) {
-                $errors[] = "Tous les champs n'ont pas été remplis";
+            if (empty($name)) {
+                ErrorMessage::getError('Vous devez indiquez un nom','error');
+            }
+            if (empty($email)) {
+                ErrorMessage::getError('Vous devez indiquez un email','error');
+            }
+            if (empty($message)) {
+                ErrorMessage::getError('Votre message est manquant','error');
             }
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors[] = "L'adresse email n'est pas valide";
+                ErrorMessage::getError("votre adresse email n'est pas valide",'error');
             }
 
-            if(count($errors) == 0) {
+        }else{
                 $this->mailer($email,$subject,$message);
-            }
+                ErrorMessage::getError('votre email a bien été envoyé', 'success');
         }
     }
 }

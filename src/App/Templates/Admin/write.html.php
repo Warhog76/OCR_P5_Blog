@@ -2,6 +2,10 @@
 
 <h2>Publier un article</h2>
 
+    <?php use App\Repositories\ErrorMessage;
+
+    ErrorMessage::displayError(); ?>
+
 <form method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="input-field col s12">

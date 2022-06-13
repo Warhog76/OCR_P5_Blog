@@ -6,6 +6,11 @@
 </div>
 
 <div class="container">
+
+    <?php use App\Repositories\ErrorMessage;
+
+    ErrorMessage::displayError(); ?>
+
     <form method="post">
         <div class="row">
             <div class="input-field col s12">

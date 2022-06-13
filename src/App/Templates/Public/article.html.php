@@ -41,6 +41,10 @@
     <hr>
     <h4>Commenter :</h4>
 
+    <?php use App\Repositories\ErrorMessage;
+
+    ErrorMessage::displayError(); ?>
+
     <form method="post">
 
         <div class="row">
