@@ -32,11 +32,9 @@ class Comments extends Controller
                 ErrorMessage::getError("votre adresse email n'est pas valide", 'error');
             }
 
-            if($name && $email && $comment !== null){
+        }else{
                 $this->commentRepo->addComment($name, $email, $comment, $commentId);
-                ErrorMessage::getError("Merci pour votre commentaire", 'success');}
-
-
+                ErrorMessage::getError("Merci pour votre commentaire", 'success');
         }
     }
 
