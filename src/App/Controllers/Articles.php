@@ -120,7 +120,8 @@ class Articles extends Controller
                 $this->error->getError('Vous devez indiquez un texte', 'error');
             }else{
                 $this->post->editArticle($data);
-                header("Location: index.php?p=article&id=" .$article->getId(). " ");
+                $this->error->getError("Votre article a bien été enregistré", 'success');
+                /*header("Location: index.php?page=article&id=" .$article->getId(). " ");*/
             }
         }
     }

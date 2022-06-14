@@ -10,10 +10,7 @@
 
             <h4 class="center-align">Mot de passe oublié</h4>
 
-            <?php use App\Repositories\Session;
-
-            Session::read('errorMsg');
-            Session::read('successMsg');
+            <?php
 
             if(isset($_SESSION['errorMsg'])){
                 ?>

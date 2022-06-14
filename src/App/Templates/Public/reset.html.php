@@ -8,10 +8,7 @@
             </div>
             <h4 class="center-align">Nouveau mot de passe</h4>
 
-            <?php use App\Repositories\Session;
-
-            Session::read('errorMsg');
-            Session::read('successMsg');
+            <?php
 
             if(isset($_SESSION['errorMsg'])){
                 ?>

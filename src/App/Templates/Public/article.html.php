@@ -41,12 +41,8 @@
     <hr>
     <h4>Commenter :</h4>
 
-    <?php use App\Repositories\Session;
-
-    Session::read('errorMsg');
-    Session::read('successMsg');
-
-    if(isset($_SESSION['errorMsg'])){
+    <?php
+        if(isset($_SESSION['errorMsg'])){
                  ?>
         <div class="card red">
             <div class="card-content white-text">

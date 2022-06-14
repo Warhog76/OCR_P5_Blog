@@ -147,6 +147,7 @@ class Accounts extends Controller
                     $this->accountRepo->reinitPassword($password,$userId);
                     header('location: index.php?page=account');
                 }
+
             }else{
                 $this->error->getError("ce token n'est plus valide",'error');
                 header('Location: index.php?page=login');
@@ -155,7 +156,5 @@ class Accounts extends Controller
         }else{
             header('location : index.php?page=login');
         }
-
-
     }
 }

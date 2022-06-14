@@ -19,7 +19,7 @@ class Contact extends Controller
     public function sendMail($name,$email,$subject,$message,$submit): void
     {
         // si le bouton "Envoyer" est cliqué
-        if ($submit !== null) {
+        if (isset($submit)) {
 
             if (empty($name)) {
                 $this->error->getError('Vous devez indiquez un nom','error');

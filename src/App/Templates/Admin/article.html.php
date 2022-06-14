@@ -7,10 +7,10 @@
 
 <div class="container">
 
-    <?php use App\Repositories\Session;
+    <?php /*use App\Repositories\Session;
 
     Session::read('errorMsg');
-    Session::read('successMsg');
+    Session::read('successMsg');*/
 
     if(isset($_SESSION['errorMsg'])){
         ?>

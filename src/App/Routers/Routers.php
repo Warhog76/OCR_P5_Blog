@@ -31,7 +31,7 @@ class Routers
             $this->postController->showAll();
 
         elseif ($get['page'] === 'article') :
-            $commentId = $get['id'];
+            $articleId = $get['id'];
             $comment = $name = $email = $submit = null;
             if (isset($post['submit'])) {
                 $comment = $post['comment'];
@@ -39,8 +39,8 @@ class Routers
                 $email = $post['email'];
                 $submit = $post['submit'];
             }
-            $this->postController->show($commentId);
-            $this->commentController->addComments($comment, $name, $email, $submit,$commentId);
+            $this->postController->show($articleId);
+            $this->commentController->addComments($comment, $name, $email, $submit,$articleId);
 
         elseif ($get['page'] === 'contact') :
             $name = $email = $subject = $message = $submit = null;

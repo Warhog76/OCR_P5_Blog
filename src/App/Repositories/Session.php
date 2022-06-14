@@ -14,10 +14,10 @@ Class Session{
         return self::$instance;
     }
 
-    public function __construct()
+    /*public function __construct()
     {
         session_start();
-    }
+    }*/
 
     public function write($key, $value): void
     {
