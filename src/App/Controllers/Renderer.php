@@ -2,12 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Repositories\Session;
+
 Class Renderer
 {
+    public function __construct(private Session $session)
+    {
+    }
 
     public function render(string $path, array $variables=[]): void
     {
-
+        $session = $this->session;
         extract($variables);
 
         ob_start();
