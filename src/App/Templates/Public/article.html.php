@@ -1,3 +1,4 @@
+
 </div>
     <div class="parallax-container">
         <div class="parallax">
@@ -42,6 +43,8 @@
     <h4>Commenter :</h4>
 
     <?php
+
+
     if(isset($_SESSION['errorMsg'])){
         ?>
         <div class="card red">
