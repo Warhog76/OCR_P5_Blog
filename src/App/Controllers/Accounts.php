@@ -10,6 +10,7 @@ class Accounts extends Controller
     public function __construct(
         private AccountRepo $accountRepo,
         private ErrorMessage $error,
+        private Session $session,
     ){}
 
     public function login($password,$email,$submit): void
@@ -88,7 +89,7 @@ class Accounts extends Controller
 
     public function modPassword($password,$passwordConfirm,$submit): void
     {
-        $userid = Session::read('auth');
+        $userid = $this->session->read('user_id');
 
         if($submit !== null){
             if(empty($password) || $password != $passwordConfirm) {

@@ -4,6 +4,7 @@
 namespace App\Routers;
 
 use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
+use App\Repositories\{Session,ArticleRepo};
 use PHPMailer\PHPMailer\Exception;
 
 class Routers
@@ -15,13 +16,15 @@ class Routers
         private Comments $commentController,
         private Contact  $mailController,
         private Renderer $page,
+        private Session $session,
+        private ArticleRepo $post,
     )
     {}
 
     /**
      * @throws Exception
      */
-    public function get($get, $post): void
+    public function get($get, $post, $files): void
     {
 
         if ($get['page'] === 'home' || $get['page'] === null) :
@@ -148,13 +151,12 @@ class Routers
                 $content = $post['content'];
                 $public = $post['public'];
                 $submit = $post['submit'];
-                $files = $_FILES;
             }
             $this->postController->post($submit, $title, $chapo, $content, $public,$files);
             $this->page->renderBack('write');
 
         elseif ($get['page'] === 'logout') :
-            session_destroy();
+            $this->session->logout();
             header('location: index.php?page=home');
         endif;
     }

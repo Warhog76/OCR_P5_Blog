@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 Class Session{
 
-    static Session $instance;
+    static ?Session $instance = null;
 
     public static function getInstance(): Session
     {
@@ -14,17 +14,17 @@ Class Session{
         return self::$instance;
     }
 
-    /*public function __construct()
+    private function __construct()
     {
         session_start();
-    }*/
+    }
 
     public function write($key, $value): void
     {
         $_SESSION[$key] = $value;
     }
 
-    public static function read($key){
+    public function read($key){
         return $_SESSION[$key] ?? null;
     }
 
@@ -36,6 +36,13 @@ Class Session{
 
     public function delete($key){
         unset($_SESSION[$key]);
+    }
+
+    public function logout(): void
+    {
+        if(self::$instance) {
+            session_destroy();
+        }
     }
 
 }

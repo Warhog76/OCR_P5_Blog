@@ -1,17 +1,22 @@
 <?php
 
-use App\Repositories\{AccountRepo, ArticleRepo, CommentRepo, ErrorMessage};
+use App\Repositories\{AccountRepo, ArticleRepo, CommentRepo, ErrorMessage, Session};
 use App\Routers\Routers;
 use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
 
 require '../vendor/autoload.php';
 
-session_start();
+$session = Session::getInstance();
+$renderer = new Renderer($session);
+$errorMessage = new ErrorMessage($session);
+$article = new ArticleRepo();
+$comment = new CommentRepo();
 
 $router = new Routers(
     new Accounts(
         new AccountRepo(),
-        new ErrorMessage(),
+        $errorMessage,
+        $session
     ),
     new Articles(
         $article,
@@ -20,15 +25,18 @@ $router = new Routers(
         $errorMessage,
     ),
     new Comments(
-        new CommentRepo(),
-        new Renderer(),
-        new ErrorMessage(),
+        $comment,
+        $renderer,
+        $errorMessage,
     ),
     new Contact(
-        new ErrorMessage(),
+        $errorMessage,
     ),
-    new Renderer(),
+    $renderer,
+    $session,
+
+    new ArticleRepo(),
 );
 
-$router->get($_GET,$_POST);
+$router->get($_GET,$_POST, $_FILES);
 

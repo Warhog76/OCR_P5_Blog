@@ -4,14 +4,16 @@ namespace App\Repositories;
 
 Class ErrorMessage
 {
+    public function __construct(private Session $session)
+    {
+    }
 
     public function getError($text, $type): void
     {
-
         if($type == "error" ) {
-            (new Session)->write('errorMsg', $text);
+            $this->session->write('errorMsg', $text);
         } elseif (  $type == "success" ) {
-            (new Session)->write('successMsg', $text);
+            $this->session->write('successMsg', $text);
         }
     }
 
