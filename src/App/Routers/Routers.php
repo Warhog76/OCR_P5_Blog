@@ -140,7 +140,7 @@ class Routers
             $this->page->renderBack('article');
 
         elseif ($get['page'] === 'write') :
-            $title = $chapo = $content = $submit = $files = null;
+            $title = $chapo = $content = $submit = $files = $public = null;
             if (isset($post['submit'])) {
                 $title = $post['title'];
                 $chapo = $post['chapo'];

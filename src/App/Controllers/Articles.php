@@ -83,7 +83,7 @@ class Articles extends Controller
 
                 if (!empty($files['image']['name'])) {
                     $this->post->postImg($files['image']['tmp_name'], $extension);
-                };
+                }
             endif;
         }
     }
