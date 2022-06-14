@@ -24,7 +24,7 @@ class Accounts extends Controller
                 $user = $this->accountRepo->isUser($email);
 
                 if(password_verify($password, $user->getPassword())) {
-                    $this->session->write('auth', $user->getFunction());
+                    $this->session->write('auth', $user);
 
                         header('Location: index.php?page=account');
 

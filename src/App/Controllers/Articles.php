@@ -2,9 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Repositories\CommentRepo;
-use App\Repositories\ArticleRepo;
-use App\Repositories\ErrorMessage;
+use App\Repositories\{CommentRepo,ArticleRepo,ErrorMessage};
 
 class Articles extends Controller
 {
@@ -55,7 +53,7 @@ class Articles extends Controller
 
     }
 
-    public function post($submit,$title,$chapo,$content,$posted,$files): void
+    public function post($submit,$title,$chapo,$content,$public,$files): void
     {
 
         if(isset($submit)) {
@@ -63,43 +61,41 @@ class Articles extends Controller
             $data['title'] = $title;
             $data['chapo'] = $chapo;
             $data['content'] = $content;
-            $data['posted'] = isset($posted) ? "1" : "0";
+            $data['public'] = isset($public) ? "1" : "0";
 
-            if (empty($data['title'])) {
+            if (empty($data['title'])) :
                 $this->error->getError('Vous devez indiquez un titre', 'error');
-            }elseif(empty($data['chapo'])) {
+            elseif(empty($data['chapo'])) :
                 $this->error->getError('Vous devez indiquez un chapo', 'error');
-            }elseif(empty($data['content'])) {
+            elseif(empty($data['content'])) :
                 $this->error->getError('Vous devez indiquez un texte', 'error');
-            }elseif(!empty($files['image']['name'])) {
+            elseif(!empty($files['image']['name'])) :
                 $file = $files['image']['name'];
                 $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble de extensions autorisées
                 $extension = strrchr($file, '.');
 
                 if (!in_array($extension, $extensions)) {      //Permet de controler si l'extension de l'image est valide ou non
                     $this->error->getError("Cette image n'est pas valable", 'error');
-                }
-            }else{
+                };
+            else:
                 $this->post->postArticle($data);
                 $this->error->getError("Article bien enregistré", 'success');
 
                 if (!empty($files['image']['name'])) {
                     $this->post->postImg($files['image']['tmp_name'], $extension);
-                }
-            }
+                };
+            endif;
         }
     }
 
     public function modify($id,$submit,$title,$chapo,$content,$posted): void
     {
 
-        $article_id = null;
-
         if (!empty($id) && ctype_digit($id)) {
-            $article_id = $id;
+            $articleId = $id;
         }
 
-        $article = $this->post->findOne($article_id);
+        $article = $this->post->findOne($articleId);
 
         $this->page->renderBack('article', compact('article'));
 
@@ -110,19 +106,19 @@ class Articles extends Controller
             $data['chapo'] = $chapo;
             $data['content'] = $content;
             $data['posted'] = isset($posted) ? "1" : "0";
-            $data['id'] = $article_id;
+            $data['id'] = $articleId;
 
-            if (empty($data['title'])) {
+            if (empty($data['title'])) :
                 $this->error->getError('Vous devez indiquez un titre', 'error');
-            }elseif(empty($data['chapo'])) {
+            elseif(empty($data['chapo'])) :
                 $this->error->getError('Vous devez indiquez un chapo', 'error');
-            }elseif(empty($data['content'])) {
+            elseif(empty($data['content'])) :
                 $this->error->getError('Vous devez indiquez un texte', 'error');
-            }else{
+            else:
                 $this->post->editArticle($data);
                 $this->error->getError("Votre article a bien été enregistré", 'success');
-                /*header("Location: index.php?page=article&id=" .$article->getId(). " ");*/
-            }
+                header('Location: index.php?page=list');
+            endif;
         }
     }
 }

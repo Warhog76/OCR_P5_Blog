@@ -137,18 +137,19 @@ class Routers
                 $submit = $post['submit'];
             }
             $this->postController->modify($id, $submit, $title, $chapo, $content, $posted);
+            $this->page->renderBack('article');
 
         elseif ($get['page'] === 'write') :
-            $title = $chapo = $content = $submit = $posted = $files = null;
+            $title = $chapo = $content = $submit = $files = null;
             if (isset($post['submit'])) {
                 $title = $post['title'];
                 $chapo = $post['chapo'];
                 $content = $post['content'];
-                $posted = $post['public'];
+                $public = $post['public'];
                 $submit = $post['submit'];
                 $files = $_FILES;
             }
-            $this->postController->post($submit, $title, $chapo, $content, $posted,$files);
+            $this->postController->post($submit, $title, $chapo, $content, $public,$files);
             $this->page->renderBack('write');
 
         elseif ($get['page'] === 'logout') :
