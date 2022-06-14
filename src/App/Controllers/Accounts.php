@@ -12,6 +12,7 @@ class Accounts extends Controller
     public function __construct(
         private AccountRepo $accountRepo,
         private Session $session,
+        private ErrorMessage $error,
     ){}
 
     public function login($password,$email,$submit): void
@@ -28,15 +29,7 @@ class Accounts extends Controller
                         header('Location: index.php?page=account');
 
                 }else{
-                    ?>
-                        <div class="container">
-                            <div class="card red">
-                                <div class="card-content white-text">
-                                    "Identifiant ou mot de passe incorrect"
-                                </div>
-                            </div>
-                        </div>
-                    <?php
+                    $this->error->getError("Identifiant ou mot de passe incorrect", 'error');
                 }
             }
         }
@@ -49,21 +42,19 @@ class Accounts extends Controller
     {
         if ($submit !== null){
 
-            $errors = [];
-
             if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
-                ErrorMessage::getError('Votre Username est incorrect','error');
+                $this->error->getError('Votre Username est incorrect','error');
             }else{
                 $user = $this->accountRepo->isRegister($username);
                 if($user){
-                    ErrorMessage::getError('Ce pseudo existe déjà','error');
+                    $this->error->getError('Ce pseudo existe déjà','error');
                 }
             }
 
             if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                ErrorMessage::getError("votre adresse email n'est pas valide",'error');
+                $this->error->getError("votre adresse email n'est pas valide",'error');
             }elseif(empty($password) || $password != $passwordConfirm) {
-                ErrorMessage::getError("Vous devez rentrer un mot de passe valide",'error');
+                $this->error->getError("Vous devez rentrer un mot de passe valide",'error');
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $users = $this->accountRepo->registerUser($username,$password,$email);
@@ -91,7 +82,7 @@ class Accounts extends Controller
             $this->accountRepo->validateUser($userId);
             header('Location: index.php?page=home');
         }else{
-            ErrorMessage::getError("ce token n'est plus valide",'error');
+            $this->error->getError("ce token n'est plus valide",'error');
             header('Location: index.php?page=login');
         }
 
@@ -103,12 +94,12 @@ class Accounts extends Controller
 
         if($submit !== null){
             if(empty($password) || $password != $passwordConfirm) {
-                ErrorMessage::getError("Les mots de passes ne correspondent pas",'error');
+                $this->error->getError("Les mots de passes ne correspondent pas",'error');
 
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $this->accountRepo->modPassword($password,$userid);
-                ErrorMessage::getError("Votre nouveau mot de passe a bien été changé",'success');
+                $this->error->getError("Votre nouveau mot de passe a bien été changé",'success');
             }
         }
     }
@@ -137,7 +128,7 @@ class Accounts extends Controller
                 header('Location: index.php?page=login');
 
                 }else{
-                ErrorMessage::getError("Aucun compte ne correspond à cet email",'error');
+                    $this->error->getError("Aucun compte ne correspond à cet email",'error');
                 }
             }
         }
@@ -157,7 +148,7 @@ class Accounts extends Controller
                     header('location: index.php?page=account');
                 }
             }else{
-                ErrorMessage::getError("ce token n'est plus valide",'error');
+                $this->error->getError("ce token n'est plus valide",'error');
                 header('Location: index.php?page=login');
             }
 

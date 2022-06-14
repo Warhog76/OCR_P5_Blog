@@ -13,6 +13,7 @@ class Articles extends Controller
             private ArticleRepo $post,
             private CommentRepo $comment,
             private Renderer $page,
+            private ErrorMessage $error,
     ){}
 
     public function index(): void
@@ -65,22 +66,22 @@ class Articles extends Controller
             $data['posted'] = isset($posted) ? "1" : "0";
 
             if (empty($data['title'])) {
-                ErrorMessage::getError('Vous devez indiquez un titre', 'error');
+                $this->error->getError('Vous devez indiquez un titre', 'error');
             }elseif(empty($data['chapo'])) {
-                ErrorMessage::getError('Vous devez indiquez un chapo', 'error');
+                $this->error->getError('Vous devez indiquez un chapo', 'error');
             }elseif(empty($data['content'])) {
-                ErrorMessage::getError('Vous devez indiquez un texte', 'error');
+                $this->error->getError('Vous devez indiquez un texte', 'error');
             }elseif(!empty($files['image']['name'])) {
                 $file = $files['image']['name'];
                 $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble de extensions autorisées
                 $extension = strrchr($file, '.');
 
                 if (!in_array($extension, $extensions)) {      //Permet de controler si l'extension de l'image est valide ou non
-                    ErrorMessage::getError("Cette image n'est pas valable", 'error');
+                    $this->error->getError("Cette image n'est pas valable", 'error');
                 }
             }else{
                 $this->post->postArticle($data);
-                ErrorMessage::getError("Article bien enregistré", 'success');
+                $this->error->getError("Article bien enregistré", 'success');
 
                 if (!empty($files['image']['name'])) {
                     $this->post->postImg($files['image']['tmp_name'], $extension);
@@ -112,11 +113,11 @@ class Articles extends Controller
             $data['id'] = $article_id;
 
             if (empty($data['title'])) {
-                ErrorMessage::getError('Vous devez indiquez un titre', 'error');
+                $this->error->getError('Vous devez indiquez un titre', 'error');
             }elseif(empty($data['chapo'])) {
-                ErrorMessage::getError('Vous devez indiquez un chapo', 'error');
+                $this->error->getError('Vous devez indiquez un chapo', 'error');
             }elseif(empty($data['content'])) {
-                ErrorMessage::getError('Vous devez indiquez un texte', 'error');
+                $this->error->getError('Vous devez indiquez un texte', 'error');
             }else{
                 $this->post->editArticle($data);
                 header("Location: index.php?p=article&id=" .$article->getId(). " ");

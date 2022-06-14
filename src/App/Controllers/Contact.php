@@ -10,6 +10,9 @@ use PHPMailer\PHPMailer\Exception;
 class Contact extends Controller
 {
 
+    public function __construct(
+        private ErrorMessage $error,
+    ){}
     /**
      * @throws Exception
      */
@@ -19,16 +22,16 @@ class Contact extends Controller
         if ($submit !== null) {
 
             if (empty($name)) {
-                ErrorMessage::getError('Vous devez indiquez un nom','error');
+                $this->error->getError('Vous devez indiquez un nom','error');
             }elseif (empty($email)) {
-                ErrorMessage::getError('Vous devez indiquez un email','error');
+                $this->error->getError('Vous devez indiquez un email','error');
             }elseif (empty($message)) {
-                ErrorMessage::getError('Votre message est manquant','error');
+                $this->error->getError('Votre message est manquant','error');
             }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                ErrorMessage::getError("votre adresse email n'est pas valide",'error');
+                $this->error->getError("votre adresse email n'est pas valide",'error');
             }else{
                 $this->mailer($email, $subject, $message);
-                ErrorMessage::getError('votre email a bien été envoyé', 'success');
+                $this->error->getError('votre email a bien été envoyé', 'success');
             }
         }
     }

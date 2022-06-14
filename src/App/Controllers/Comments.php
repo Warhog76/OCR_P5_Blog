@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Repositories\CommentRepo;
 use App\Repositories\ErrorMessage;
-use phpDocumentor\Reflection\Types\Null_;
 
 class Comments extends Controller
 {
@@ -12,6 +11,7 @@ class Comments extends Controller
     public function __construct(
         private CommentRepo $commentRepo,
         private Renderer    $page,
+        private ErrorMessage $error,
     ){}
 
     public function addComments($comment,$name,$email,$submit,$commentId): void
@@ -20,16 +20,16 @@ class Comments extends Controller
         if (isset($submit)) {
 
             if (empty($name)) {
-                ErrorMessage::getError('Vous devez indiquez un nom', 'error');
+                $this->error->getError('Vous devez indiquez un nom', 'error');
             } elseif (empty($email)) {
-                ErrorMessage::getError('Vous devez indiquez un email', 'error');
+                $this->error->getError('Vous devez indiquez un email', 'error');
             } elseif (empty($comment)) {
-                ErrorMessage::getError('Votre message est manquant', 'error');
+                $this->error->getError('Votre message est manquant', 'error');
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                ErrorMessage::getError("votre adresse email n'est pas valide", 'error');
+                $this->error->getError("votre adresse email n'est pas valide", 'error');
             } else {
                 $this->commentRepo->addComment($name, $email, $comment, $commentId);
-                ErrorMessage::getError("Merci pour votre commentaire", 'success');
+                $this->error->getError("Merci pour votre commentaire", 'success');
             }
         }
     }

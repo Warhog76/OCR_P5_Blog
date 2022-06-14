@@ -11,9 +11,9 @@
     <h3>Contact</h3>
     <hr><br>
 
-<?php
-    \App\Repositories\Session::read('errorMsg');
-    \App\Repositories\Session::read('successMsg');
+<?php use App\Repositories\Session;
+    Session::read('errorMsg');
+    Session::read('successMsg');
 
 if(isset($_SESSION['errorMsg'])){
              ?>
