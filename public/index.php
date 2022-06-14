@@ -14,10 +14,10 @@ $router = new Routers(
         new ErrorMessage(),
     ),
     new Articles(
-        new ArticleRepo(),
-        new CommentRepo(),
-        new Renderer(),
-        new ErrorMessage(),
+        $article,
+        $comment,
+        $renderer,
+        $errorMessage,
     ),
     new Comments(
         new CommentRepo(),

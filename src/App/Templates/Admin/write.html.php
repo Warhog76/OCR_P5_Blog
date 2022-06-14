@@ -1,32 +1,30 @@
+
 <div class="container">
 
 <h2>Publier un article</h2>
 
-    <?php use App\Repositories\Session;
+    <?php
 
-    Session::read('errorMsg');
-    Session::read('successMsg');
-
-    if(isset($_SESSION['errorMsg'])){
+    if($session->read('errorMsg')) :
         ?>
         <div class="card red">
             <div class="card-content white-text">
-                <?= $_SESSION['errorMsg'] . "<br/>"; ?>
+                <?= $session->get('errorMsg') . "<br/>"; ?>
             </div>
         </div>
-        <?php unset($_SESSION['errorMsg']);
+        <?php $session->delete('errorMsg');
 
 
-    }elseif (isset($_SESSION['successMsg'])){ ?>
+    elseif ($session->read('successMsg')) : ?>
         <div class="card green">
             <div class="card-content white-text">
 
-                <?= $_SESSION['successMsg'] . "<br/>"; ?>
+                <?= $session->get('successMsg') . "<br/>"; ?>
             </div>
         </div>
-        <?php unset($_SESSION['successMsg']);
-
-    }?>
+        <?php $session->delete('successMsg');
+    endif
+    ?>
 
 <form method="post" enctype="multipart/form-data">
     <div class="row">

@@ -136,8 +136,9 @@ class Routers
                 $posted = $post['public'];
                 $submit = $post['submit'];
             }
+
             $this->postController->modify($id, $submit, $title, $chapo, $content, $posted);
-            $this->page->renderBack('article');
+
 
         elseif ($get['page'] === 'write') :
             $title = $chapo = $content = $submit = $files = $public = null;

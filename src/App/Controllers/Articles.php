@@ -117,7 +117,6 @@ class Articles extends Controller
             else:
                 $this->post->editArticle($data);
                 $this->error->getError("Votre article a bien été enregistré", 'success');
-                header('Location: index.php?page=list');
             endif;
         }
     }

@@ -20,6 +20,7 @@ Class Renderer
     public function renderLog(string $path, array $variables=[]): void
     {
 
+        $session = $this->session;
         extract($variables);
 
         ob_start();
@@ -32,6 +33,7 @@ Class Renderer
     public function renderBack(string $path, array $variables=[]): void
     {
 
+        $session = $this->session;
         extract($variables);
 
         ob_start();

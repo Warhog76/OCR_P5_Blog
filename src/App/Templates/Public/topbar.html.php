@@ -10,18 +10,28 @@
                 <li class=""> <a href="index.php?page=home">Accueil</a> </li>
                 <li class=""> <a href="index.php?page=blog">Blog</a> </li>
                 <li class=""> <a href="index.php?page=contact">Contact</a></li>
+                <?php if($session->read('user_function') == 'Admin' || $session->read('user_function') == 'User' ){ ?>
                 <li class=""><a href="index.php?page=account"><i class="material-icons">account_circle</i></a></li>
+                <?php }?>
+                <?php if($session->read('user_function') == null ){ ?>
                 <li class=""> <a href="index.php?page=login">Se connecter</a></li>
-
+                <?php }elseif($session->read('user_function') == 'Admin' || $session->read('user_function') == 'User' ){?>
+                    <li><a href="index.php?page=logout">Déconnexion</a></li>
+                <?php }?>
             </ul>
 
             <ul class="sidenav" id="mobile-menu">
                 <li class=""> <a href="index.php?page=home">Accueil</a> </li>
                 <li class=""> <a href="index.php?page=blog">Blog</a> </li>
                 <li class=""> <a href="index.php?page=contact">Contact</a></li>
+                <?php if($session->read('user_function') == 'Admin' || $session->read('user_function') == 'User' ){ ?>
                 <li class=""><a href="index.php?page=account">Mon compte<i class="medium material-icons">account_circle</i></a></li>
-                <li class=""> <a href="index.php?page=login">Se connecter</a></li>
-
+                <?php }?>
+                <?php if($session->read('user_function') == null ){ ?>
+                    <li class=""> <a href="index.php?page=login">Se connecter</a></li>
+                <?php }elseif($session->read('user_function') == 'Admin' || $session->read('user_function') == 'User' ){?>
+                    <li><a href="index.php?page=logout">Déconnexion</a></li>
+                <?php }?>
             </ul>
         </div>
     </div>

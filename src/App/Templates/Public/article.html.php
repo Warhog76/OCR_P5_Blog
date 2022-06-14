@@ -1,5 +1,4 @@
-
-</div>
+    </div>
     <div class="parallax-container">
         <div class="parallax">
             <img src="../public/assets/images/posts/<?= $article->getImage() ?>" alt="<?= $article->getTitle() ?>"/>
@@ -38,32 +37,34 @@
     <?php endif ?>
 </div>
 
+<?php if($session->read('user_function') == 'User'){ ?>
+
 <div class="container">
     <hr>
     <h4>Commenter :</h4>
 
     <?php
 
-
-    if(isset($_SESSION['errorMsg'])){
+    if($session->read('errorMsg')){
         ?>
         <div class="card red">
             <div class="card-content white-text">
-                <?= $_SESSION['errorMsg'] . "<br/>"; ?>
+                <?= $session->get('errorMsg') . "<br/>"; ?>
             </div>
         </div>
-        <?php unset($_SESSION['errorMsg']);
+        <?php $session->delete('errorMsg');
 
-    }elseif (isset($_SESSION['successMsg'])){ ?>
+
+    }elseif ($session->read('successMsg')){ ?>
         <div class="card green">
             <div class="card-content white-text">
 
-                <?= $_SESSION['successMsg'] . "<br/>"; ?>
+                <?= $session->get('successMsg') . "<br/>"; ?>
             </div>
         </div>
-        <?php unset($_SESSION['successMsg']);
-    }
-    ?>
+        <?php $session->delete('successMsg');
+
+    }?>
 
     <form method="post">
 
@@ -88,3 +89,5 @@
         </div>
     </form>
 </div>
+
+<?php }?>

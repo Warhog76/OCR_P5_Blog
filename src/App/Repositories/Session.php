@@ -28,4 +28,14 @@ Class Session{
         return $_SESSION[$key] ?? null;
     }
 
+    public function get($key){
+        $flash = $_SESSION[$key];
+        unset($_SESSION[$key]);
+        return $flash;
+    }
+
+    public function delete($key){
+        unset($_SESSION[$key]);
+    }
+
 }
