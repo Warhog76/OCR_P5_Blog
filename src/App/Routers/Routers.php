@@ -131,15 +131,16 @@ class Routers
             $this->postController->modify($id, $submit, $title, $chapo, $content, $posted);
 
         elseif ($get['page'] === 'write') :
-            $title = $chapo = $content = $submit = $posted = null;
+            $title = $chapo = $content = $submit = $posted = $files = null;
             if (isset($post['submit'])) {
                 $title = $post['title'];
                 $chapo = $post['chapo'];
                 $content = $post['content'];
                 $posted = $post['public'];
                 $submit = $post['submit'];
+                $files = $_FILES;
             }
-            $this->postController->post($submit, $title, $chapo, $content, $posted);
+            $this->postController->post($submit, $title, $chapo, $content, $posted,$files);
             $this->page->renderBack('write');
 
         elseif ($get['page'] === 'logout') :

@@ -53,7 +53,7 @@ class Articles extends Controller
 
     }
 
-    public function post($submit,$title,$chapo,$content,$posted): void
+    public function post($submit,$title,$chapo,$content,$posted,$files): void
     {
 
         if(isset($submit))
@@ -66,32 +66,38 @@ class Articles extends Controller
 
             if(empty($data['title']) || empty($data['chapo']) || empty($data['content']))
             {
+                $errors['empty'] = "Veuillez remplir tous les champs";
+            }
 
-            ?>
+            if(!empty($files['image']['name'])){
+                $file = $files['image']['name'];
+                $extensions = ['.png','.jpg','.jpeg','.gif','.PNG','.JPG','.JPEG','.GIF'];  //Ensemble de extensions autorisées
+                $extension = strrchr($file,'.');
+
+                if(!in_array($extension,$extensions)){      //Permet de controler si l'extension de l'image est valide ou non
+                    $errors['image'] = "Cette image n'est pas valable";
+                }
+            }
+
+            if(!empty($errors)){
+                ?>
                 <div class="card red">
                     <div class="card-content white-text">
                         <?php
-                        echo "Veuillez remplir tous les champs"
+                        foreach($errors as $error){
+                            echo $error."<br/>";
+                        }
                         ?>
                     </div>
                 </div>
-
-            <?php
-
-                /*if(!empty($_FILES['image']['name'])) {
-                    $file = $_FILES['image']['name'];
-                    $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble des extensions autorisées
-                    $extension = strrchr($file, '.');
-                    $errors = [];
-
-                    if (!in_array($extension, $extensions)) {      //Permet de contrôler si l'extension de l'image est valide ou non
-                        $errors['image'] = "Cette image n'est pas valable";
-                    }
-                }*/
+                <?php
             }else{
                 $this->post->postArticle($data);
+
+                if(!empty($files['image']['name'])){
+                    $this->post->postImg($files['image']['tmp_name'], $extension);
             }
-        }
+        }}
     }
 
     public function modify($id,$submit,$title,$chapo,$content,$posted): void
