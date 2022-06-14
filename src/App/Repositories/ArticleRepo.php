@@ -58,8 +58,8 @@ class ArticleRepo extends Repository
     public function postArticle($article): bool|\PDOStatement
     {
 
-        $query = $this->pdo->prepare('INSERT INTO Article (title, chapo, content, date, posted)
-            VALUES (:title,:chapo, :content,NOW(),:posted)');
+        $query = $this->pdo->prepare('INSERT INTO Article (title, chapo, content,writer, date, posted)
+            VALUES (:title,:chapo,:content,:writer,NOW(),:posted)');
         $query->execute($article);
         $query->closeCursor();
         return $query;

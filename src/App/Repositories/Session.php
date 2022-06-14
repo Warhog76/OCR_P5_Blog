@@ -29,9 +29,7 @@ Class Session{
     }
 
     public function get($key){
-        $flash = $_SESSION[$key];
-        unset($_SESSION[$key]);
-        return $flash;
+        return $_SESSION[$key];
     }
 
     public function delete($key){

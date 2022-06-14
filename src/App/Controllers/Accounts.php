@@ -24,6 +24,7 @@ class Accounts extends Controller
                 if(password_verify($password, $user->getPassword())) {
                    $this->session->write('user_function', $user->getFunction());
                    $this->session->write('user_id', $user->getId());
+                   $this->session->write('user_username', $user->getUsername());
 
                         header('Location: index.php?page=account');
 
@@ -146,7 +147,6 @@ class Accounts extends Controller
                     $this->accountRepo->reinitPassword($password,$userId);
                     header('location: index.php?page=account');
                 }
-
             }else{
                 $this->error->getError("ce token n'est plus valide",'error');
                 header('Location: index.php?page=login');

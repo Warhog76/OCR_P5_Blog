@@ -52,13 +52,12 @@ class AccountRepo extends Repository
 
     }
 
-    public function modPassword($password,$userid)
+    public function modPassword($password,$userId)
     {
 
-        $user_id = $userid['auth']->id;
         $password = password_hash($password, PASSWORD_BCRYPT);
 
-        $this->pdo->prepare('UPDATE Account SET password = ? WHERE id = ?')->execute([$password, $user_id]);
+        $this->pdo->prepare('UPDATE Account SET password = ? WHERE id = ?')->execute([$password, $userId]);
     }
 
     public function lost($user): Account

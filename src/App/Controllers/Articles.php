@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Repositories\{CommentRepo,ArticleRepo,ErrorMessage};
+use App\Repositories\{CommentRepo, ArticleRepo, ErrorMessage, Session};
 
 class Articles extends Controller
 {
@@ -12,6 +12,7 @@ class Articles extends Controller
             private CommentRepo $comment,
             private Renderer $page,
             private ErrorMessage $error,
+            private Session $session,
     ){}
 
     public function index(): void
@@ -61,6 +62,7 @@ class Articles extends Controller
             $data['title'] = $title;
             $data['chapo'] = $chapo;
             $data['content'] = $content;
+            $data['writer'] = $this->session->get('user_username');
             $data['posted'] = isset($public) ? "1" : "0";
 
             if (empty($data['title'])) :

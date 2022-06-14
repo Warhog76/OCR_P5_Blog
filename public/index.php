@@ -23,6 +23,7 @@ $router = new Routers(
         $comment,
         $renderer,
         $errorMessage,
+        $session,
     ),
     new Comments(
         $comment,
