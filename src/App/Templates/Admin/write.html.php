@@ -2,9 +2,31 @@
 
 <h2>Publier un article</h2>
 
-    <?php use App\Repositories\ErrorMessage;
+    <?php use App\Repositories\Session;
 
-    ErrorMessage::displayError(); ?>
+    Session::read('errorMsg');
+    Session::read('successMsg');
+
+    if(isset($_SESSION['errorMsg'])){
+        ?>
+        <div class="card red">
+            <div class="card-content white-text">
+                <?= $_SESSION['errorMsg'] . "<br/>"; ?>
+            </div>
+        </div>
+        <?php unset($_SESSION['errorMsg']);
+
+
+    }elseif (isset($_SESSION['successMsg'])){ ?>
+        <div class="card green">
+            <div class="card-content white-text">
+
+                <?= $_SESSION['successMsg'] . "<br/>"; ?>
+            </div>
+        </div>
+        <?php unset($_SESSION['successMsg']);
+
+    }?>
 
 <form method="post" enctype="multipart/form-data">
     <div class="row">

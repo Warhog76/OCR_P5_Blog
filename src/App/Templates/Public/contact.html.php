@@ -11,9 +11,29 @@
     <h3>Contact</h3>
     <hr><br>
 
-<?php use App\Repositories\ErrorMessage;
+<?php
+    \App\Repositories\Session::read('errorMsg');
+    \App\Repositories\Session::read('successMsg');
 
-ErrorMessage::displayError(); ?>
+if(isset($_SESSION['errorMsg'])){
+             ?>
+                <div class="card red">
+                        <div class="card-content white-text">
+                            <?= $_SESSION['errorMsg'] . "<br/>"; ?>
+                        </div>
+                </div>
+            <?php unset($_SESSION['errorMsg']);
+
+
+        }elseif (isset($_SESSION['successMsg'])){ ?>
+            <div class="card green">
+                <div class="card-content white-text">
+
+                    <?= $_SESSION['successMsg'] . "<br/>"; ?>
+                </div>
+            </div>
+            <?php unset($_SESSION['successMsg']);
+}?>
 
     <form method="post">
         <div class="row">

@@ -24,7 +24,7 @@ Class Session{
         $_SESSION[$key] = $value;
     }
 
-    public function read($key){
+    public static function read($key){
         return $_SESSION[$key] ?? null;
     }
 
