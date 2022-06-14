@@ -61,7 +61,7 @@ class Articles extends Controller
             $data['title'] = $title;
             $data['chapo'] = $chapo;
             $data['content'] = $content;
-            $data['public'] = isset($public) ? "1" : "0";
+            $data['posted'] = isset($public) ? "1" : "0";
 
             if (empty($data['title'])) :
                 $this->error->getError('Vous devez indiquez un titre', 'error');
