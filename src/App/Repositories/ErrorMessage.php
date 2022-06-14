@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 Class ErrorMessage{
 
-    public static function getError($text, $type): void
+    public function getError($text, $type): void
     {
 
         if($type == "error" ) {
