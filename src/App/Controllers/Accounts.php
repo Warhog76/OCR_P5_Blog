@@ -2,16 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Repositories\AccountRepo;
-use App\Repositories\ErrorMessage;
-use App\Repositories\Session;
+use App\Repositories\{AccountRepo, ErrorMessage, Session};
 use PHPMailer\PHPMailer\Exception;
 
 class Accounts extends Controller
 {
     public function __construct(
         private AccountRepo $accountRepo,
-        private Session $session,
         private ErrorMessage $error,
     ){}
 
@@ -24,7 +21,7 @@ class Accounts extends Controller
                 $user = $this->accountRepo->isUser($email);
 
                 if(password_verify($password, $user->getPassword())) {
-                    $this->session->write('auth', $user);
+                    Session::write('auth', $user);
 
                         header('Location: index.php?page=account');
 
@@ -90,7 +87,7 @@ class Accounts extends Controller
 
     public function modPassword($password,$passwordConfirm,$submit): void
     {
-        $userid = $this->session->read('auth');
+        $userid = Session::read('auth');
 
         if($submit !== null){
             if(empty($password) || $password != $passwordConfirm) {

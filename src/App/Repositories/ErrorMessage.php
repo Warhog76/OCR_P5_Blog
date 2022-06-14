@@ -2,7 +2,8 @@
 
 namespace App\Repositories;
 
-Class ErrorMessage{
+Class ErrorMessage
+{
 
     public function getError($text, $type): void
     {
