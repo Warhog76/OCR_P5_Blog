@@ -12,7 +12,7 @@
                 <h5 class="white-text horizontal">Links</h5>
                 <ul>
                     <li><a class="white-text" href="https://github.com/Warhog76">Github</a></li>
-                    <li><a class="white-text" href="www.linkedin.com/in/nicolas-leduey-505a09166">LinkedIn</a></li>
+                    <li><a class="white-text" href="https://www.linkedin.com/in/nicolas-leduey-505a09166">LinkedIn</a></li>
                 </ul>
             </div>
 
