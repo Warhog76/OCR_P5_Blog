@@ -40,7 +40,7 @@ class Routers
                 $submit = $post['submit'];
             }
             $this->postController->show($articleId);
-            $this->commentController->addComments($comment, $name, $email, $submit,$articleId);
+            $this->commentController->addComments($comment,$name,$email,$submit,$articleId);
 
         elseif ($get['page'] === 'contact') :
             $name = $email = $subject = $message = $submit = null;

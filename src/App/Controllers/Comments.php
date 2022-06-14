@@ -13,25 +13,26 @@ class Comments extends Controller
         private ErrorMessage $error,
     ){}
 
-    public function addComments($comment,$name,$email,$submit,$articleId): void
+    public function addComments($comment,$name,$email,$submit,$commentId): void
     {
 
-        if(isset($submit)) {
+        if (isset($submit)) {
 
-            if(empty($name)) :
+            if (empty($name)) {
                 $this->error->getError('Vous devez indiquez un nom', 'error');
-            elseif(empty($email)) :
+            } elseif (empty($email)) {
                 $this->error->getError('Vous devez indiquez un email', 'error');
-            elseif(empty($comment)) :
+            } elseif (empty($comment)) {
                 $this->error->getError('Votre message est manquant', 'error');
-            elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) :
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->error->getError("votre adresse email n'est pas valide", 'error');
-            else:
-                $this->commentRepo->addComment($name, $email, $comment, $articleId);
+            } else {
+                $this->commentRepo->addComment($name, $email, $comment, $commentId);
                 $this->error->getError("Merci pour votre commentaire", 'success');
-            endif;
+            }
         }
     }
+
 
     public function findUnseen(): void
     {
