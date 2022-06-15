@@ -84,7 +84,7 @@ class ArticleRepo extends Repository
     public function editArticle($article): bool|\PDOStatement
     {
 
-        $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), posted= :posted WHERE id = :id');
+        $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), writer= :writer, posted= :posted WHERE id = :id');
         $query->execute($article);
         $query->closeCursor();
         return $query;

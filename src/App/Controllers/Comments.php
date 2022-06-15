@@ -28,11 +28,13 @@ class Comments extends Controller
                 $this->error->getError("votre adresse email n'est pas valide", 'error');
             } else {
                 $this->commentRepo->addComment($name, $email, $comment, $commentId);
+                $subject = "Nouveau commentaire";
+                $message = "un nouveau commentaire a ete poste et necessite votre moderation. Voici le message : " .$comment. " ";
+                $this->mailer($email,$subject,$message);
                 $this->error->getError("Merci pour votre commentaire", 'success');
             }
         }
     }
-
 
     public function findUnseen(): void
     {

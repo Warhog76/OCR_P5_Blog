@@ -71,26 +71,36 @@ class Articles extends Controller
                 $this->error->getError('Vous devez indiquez un chapo', 'error');
             elseif(empty($data['content'])) :
                 $this->error->getError('Vous devez indiquez un texte', 'error');
-            /*elseif(!empty($files['image']['name'])) :
+            /*
+             * starting point for an upload picture system
+             *
+             * elseif(!empty($files['image']['name'])) :
                 $file = $files['image']['name'];
                 $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble de extensions autorisées
                 $extension = strrchr($file, '.');
 
                 if (!in_array($extension, $extensions)) {      //Permet de controler si l'extension de l'image est valide ou non
                     $this->error->getError("Cette image n'est pas valable", 'error');
-                };*/
+                };
+            *
+            */
+
             else:
                 $this->post->postArticle($data);
                 $this->error->getError("Article bien enregistré", 'success');
 
-                /*if (!empty($files['image']['name'])) {
+                /*
+                 * if (!empty($files['image']['name'])) {
                     $this->post->postImg($files['image']['tmp_name'], $extension);
-                }*/
+                }
+                *
+                * */
+
             endif;
         }
     }
 
-    public function modify($id,$submit,$title,$chapo,$content,$posted): void
+    public function modify($id,$submit,$title,$chapo,$content,$writer,$posted): void
     {
 
         if (!empty($id) && ctype_digit($id)) {
@@ -103,10 +113,12 @@ class Articles extends Controller
 
         if(isset($submit))
         {
+
             $data = [];
             $data['title'] = $title;
             $data['chapo'] = $chapo;
             $data['content'] = $content;
+            $data['writer'] = $writer;
             $data['posted'] = isset($posted) ? "1" : "0";
             $data['id'] = $articleId;
 
@@ -117,8 +129,8 @@ class Articles extends Controller
             elseif(empty($data['content'])) :
                 $this->error->getError('Vous devez indiquez un texte', 'error');
             else:
-                $this->post->editArticle($data);
                 $this->error->getError("Votre article a bien été enregistré", 'success');
+                $this->post->editArticle($data);
             endif;
         }
     }

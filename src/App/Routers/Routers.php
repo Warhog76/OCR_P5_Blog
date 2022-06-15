@@ -130,17 +130,17 @@ class Routers
 
         elseif ($get['page'] === 'post') :
             $id = $get['id'];
-            $title = $chapo = $content = $submit = $posted = null;
+            $title = $chapo = $content = $submit = $writer = $posted = null;
             if (isset($post['submit'])) {
                 $title = $post['title'];
                 $chapo = $post['chapo'];
                 $content = $post['content'];
+                $writer = $post['writer'];
                 $posted = $post['public'];
                 $submit = $post['submit'];
             }
 
-            $this->postController->modify($id, $submit, $title, $chapo, $content, $posted);
-
+            $this->postController->modify($id, $submit, $title, $chapo, $content, $writer, $posted);
 
         elseif ($get['page'] === 'write') :
             $title = $chapo = $content = $submit = $public = null;

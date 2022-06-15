@@ -40,12 +40,17 @@
 
             <div class="input-field col s12">
                 <input type="text" name="chapo" id="chapo" value="<?= $article->getChapo() ?>"/>
-                <label for="title">Chapo de l'article</label>
+                <label for="chapo">Chapo de l'article</label>
             </div>
 
             <div class="input-field col s12">
                 <textarea id="content" name="content" class="materialize-textarea"><?= $article->getContent() ?></textarea>
                 <label for="content">Contenu de l'article</label>
+            </div>
+
+            <div class="input-field col s12">
+                <input type="text" name="writer" id="writer" value="<?= $article->getWriter() ?>"/>
+                <label for="writer">Auteur de l'article</label>
             </div>
 
             <div class="col s6">
