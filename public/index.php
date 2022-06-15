@@ -36,8 +36,7 @@ $router = new Routers(
     $renderer,
     $session,
 
-    new ArticleRepo(),
 );
 
-$router->get($_GET,$_POST, $_FILES);
+$router->get($_GET,$_POST);
 

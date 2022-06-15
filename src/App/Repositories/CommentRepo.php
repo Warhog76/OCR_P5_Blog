@@ -16,7 +16,7 @@ class CommentRepo extends Repository
     public function findAll(int $commentId): array
     {
         $commentaires = [];
-        $query = $this->pdo->prepare("SELECT * FROM Comment WHERE article_id = :article_id ORDER BY date DESC");
+        $query = $this->pdo->prepare("SELECT * FROM Comment WHERE article_id = :article_id AND seen = '1' ORDER BY date DESC");
         $query->execute(['article_id' => $commentId]);
         while ($results = $query->fetch(PDO::FETCH_ASSOC)){
 

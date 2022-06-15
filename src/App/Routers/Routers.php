@@ -17,14 +17,13 @@ class Routers
         private Contact  $mailController,
         private Renderer $page,
         private Session $session,
-        private ArticleRepo $post,
     )
     {}
 
     /**
      * @throws Exception
      */
-    public function get($get, $post, $files): void
+    public function get($get, $post): void
     {
 
         if ($get['page'] === 'home' || $get['page'] === null) :
@@ -144,7 +143,7 @@ class Routers
 
 
         elseif ($get['page'] === 'write') :
-            $title = $chapo = $content = $submit = $files = $public = null;
+            $title = $chapo = $content = $submit = $public = null;
             if (isset($post['submit'])) {
                 $title = $post['title'];
                 $chapo = $post['chapo'];
@@ -152,7 +151,7 @@ class Routers
                 $public = $post['public'];
                 $submit = $post['submit'];
             }
-            $this->postController->post($submit, $title, $chapo, $content, $public,$files);
+            $this->postController->post($submit, $title, $chapo, $content, $public);
             $this->page->renderBack('write');
 
         elseif ($get['page'] === 'logout') :

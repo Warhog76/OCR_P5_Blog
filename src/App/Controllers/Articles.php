@@ -54,7 +54,7 @@ class Articles extends Controller
 
     }
 
-    public function post($submit,$title,$chapo,$content,$public,$files): void
+    public function post($submit,$title,$chapo,$content,$public): void
     {
 
         if(isset($submit)) {
@@ -71,21 +71,21 @@ class Articles extends Controller
                 $this->error->getError('Vous devez indiquez un chapo', 'error');
             elseif(empty($data['content'])) :
                 $this->error->getError('Vous devez indiquez un texte', 'error');
-            elseif(!empty($files['image']['name'])) :
+            /*elseif(!empty($files['image']['name'])) :
                 $file = $files['image']['name'];
                 $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble de extensions autorisées
                 $extension = strrchr($file, '.');
 
                 if (!in_array($extension, $extensions)) {      //Permet de controler si l'extension de l'image est valide ou non
                     $this->error->getError("Cette image n'est pas valable", 'error');
-                };
+                };*/
             else:
                 $this->post->postArticle($data);
                 $this->error->getError("Article bien enregistré", 'success');
 
-                if (!empty($files['image']['name'])) {
+                /*if (!empty($files['image']['name'])) {
                     $this->post->postImg($files['image']['tmp_name'], $extension);
-                }
+                }*/
             endif;
         }
     }

@@ -42,7 +42,7 @@
             <textarea name="content" id="content" class="materialize-textarea"></textarea>
             <label for="content">Contenu de l'article</label>
         </div>
-        <div class="col s12">
+        <!-- <div class="col s12">
             <div class="file-field input-field">
                 <div class="btn">
                     <span>Image de l'article</span>
@@ -51,7 +51,7 @@
                 <div class="file-path-wrapper">
                     <input class="file-path validate col s10" type="text">
                 </div>
-            </div>
+            </div -->
         </div>
 
         <div class="col s6">

@@ -65,7 +65,7 @@ class ArticleRepo extends Repository
         return $query;
     }
 
-    public function postImg($tmp_name, $extension){
+    /*public function postImg($tmp_name, $extension){
 
         $imageId=$this->pdo->lastInsertId();
         $image = [
@@ -78,7 +78,7 @@ class ArticleRepo extends Repository
         $query->execute($image);
         move_uploaded_file($tmp_name,"../public/assets/images/posts/".$imageId.$extension);
         header("Location:index.php?page=article&id=".$imageId);
-    }
+    }*/
 
 
     public function editArticle($article): bool|\PDOStatement
