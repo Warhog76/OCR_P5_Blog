@@ -37,7 +37,14 @@
     <?php endif ?>
 </div>
 
-<?php if($session->read('user_function') == 'User'){ ?>
+<?php if($session->read('user_function') == '') { ?>
+    <div class="container">
+    <hr>
+    <h5>Vous devez vous connecter pour laisser un commentaire.</h5>
+    </div>
+
+<?php
+}elseif($session->read('user_function') == 'User'){ ?>
 
 <div class="container">
     <hr>

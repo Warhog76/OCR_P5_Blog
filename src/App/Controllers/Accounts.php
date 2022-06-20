@@ -120,7 +120,7 @@ class Accounts extends Controller
 
                     $this->accountRepo->newPassword($reset_token,$id);
 
-                $subject = 'Réinitialisation de votre mot de passe';
+                $subject = 'Reinitialisation de votre mot de passe';
                 $message = "Afin de reinitialiser votre mot de passe, merci de cliquer sur ce lien suivant :<br><br> 
                             http://localhost:8888/OCR_P5_Blog/public/index.php?page=reset&id=" .$id. "&token=" .$reset_token. " ";
 
@@ -138,18 +138,16 @@ class Accounts extends Controller
 
         if(isset($userId) && isset($token)){
 
-            $user = $this->accountRepo->checkUser($userId,$token);
-
-            if($user){
+            if($this->accountRepo->checkUser($userId,$token)){
 
                 if(!empty($password) || $password == $passwordConfirm) {
 
                     $this->accountRepo->reinitPassword($password,$userId);
-                    header('location: index.php?page=account');
+                    header('Location: index.php?page=login');
                 }
             }else{
                 $this->error->getError("ce token n'est plus valide",'error');
-                header('Location: index.php?page=login');
+                header('Location: index.php?page=home');
             }
 
         }else{

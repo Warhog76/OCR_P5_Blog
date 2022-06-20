@@ -168,16 +168,6 @@ Class Account
         return $this->token;
     }
 
-   /**
-     * @param string $token
-     * @return Account
-     */
-    public function setToken(string $token): Account
-    {
-        $this->token = $token;
-        return $this;
-    }
-
     /**
      * @return string
      */

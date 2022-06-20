@@ -56,20 +56,6 @@ class Routers
             $this->mailController->sendMail($name, $email, $subject, $message, $submit);
             $this->page->render('contact');
 
-        elseif ($get['page'] === 'confirm') :
-            $userId = $get['id'];
-            $token = $get['token'];
-            $this->accountController->confirm($userId, $token);
-
-        elseif ($get['page'] === 'remember') :
-            $email = $submit = null;
-            if (isset($post['submit'])) {
-                $email = $post['email'];
-                $submit = $post['submit'];
-            }
-            $this->accountController->remember($email, $submit);
-            $this->page->renderLog('remember');
-
         elseif ($get['page'] === 'register') :
             $username = $password = $passwordConfirm = $email = $submit = null;
             if (isset($post['submit'])) {
@@ -81,6 +67,11 @@ class Routers
             }
             $this->accountController->register($username, $password, $passwordConfirm, $email, $submit);
             $this->page->renderLog('register');
+
+        elseif ($get['page'] === 'confirm') :
+            $userId = $get['id'];
+            $token = $get['token'];
+            $this->accountController->confirm($userId, $token);
 
         elseif ($get['page'] === 'login') :
             $password = $email = $submit = null;
@@ -102,6 +93,15 @@ class Routers
             }
             $this->accountController->modPassword($password, $passwordConfirm, $submit);
             $this->page->render('account');
+
+        elseif ($get['page'] === 'remember') :
+            $email = $submit = null;
+            if (isset($post['submit'])) {
+                $email = $post['email'];
+                $submit = $post['submit'];
+            }
+            $this->accountController->remember($email, $submit);
+            $this->page->renderLog('remember');
 
         elseif ($get['page'] === 'reset') :
             $userId = $get['id'];
