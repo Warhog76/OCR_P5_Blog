@@ -100,11 +100,11 @@ class Articles extends Controller
         }
     }
 
-    public function modify($id,$submit,$title,$chapo,$content,$writer,$posted): void
+    public function modify($id_article,$submit,$title,$chapo,$content,$writer,$posted): void
     {
 
-        if (!empty($id) && ctype_digit($id)) {
-            $articleId = $id;
+        if (!empty($id_article) && ctype_digit($id_article)) {
+            $articleId = $id_article;
         }
 
         $article = $this->post->findOne($articleId);

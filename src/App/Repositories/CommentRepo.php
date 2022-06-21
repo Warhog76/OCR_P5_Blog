@@ -29,7 +29,7 @@ class CommentRepo extends Repository
 
     public function addComment($name,$email,$comment,$commentId){
 
-        $c = array(
+        $comments = array(
             'name'        => $name,
             'email'       => $email,
             'comment'     => $comment,
@@ -39,7 +39,7 @@ class CommentRepo extends Repository
         $sql = "INSERT INTO Comment (comment, name, email, date, article_id)
           VALUES (:comment,:name, :email, NOW(), :article_id)";
         $addComment = $this->pdo->prepare($sql);
-        $addComment->execute($c);
+        $addComment->execute($comments);
 
     }
 

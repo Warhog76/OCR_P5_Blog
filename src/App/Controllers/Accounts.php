@@ -27,7 +27,6 @@ class Accounts extends Controller
                    $this->session->write('user_username', $user->getUsername());
 
                         header('Location: index.php?page=account');
-
                 }else{
                     $this->error->getError("Identifiant ou mot de passe incorrect", 'error');
                 }
@@ -115,14 +114,14 @@ class Accounts extends Controller
                 $user = $this->accountRepo->lost($email);
 
                 if($user){
-                    $id = $user->getId();
+                    $id_user = $user->getId();
                     $reset_token = $this->str_random(60);
 
-                    $this->accountRepo->newPassword($reset_token,$id);
+                    $this->accountRepo->newPassword($reset_token,$id_user);
 
                 $subject = 'Reinitialisation de votre mot de passe';
                 $message = "Afin de reinitialiser votre mot de passe, merci de cliquer sur ce lien suivant :<br><br> 
-                            http://localhost:8888/OCR_P5_Blog/public/index.php?page=reset&id=" .$id. "&token=" .$reset_token. " ";
+                            http://localhost:8888/OCR_P5_Blog/public/index.php?page=reset&id=" .$id_user. "&token=" .$reset_token. " ";
 
                 $this->mailer($email,$subject,$message);
                 header('Location: index.php?page=login');
