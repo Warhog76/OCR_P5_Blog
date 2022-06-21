@@ -15,11 +15,13 @@ class Accounts extends Controller
 
     public function login($password,$email,$submit,$csrf_token): void
     {
+        if($submit !== null){
 
-        if ($csrf_token != ($this->session->get('csrf_token'))){
-            // Reset token
-            unset($_SESSION["csrf_token"]);
-        }elseif($submit !== null){
+            if ($csrf_token != ($this->session->get('csrf_token'))){
+
+                $this->error->getError("ssd", 'error');
+                return;
+            }
 
             if (!empty($email) && !empty($password)) {
                 $user = $this->accountRepo->isUser($email);
@@ -42,7 +44,13 @@ class Accounts extends Controller
      */
     public function register($username, $password, $passwordConfirm, $email, $csrf_token, $submit): void
     {
-        if ($submit !== null) {
+        if($submit !== null){
+
+            if ($csrf_token != ($this->session->get('csrf_token'))){
+
+                $this->error->getError("ssd", 'error');
+                return;
+            }
 
             if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
                 $this->error->getError('Votre Username est incorrect','error');
@@ -94,7 +102,14 @@ class Accounts extends Controller
     {
         $userid = $this->session->read('user_id');
 
-        if ($submit !== null) {
+        if($submit !== null){
+
+            if ($csrf_token != ($this->session->get('csrf_token'))){
+
+                $this->error->getError("ssd", 'error');
+                return;
+            }
+
             if(empty($password) || $password != $passwordConfirm) {
                 $this->error->getError("Les mots de passes ne correspondent pas",'error');
 
@@ -111,7 +126,13 @@ class Accounts extends Controller
      */
     public function remember($email, $submit,$csrf_token)
     {
-        if ($submit !== null) {
+        if($submit !== null){
+
+            if ($csrf_token != ($this->session->get('csrf_token'))){
+
+                $this->error->getError("ssd", 'error');
+                return;
+            }
 
             if(!empty($email)) {
                 $user = $this->accountRepo->lost($email);
