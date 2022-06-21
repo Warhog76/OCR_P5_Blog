@@ -34,38 +34,41 @@ class Routers
 
         elseif ($get['page'] === 'article') :
             $articleId = $get['id'];
-            $comment = $name = $email = $submit = null;
+            $comment = $name = $email = $csrf_token = $submit = null;
             if (isset($post['submit'])) {
                 $comment = $post['comment'];
                 $name = $post['name'];
                 $email = $post['email'];
                 $submit = $post['submit'];
+                $csrf_token = $post['csrf_token'];
             }
             $this->postController->show($articleId);
-            $this->commentController->addComments($comment,$name,$email,$submit,$articleId);
+            $this->commentController->addComments($comment,$name,$email,$submit,$csrf_token,$articleId);
 
         elseif ($get['page'] === 'contact') :
-            $name = $email = $subject = $message = $submit = null;
+            $name = $email = $subject = $message = $submit = $csrf_token= null;
             if (isset($post['submit'])) {
                 $name = $post['name'];
                 $email = $post['email'];
                 $subject = $post['subject'];
                 $message = $post['message'];
                 $submit = $post['submit'];
+                $csrf_token = $post['csrf_token'];
             }
-            $this->mailController->sendMail($name, $email, $subject, $message, $submit);
+            $this->mailController->sendMail($name, $email, $subject, $message, $csrf_token, $submit);
             $this->page->render('contact');
 
         elseif ($get['page'] === 'register') :
-            $username = $password = $passwordConfirm = $email = $submit = null;
+            $username = $password = $passwordConfirm = $email = $csrf_token = $submit = null;
             if (isset($post['submit'])) {
                 $username = $post['username'];
                 $password = $post['password'];
                 $passwordConfirm = $post['password_confirm'];
                 $email = $post['email'];
+                $csrf_token = $post['csrf_token'];
                 $submit = $post['submit'];
             }
-            $this->accountController->register($username, $password, $passwordConfirm, $email, $submit);
+            $this->accountController->register($username, $password, $passwordConfirm, $email, $csrf_token, $submit);
             $this->page->renderLog('register');
 
         elseif ($get['page'] === 'confirm') :
@@ -74,14 +77,15 @@ class Routers
             $this->accountController->confirm($userId, $token);
 
         elseif ($get['page'] === 'login') :
-            $password = $email = $submit = null;
+            $password = $email = $submit = $csrf_token = null;
             if (isset($post['submit'])) {
                 $password = $post['password'];
                 $email = $post['email'];
+                $csrf_token = $post['csrf_token'];
                 $submit = $post['submit'];
             }
 
-            $this->accountController->login($password, $email, $submit);
+            $this->accountController->login($password, $email,$csrf_token, $submit);
             $this->page->renderLog('login');
 
         elseif ($get['page'] === 'account') :
@@ -104,6 +108,9 @@ class Routers
             $this->page->renderLog('remember');
 
         elseif ($get['page'] === 'reset') :
+
+            $this->page->renderLog('reset');
+
             $userId = $get['id'];
             $token = $get['token'];
             $password = $passwordConfirm = null;
@@ -111,8 +118,9 @@ class Routers
                 $password = $post['password'];
                 $passwordConfirm = $post['password_confirm'];
             }
+
             $this->accountController->reset($userId, $token, $password, $passwordConfirm);
-            $this->page->renderLog('reset');
+
 
         elseif ($get['page'] === 'dashboard'):
             $this->commentController->findUnseen();

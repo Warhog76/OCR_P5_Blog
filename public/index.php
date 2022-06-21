@@ -29,9 +29,11 @@ $router = new Routers(
         $comment,
         $renderer,
         $errorMessage,
+        $session,
     ),
     new Contact(
         $errorMessage,
+        $session,
     ),
     $renderer,
     $session,

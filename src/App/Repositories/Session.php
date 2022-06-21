@@ -17,6 +17,11 @@ Class Session{
     private function __construct()
     {
         session_start();
+
+        // Create a new CSRF token.
+        if (! isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = base64_encode(openssl_random_pseudo_bytes(64));
+        }
     }
 
     public function write($key, $value): void

@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
-use App\Repositories\ErrorMessage;
+use App\Repositories\{ErrorMessage, Session};
 use PHPMailer\PHPMailer\Exception;
 
 class Contact extends Controller
@@ -12,14 +12,15 @@ class Contact extends Controller
 
     public function __construct(
         private ErrorMessage $error,
+        private Session $session,
     ){}
     /**
      * @throws Exception
      */
-    public function sendMail($name,$email,$subject,$message,$submit): void
+    public function sendMail($name,$email,$subject,$message,$csrf_token,$submit): void
     {
         // si le bouton "Envoyer" est cliqué
-        if (isset($submit)) {
+        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && isset($submit)) {
 
             if (empty($name)) :
                 $this->error->getError('Vous devez indiquez un nom','error');

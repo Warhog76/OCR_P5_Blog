@@ -13,10 +13,10 @@ class Accounts extends Controller
         private Session $session,
     ){}
 
-    public function login($password,$email,$submit): void
+    public function login($password,$email,$csrf_token,$submit): void
     {
 
-        if($submit !== null){
+        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && isset($submit)) {
 
             if(!empty($email) && !empty($password)) {
                 $user = $this->accountRepo->isUser($email);
@@ -38,9 +38,9 @@ class Accounts extends Controller
     /**
      * @throws Exception
      */
-    public function register($username, $password, $passwordConfirm, $email, $submit): void
+    public function register($username, $password, $passwordConfirm, $email, $csrf_token, $submit): void
     {
-        if ($submit !== null){
+        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && isset($submit)) {
 
             if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
                 $this->error->getError('Votre Username est incorrect','error');
@@ -143,15 +143,13 @@ class Accounts extends Controller
                 if(!empty($password) || $password == $passwordConfirm) {
 
                     $this->accountRepo->reinitPassword($password,$userId);
-                    header('Location: index.php?page=login');
+                    $this->error->getError("Votre mot de passe a bien été changé",'success');
                 }
             }else{
                 $this->error->getError("ce token n'est plus valide",'error');
                 header('Location: index.php?page=home');
             }
 
-        }else{
-            header('location : index.php?page=login');
         }
     }
 }

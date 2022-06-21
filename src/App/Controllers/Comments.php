@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Repositories\{CommentRepo,ErrorMessage};
+use App\Repositories\{CommentRepo, ErrorMessage, Session};
 
 class Comments extends Controller
 {
@@ -11,12 +11,13 @@ class Comments extends Controller
         private CommentRepo $commentRepo,
         private Renderer    $page,
         private ErrorMessage $error,
+        private Session $session,
     ){}
 
-    public function addComments($comment,$name,$email,$submit,$commentId): void
+    public function addComments($comment,$name,$email,$csrf_token,$submit,$commentId): void
     {
 
-        if (isset($submit)) {
+        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && isset($submit)) {
 
             if (empty($name)) {
                 $this->error->getError('Vous devez indiquez un nom', 'error');
