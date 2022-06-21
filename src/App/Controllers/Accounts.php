@@ -13,21 +13,24 @@ class Accounts extends Controller
         private Session $session,
     ){}
 
-    public function login($password,$email,$submit): void
+    public function login($password,$email,$submit,$csrf_token): void
     {
 
-        if($submit !== null){
+        if ($csrf_token != ($this->session->get('csrf_token'))){
+            // Reset token
+            unset($_SESSION["csrf_token"]);
+        }elseif($submit !== null){
 
-            if(!empty($email) && !empty($password)) {
+            if (!empty($email) && !empty($password)) {
                 $user = $this->accountRepo->isUser($email);
 
-                if(password_verify($password, $user->getPassword())) {
-                   $this->session->write('user_function', $user->getFunction());
-                   $this->session->write('user_id', $user->getId());
-                   $this->session->write('user_username', $user->getUsername());
+                if (password_verify($password, $user->getPassword())) {
+                    $this->session->write('user_function', $user->getFunction());
+                    $this->session->write('user_id', $user->getId());
+                    $this->session->write('user_username', $user->getUsername());
 
-                        header('Location: index.php?page=account');
-                }else{
+                    header('Location: index.php?page=account');
+                } else {
                     $this->error->getError("Identifiant ou mot de passe incorrect", 'error');
                 }
             }
@@ -37,9 +40,9 @@ class Accounts extends Controller
     /**
      * @throws Exception
      */
-    public function register($username, $password, $passwordConfirm, $email, $submit): void
+    public function register($username, $password, $passwordConfirm, $email, $csrf_token, $submit): void
     {
-        if ($submit !== null){
+        if ($submit !== null) {
 
             if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
                 $this->error->getError('Votre Username est incorrect','error');
@@ -87,11 +90,11 @@ class Accounts extends Controller
 
     }
 
-    public function modPassword($password,$passwordConfirm,$submit): void
+    public function modPassword($password,$passwordConfirm,$csrf_token,$submit): void
     {
         $userid = $this->session->read('user_id');
 
-        if($submit !== null){
+        if ($submit !== null) {
             if(empty($password) || $password != $passwordConfirm) {
                 $this->error->getError("Les mots de passes ne correspondent pas",'error');
 
@@ -106,9 +109,9 @@ class Accounts extends Controller
     /**
      * @throws Exception
      */
-    public function remember($email, $submit)
+    public function remember($email, $submit,$csrf_token)
     {
-        if($submit !== null){
+        if ($submit !== null) {
 
             if(!empty($email)) {
                 $user = $this->accountRepo->lost($email);

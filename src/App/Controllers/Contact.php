@@ -12,7 +12,7 @@ class Contact extends Controller
 
     public function __construct(
         private ErrorMessage $error,
-        private Session $session,
+        /*private Session $session,*/
     ){}
     /**
      * @throws Exception
@@ -20,7 +20,7 @@ class Contact extends Controller
     public function sendMail($name,$email,$subject,$message,$csrf_token,$submit): void
     {
         // si le bouton "Envoyer" est cliqué
-        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && isset($submit)) {
+        if ($submit !== null) {
 
             if (empty($name)) :
                 $this->error->getError('Vous devez indiquez un nom','error');

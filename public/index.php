@@ -16,7 +16,7 @@ $router = new Routers(
     new Accounts(
         new AccountRepo(),
         $errorMessage,
-        $session
+        $session,
     ),
     new Articles(
         $article,

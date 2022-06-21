@@ -18,13 +18,12 @@ Class Session{
     {
         session_start();
 
-        // Create a new CSRF token.
-        if (! isset($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = base64_encode(openssl_random_pseudo_bytes(64));
-        }
+        $token = base64_encode(openssl_random_pseudo_bytes(64));
+        self::write('csrf_token', $token);
+
     }
 
-    public function write($key, $value): void
+    public static function write($key, $value): void
     {
         $_SESSION[$key] = $value;
     }
@@ -33,11 +32,12 @@ Class Session{
         return $_SESSION[$key] ?? null;
     }
 
-    public function get($key){
+    public static function get($key){
         return $_SESSION[$key];
     }
 
-    public function delete($key){
+    public function delete($key): void
+    {
         unset($_SESSION[$key]);
     }
 
@@ -47,5 +47,4 @@ Class Session{
             session_destroy();
         }
     }
-
 }
