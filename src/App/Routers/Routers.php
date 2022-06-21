@@ -20,7 +20,6 @@ class Routers
     )
     {}
 
-
     /**
      * @throws Exception
      */
@@ -35,21 +34,20 @@ class Routers
 
         elseif ($get['page'] === 'article') :
             $articleId = $get['id'];
-            $comment = $name = $email = $submit = null;
-            $csrf_token = $post['csrf_token'];
+            $comment = $name = $email = $submit = $csrf_token = null;
 
             if (isset($post['submit'])) {
                 $comment = $post['comment'];
                 $name = $post['name'];
                 $email = $post['email'];
                 $submit = $post['submit'];
+                $csrf_token = $post['csrf_token'];
             }
             $this->postController->show($articleId);
             $this->commentController->addComments($comment,$name,$email,$submit,$csrf_token,$articleId);
 
         elseif ($get['page'] === 'contact') :
-            $name = $email = $subject = $message = $submit = null;
-            $csrf_token = $post['csrf_token'];
+            $name = $email = $subject = $message = $csrf_token = $submit = null;
 
             if (isset($post['submit'])) {
                 $name = $post['name'];
@@ -57,13 +55,14 @@ class Routers
                 $subject = $post['subject'];
                 $message = $post['message'];
                 $submit = $post['submit'];
+                $csrf_token = $post['csrf_token'];
             }
+
             $this->mailController->sendMail($name, $email, $subject, $message, $csrf_token, $submit);
             $this->page->render('contact');
 
         elseif ($get['page'] === 'register') :
-            $username = $password = $passwordConfirm = $email = $submit = null;
-            $csrf_token = $post['csrf_token'];
+            $username = $password = $passwordConfirm = $email = $csrf_token = $submit = null;
 
             if (isset($post['submit'])) {
                 $username = $post['username'];
@@ -71,7 +70,9 @@ class Routers
                 $passwordConfirm = $post['password_confirm'];
                 $email = $post['email'];
                 $submit = $post['submit'];
+                $csrf_token = $post['csrf_token'];
             }
+
             $this->accountController->register($username, $password, $passwordConfirm, $email, $csrf_token, $submit);
             $this->page->renderLog('register');
 
@@ -81,38 +82,37 @@ class Routers
             $this->accountController->confirm($userId, $token);
 
         elseif ($get['page'] === 'login') :
-            $password = $email = $submit = null;
-            $csrf_token = $post['csrf_token'];
+            $password = $email = $submit = $csrf_token = null;
 
             if (isset($post['submit'])) {
                 $password = $post['password'];
                 $email = $post['email'];
                 $submit = $post['submit'];
-
+                $csrf_token = $post['csrf_token'];
             }
-
-            $this->accountController->login($password, $email, $csrf_token, $submit);
             $this->page->renderLog('login');
+            $this->accountController->login($password, $email, $csrf_token, $submit);
+
 
         elseif ($get['page'] === 'account') :
-            $password = $passwordConfirm = $submit = null;
-            $csrf_token = $post['csrf_token'];
+            $password = $passwordConfirm = $submit = $csrf_token = null;
 
             if (isset($post['submit'])) {
                 $password = $post['password'];
                 $passwordConfirm = $post['password_confirm'];
                 $submit = $post['submit'];
+                $csrf_token = $post['csrf_token'];
             }
             $this->accountController->modPassword($password, $passwordConfirm, $csrf_token, $submit);
             $this->page->render('account');
 
         elseif ($get['page'] === 'remember') :
-            $email = $submit = null;
-            $csrf_token = $post['csrf_token'];
+            $email = $submit = $csrf_token = null;
 
             if (isset($post['submit'])) {
                 $email = $post['email'];
                 $submit = $post['submit'];
+                $csrf_token = $post['csrf_token'];
             }
             $this->accountController->remember($email, $csrf_token, $submit);
             $this->page->renderLog('remember');
