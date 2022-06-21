@@ -95,13 +95,13 @@ class Routers
 
 
         elseif ($get['page'] === 'account') :
-            $password = $passwordConfirm = $submit = null;
-            $csrf_token = $post['csrf_token'];
+            $password = $passwordConfirm = $submit = $csrf_token = null;
 
             if (isset($post['submit'])) {
                 $password = $post['password'];
                 $passwordConfirm = $post['password_confirm'];
                 $submit = $post['submit'];
+                $csrf_token = $post['csrf_token'];
             }
             $this->accountController->modPassword($password, $passwordConfirm, $csrf_token, $submit);
             $this->page->render('account');

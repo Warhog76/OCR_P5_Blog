@@ -18,12 +18,13 @@ Class Session{
     {
         session_start();
 
-        $token = base64_encode(openssl_random_pseudo_bytes(64));
-        self::write('csrf_token', $token);
-
+        if($this->read('csrf_token')) {
+            $token = base64_encode(openssl_random_pseudo_bytes(64));
+            $this->write('csrf_token', $token);
+        }
     }
 
-    public static function write($key, $value): void
+    public function write($key, $value): void
     {
         $_SESSION[$key] = $value;
     }
@@ -32,8 +33,8 @@ Class Session{
         return $_SESSION[$key] ?? null;
     }
 
-    public static function get($key){
-        return $_SESSION[$key];
+    public function get($key){
+        return $_SESSION[$key] ?? null;
     }
 
     public function delete($key): void
