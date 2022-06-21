@@ -2,56 +2,60 @@
 
 namespace App\Controllers;
 
-use App\Repositories\CommentRepo;
-use phpDocumentor\Reflection\Types\Null_;
+use App\Repositories\{CommentRepo, ErrorMessage, Session};
 
 class Comments extends Controller
 {
 
     public function __construct(
-        private CommentRepo $comment,
-        private Renderer $page,
+        private CommentRepo $commentRepo,
+        private Renderer    $page,
+        private ErrorMessage $error,
+        /*private Session $session,*/
     ){}
 
-    public function addComments($comment,$name,$email,$submit): void
+    public function addComments($comment,$name,$email,$csrf_token,$submit,$commentId): void
     {
 
-        if ($submit !==  null) {
+        if ($submit !== null) {
 
-            $errors = [];
-
-            if (empty($name) || empty($email) || empty($comment)) {
-                $errors['empty'] = "Tous les champs n'ont pas été remplis";
+            if (empty($name)) {
+                $this->error->getError('Vous devez indiquez un nom', 'error');
+            } elseif (empty($email)) {
+                $this->error->getError('Vous devez indiquez un email', 'error');
+            } elseif (empty($comment)) {
+                $this->error->getError('Votre message est manquant', 'error');
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $this->error->getError("votre adresse email n'est pas valide", 'error');
             } else {
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $errors['email'] = "L'adresse email n'est pas valide";
-                }
-            }
-            if (!empty($errors)) {
-
-                echo '<div class="card red">
-                <div class="card-content white-text">';
-
-                foreach ($errors as $error) {
-                    echo $error . "<br/>";
-                }
-
-                echo '</div>
-            </div>';
-
-
-            } else {
-                $this->comment->addComment($name, $email, $comment);
+                $this->commentRepo->addComment($name, $email, $comment, $commentId);
+                $subject = "Nouveau commentaire";
+                $message = "un nouveau commentaire a ete poste et necessite votre moderation. Voici le message : " .$comment. " ";
+                $this->mailer($email,$subject,$message);
+                $this->error->getError("Merci pour votre commentaire", 'success');
             }
         }
     }
 
     public function findUnseen(): void
     {
-        $commentaires = $this->comment->findUnseen();
+        $commentaires = $this->commentRepo->findUnseen();
 
         $this->page->renderBack('dashboard', compact('commentaires'));
 
     }
 
+    public function validateComment($commentId)
+    {
+        $this->commentRepo->validComment($commentId);
+        header('Location: index.php?page=dashboard');
+
+    }
+
+    public function deleteComment($commentId)
+    {
+        $this->commentRepo->delComment($commentId);
+        header('Location: index.php?page=dashboard');
+
+    }
 }

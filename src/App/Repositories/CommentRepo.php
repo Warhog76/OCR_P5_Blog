@@ -13,11 +13,11 @@ class CommentRepo extends Repository
      * findAllComments
      *
      */
-    public function findAll(int $id): array
+    public function findAll(int $commentId): array
     {
         $commentaires = [];
-        $query = $this->pdo->prepare("SELECT * FROM Comment WHERE article_id = :article_id ORDER BY date DESC");
-        $query->execute(['article_id' => $id]);
+        $query = $this->pdo->prepare("SELECT * FROM Comment WHERE article_id = :article_id AND seen = '1' ORDER BY date DESC");
+        $query->execute(['article_id' => $commentId]);
         while ($results = $query->fetch(PDO::FETCH_ASSOC)){
 
             $commentaires [] = new Comment($results);
@@ -27,20 +27,31 @@ class CommentRepo extends Repository
         return $commentaires;
     }
 
-    public function addComment($name,$email,$comment){
+    public function addComment($name,$email,$comment,$commentId){
 
-        $c = array(
+        $comments = array(
             'name'        => $name,
             'email'       => $email,
             'comment'     => $comment,
-            'article_id'  => filter_input(INPUT_GET, 'id')
+            'article_id'  => $commentId
         );
 
         $sql = "INSERT INTO Comment (comment, name, email, date, article_id)
           VALUES (:comment,:name, :email, NOW(), :article_id)";
         $addComment = $this->pdo->prepare($sql);
-        $addComment->execute($c);
+        $addComment->execute($comments);
 
+    }
+
+    public function delComment($commentId): void
+    {
+        $this->pdo->exec("DELETE FROM Comment WHERE id= $commentId");
+    }
+
+    public function validComment($commentId): void
+    {
+
+        $this->pdo->exec("UPDATE Comment SET seen = '1' WHERE id= $commentId");
     }
 
     public function findUnseen(): array

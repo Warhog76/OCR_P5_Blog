@@ -2,40 +2,36 @@
 
 namespace App\Controllers;
 
-use App\Repositories\AccountRepo;
-use App\Repositories\Session;
+use App\Repositories\{AccountRepo, ErrorMessage, Session};
 use PHPMailer\PHPMailer\Exception;
 
 class Accounts extends Controller
 {
     public function __construct(
         private AccountRepo $accountRepo,
+        private ErrorMessage $error,
         private Session $session,
     ){}
 
-    public function login($password,$email,$submit): void
+    public function login($password,$email,$submit,$csrf_token): void
     {
 
-        if($submit !== null){
+        if ($csrf_token != ($this->session->get('csrf_token'))){
+            // Reset token
+            unset($_SESSION["csrf_token"]);
+        }elseif($submit !== null){
 
-            if(!empty($email) && !empty($password)) {
+            if (!empty($email) && !empty($password)) {
                 $user = $this->accountRepo->isUser($email);
 
-                if(password_verify($password, $user->getPassword())) {
-                    $this->session->write('auth', $user->getFunction());
+                if (password_verify($password, $user->getPassword())) {
+                    $this->session->write('user_function', $user->getFunction());
+                    $this->session->write('user_id', $user->getId());
+                    $this->session->write('user_username', $user->getUsername());
 
-                        header('Location: index.php?page=account');
-
-                }else{
-                    ?>
-                        <div class="container">
-                            <div class="card red">
-                                <div class="card-content white-text">
-                                    "Identifiant ou mot de passe incorrect"
-                                </div>
-                            </div>
-                        </div>
-                    <?php
+                    header('Location: index.php?page=account');
+                } else {
+                    $this->error->getError("Identifiant ou mot de passe incorrect", 'error');
                 }
             }
         }
@@ -44,39 +40,23 @@ class Accounts extends Controller
     /**
      * @throws Exception
      */
-    public function register($username, $password, $passwordConfirm, $email, $submit): void
+    public function register($username, $password, $passwordConfirm, $email, $csrf_token, $submit): void
     {
-        if ($submit !== null){
-
-            $errors = [];
+        if ($submit !== null) {
 
             if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
-                $errors['username'] = "Votre pseudo est invalide";
+                $this->error->getError('Votre Username est incorrect','error');
             }else{
                 $user = $this->accountRepo->isRegister($username);
                 if($user){
-                    $errors['exist'] = "Ce pseudo existe déjà";
+                    $this->error->getError('Ce pseudo existe déjà','error');
                 }
             }
+
             if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors['email'] = "Votre email est invalide";
-            }
-            if(empty($password) || $password != $passwordConfirm) {
-                $errors['mdp'] = "Vous devez rentrer un mot de passe valide";
-            }
-
-            if(!empty($errors)) {
-
-                echo '<div class="container">
-                            <div class="card red">
-                                <div class="card-content white-text">';
-
-                                    foreach ($errors as $error) {
-                                    echo $error . "<br/>";
-                                    }
-                echo '</div></div>
-            </div>';
-
+                $this->error->getError("votre adresse email n'est pas valide",'error');
+            }elseif(empty($password) || $password != $passwordConfirm) {
+                $this->error->getError("Vous devez rentrer un mot de passe valide",'error');
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $users = $this->accountRepo->registerUser($username,$password,$email);
@@ -104,31 +84,24 @@ class Accounts extends Controller
             $this->accountRepo->validateUser($userId);
             header('Location: index.php?page=home');
         }else{
-            ?>
-            <div class="container">
-                <div class="card red">
-                    <div class="card-content white-text">
-                        "Ce token n'est plus valide"
-                    </div>
-                </div>
-            </div>
-            <?php
+            $this->error->getError("ce token n'est plus valide",'error');
             header('Location: index.php?page=login');
         }
 
     }
 
-    public function modPassword($password,$passwordConfirm,$submit): void
+    public function modPassword($password,$passwordConfirm,$csrf_token,$submit): void
     {
-        $userid = $this->session->read('auth');
+        $userid = $this->session->read('user_id');
 
-        if($submit !== null){
+        if ($submit !== null) {
             if(empty($password) || $password != $passwordConfirm) {
-                "Les mots de passes ne correspondent pas";
+                $this->error->getError("Les mots de passes ne correspondent pas",'error');
+
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $this->accountRepo->modPassword($password,$userid);
-                'Votre nouveau mot de passe a bien été changé';
+                $this->error->getError("Votre nouveau mot de passe a bien été changé",'success');
             }
         }
     }
@@ -136,71 +109,49 @@ class Accounts extends Controller
     /**
      * @throws Exception
      */
-    public function remember($email, $submit)
+    public function remember($email, $submit,$csrf_token)
     {
-        if($submit !== null){
+        if ($submit !== null) {
 
             if(!empty($email)) {
                 $user = $this->accountRepo->lost($email);
 
                 if($user){
-                    $id = $user->getId();
+                    $id_user = $user->getId();
                     $reset_token = $this->str_random(60);
 
-                    $this->accountRepo->newPassword($reset_token,$id);
+                    $this->accountRepo->newPassword($reset_token,$id_user);
 
-                $subject = 'Réinitialisation de votre mot de passe';
+                $subject = 'Reinitialisation de votre mot de passe';
                 $message = "Afin de reinitialiser votre mot de passe, merci de cliquer sur ce lien suivant :<br><br> 
-                            http://localhost:8888/OCR_P5_Blog/public/index.php?page=reset&id=" .$id. "&token=" .$reset_token. " ";
+                            http://localhost:8888/OCR_P5_Blog/public/index.php?page=reset&id=" .$id_user. "&token=" .$reset_token. " ";
 
                 $this->mailer($email,$subject,$message);
                 header('Location: index.php?page=login');
 
-            }else{
-                    ?>
-                        <div class="container">
-                            <div class="card red">
-                                <div class="card-content white-text">
-                                "Aucun compte ne correspond à cet email"
-                                </div>
-                            </div>
-                        </div>
-                    <?php
+                }else{
+                    $this->error->getError("Aucun compte ne correspond à cet email",'error');
                 }
             }
         }
-        }
+    }
 
     public function reset($userId,$token,$password,$passwordConfirm){
 
         if(isset($userId) && isset($token)){
 
-            $user = $this->accountRepo->checkUser($userId,$token);
-
-            if($user){
+            if($this->accountRepo->checkUser($userId,$token)){
 
                 if(!empty($password) || $password == $passwordConfirm) {
 
                     $this->accountRepo->reinitPassword($password,$userId);
-                    header('location: index.php?page=account');
+                    $this->error->getError("Votre mot de passe a bien été changé",'success');
                 }
             }else{
-                ?>
-                <div class="container">
-                    <div class="card red">
-                        <div class="card-content white-text">
-                            "Ce token n'est plus valide"
-                        </div>
-                    </div>
-                </div>
-                <?php
-                header('Location: index.php?page=login');
+                $this->error->getError("ce token n'est plus valide",'error');
+                header('Location: index.php?page=home');
             }
 
-        }else{
-            header('location : index.php?page=login');
         }
-
-
     }
 }

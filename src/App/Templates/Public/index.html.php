@@ -1,7 +1,19 @@
 <div class="parallax-container">
-    <div class="parallax">
-        <img src="../public/assets/images/accueil.png" alt="photo d'accueil"/>
-    </div>
+        <div class="container">
+            <br><br>
+            <h1 class="header center white-text text-lighten-2">Nicolas Leduey - Développeur PHP</h1>
+            <div class="row center">
+                <br>
+                <h5 class="header center white-text text-lighten-2">"Ce que vous imaginez, nous le réalisons."</h5>
+            </div>
+            <div class="row center">
+                <a href="../public/assets/upload/monCV.pdf" id="download-button" class="btn-large waves-effect waves-light grey darken-1">MON CV</a>
+            </div>
+            <br><br>
+        </div>
+        <div class="parallax">
+            <img src="../public/assets/images/accueil.png" alt="photo d'accueil"/>
+        </div>
 </div>
 
 <div class="container">

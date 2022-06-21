@@ -1,6 +1,30 @@
+
 <div class="container">
 
 <h2>Publier un article</h2>
+
+    <?php
+
+    if($session->read('errorMsg')) :
+        ?>
+        <div class="card red">
+            <div class="card-content white-text">
+                <?= $session->get('errorMsg') . "<br/>"; ?>
+            </div>
+        </div>
+        <?php $session->delete('errorMsg');
+
+
+    elseif ($session->read('successMsg')) : ?>
+        <div class="card green">
+            <div class="card-content white-text">
+
+                <?= $session->get('successMsg') . "<br/>"; ?>
+            </div>
+        </div>
+        <?php $session->delete('successMsg');
+    endif
+    ?>
 
 <form method="post" enctype="multipart/form-data">
     <div class="row">
@@ -18,7 +42,7 @@
             <textarea name="content" id="content" class="materialize-textarea"></textarea>
             <label for="content">Contenu de l'article</label>
         </div>
-        <div class="col s12">
+        <!-- <div class="col s12">
             <div class="file-field input-field">
                 <div class="btn">
                     <span>Image de l'article</span>
@@ -27,7 +51,7 @@
                 <div class="file-path-wrapper">
                     <input class="file-path validate col s10" type="text">
                 </div>
-            </div>
+            </div -->
         </div>
 
         <div class="col s6">

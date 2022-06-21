@@ -4,52 +4,36 @@ namespace App\Controllers;
 
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
+use App\Repositories\{ErrorMessage, Session};
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
 
 class Contact extends Controller
 {
 
+    public function __construct(
+        private ErrorMessage $error,
+        /*private Session $session,*/
+    ){}
     /**
      * @throws Exception
      */
-    public function sendMail($email,$subject,$message,$submit): void
+    public function sendMail($name,$email,$subject,$message,$csrf_token,$submit): void
     {
         // si le bouton "Envoyer" est cliqué
         if ($submit !== null) {
 
-            if (empty(filter_input(INPUT_POST, 'name')) || empty($email) || empty($message)) {
-                $errors['empty'] = "Tous les champs n'ont pas été remplis";
-            }
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors['email'] = "L'adresse email n'est pas valide";
-            }
-
-            if (!empty($errors)) {
-
-                echo '<div class="card red">
-                <div class="card-content white-text">';
-
-                foreach ($errors as $error) {
-                    echo $error . "<br/>";
-                }
-
-                echo '</div>
-              </div>';
-
-            } else {
-                $this->mailer($email,$subject,$message);
-
-                ?>
-                <div class="container">
-                    <div class="card green">
-                        <div class="card-content white-text">
-                            "Votre message a bien été envoyé"
-                        </div>
-                    </div>
-                </div>
-                <?php
-            }
+            if (empty($name)) :
+                $this->error->getError('Vous devez indiquez un nom','error');
+            elseif (empty($email)) :
+                $this->error->getError('Vous devez indiquez un email','error');
+            elseif (empty($message)) :
+                $this->error->getError('Votre message est manquant','error');
+            elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) :
+                $this->error->getError("votre adresse email n'est pas valide",'error');
+            else:
+                $this->mailer($email, $subject, $message);
+                $this->error->getError('votre email a bien été envoyé', 'success');
+            endif;
         }
     }
 }

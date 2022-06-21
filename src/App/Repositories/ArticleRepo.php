@@ -58,14 +58,14 @@ class ArticleRepo extends Repository
     public function postArticle($article): bool|\PDOStatement
     {
 
-        $query = $this->pdo->prepare('INSERT INTO Article (title, chapo, content, date, posted)
-            VALUES (:title,:chapo, :content,NOW(),:posted)');
+        $query = $this->pdo->prepare('INSERT INTO Article (title, chapo, content,writer, date, posted)
+            VALUES (:title,:chapo,:content,:writer,NOW(),:posted)');
         $query->execute($article);
         $query->closeCursor();
         return $query;
     }
 
-    public function postImg($tmp_name, $extension){
+    /*public function postImg($tmp_name, $extension){
 
         $imageId=$this->pdo->lastInsertId();
         $image = [
@@ -77,14 +77,14 @@ class ArticleRepo extends Repository
         $query = $this->pdo->prepare($sql);
         $query->execute($image);
         move_uploaded_file($tmp_name,"../public/assets/images/posts/".$imageId.$extension);
-        header("Location:index.php?page=post&id=".$imageId);
-    }
+        header("Location:index.php?page=article&id=".$imageId);
+    }*/
 
 
     public function editArticle($article): bool|\PDOStatement
     {
 
-        $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), posted= :posted WHERE id = :id');
+        $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), writer= :writer, posted= :posted WHERE id = :id');
         $query->execute($article);
         $query->closeCursor();
         return $query;

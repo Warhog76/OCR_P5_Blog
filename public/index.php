@@ -1,27 +1,43 @@
 <?php
 
-use App\Repositories\{AccountRepo,ArticleRepo,CommentRepo,Session};
+use App\Repositories\{AccountRepo, ArticleRepo, CommentRepo, ErrorMessage, Session};
 use App\Routers\Routers;
 use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
 
 require '../vendor/autoload.php';
 
+$session = Session::getInstance();
+$renderer = new Renderer($session);
+$errorMessage = new ErrorMessage($session);
+$article = new ArticleRepo();
+$comment = new CommentRepo();
+
 $router = new Routers(
     new Accounts(
         new AccountRepo(),
-        new Session(),
+        $errorMessage,
+        $session,
     ),
     new Articles(
-        new ArticleRepo(),
-        new CommentRepo(),
-        new Renderer(),
+        $article,
+        $comment,
+        $renderer,
+        $errorMessage,
+        $session,
     ),
     new Comments(
-        new CommentRepo(),
-        new Renderer(),
+        $comment,
+        $renderer,
+        $errorMessage,
+        $session,
     ),
-    new Contact(),
-    new Renderer(),
+    new Contact(
+        $errorMessage,
+        $session,
+    ),
+    $renderer,
+    $session,
+
 );
 
 $router->get($_GET,$_POST);

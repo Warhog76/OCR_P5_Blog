@@ -168,7 +168,7 @@ Class Account
         return $this->token;
     }
 
-   /**
+    /**
      * @param string $token
      * @return Account
      */

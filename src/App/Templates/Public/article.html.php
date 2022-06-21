@@ -1,9 +1,8 @@
-</div>
+    </div>
     <div class="parallax-container">
         <div class="parallax">
             <img src="../public/assets/images/posts/<?= $article->getImage() ?>" alt="<?= $article->getTitle() ?>"/>
        </div>
-
 
     </div>
     <div class="container">
@@ -38,11 +37,44 @@
     <?php endif ?>
 </div>
 
+<?php if($session->read('user_function') == '') { ?>
+    <div class="container">
+    <hr>
+    <h5>Vous devez vous connecter pour laisser un commentaire.</h5>
+    </div>
+
+<?php
+}elseif($session->read('user_function') == 'User'){ ?>
+
 <div class="container">
     <hr>
     <h4>Commenter :</h4>
 
+    <?php
+
+    if($session->read('errorMsg')){
+        ?>
+        <div class="card red">
+            <div class="card-content white-text">
+                <?= $session->get('errorMsg') . "<br/>"; ?>
+            </div>
+        </div>
+        <?php $session->delete('errorMsg');
+
+
+    }elseif ($session->read('successMsg')){ ?>
+        <div class="card green">
+            <div class="card-content white-text">
+
+                <?= $session->get('successMsg') . "<br/>"; ?>
+            </div>
+        </div>
+        <?php $session->delete('successMsg');
+
+    }?>
+
     <form method="post">
+        <input type="hidden" id="csrf_token" name="csrf_token" value="<?= $session->get('csrf_token') ?>">
         <div class="row">
             <div class="input-field col s12 m6">
                 <input type="text" name="name" id="name"/>
@@ -64,3 +96,5 @@
         </div>
     </form>
 </div>
+
+<?php }?>

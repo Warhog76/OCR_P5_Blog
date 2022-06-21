@@ -48,23 +48,25 @@ class AccountRepo extends Repository
 
     public function validateUser($user_id)
     {
-        $this->pdo->prepare('UPDATE Account SET token = 0, confirmed_at=NOW() WHERE id = ?')->execute([$user_id]);
+        $this->pdo->prepare("UPDATE Account SET token = '1', 
+                   confirmed_at=NOW() WHERE id = ?")->execute([$user_id]);
 
     }
 
-    public function modPassword($password,$userid)
+    public function modPassword($passwordInput,$userId)
     {
 
-        $user_id = $userid['auth']->id;
-        $password = password_hash($password, PASSWORD_BCRYPT);
+        $password = password_hash($passwordInput, PASSWORD_BCRYPT);
 
-        $this->pdo->prepare('UPDATE Account SET password = ? WHERE id = ?')->execute([$password, $user_id]);
+        $this->pdo->prepare('UPDATE Account SET password = ? 
+               WHERE id = ?')->execute([$password, $userId]);
     }
 
     public function lost($user): Account
     {
 
-        $query = $this->pdo->prepare("SELECT * FROM Account WHERE email = :email AND confirmed_at IS NOT NULL");
+        $query = $this->pdo->prepare("SELECT * FROM Account WHERE email = :email 
+                        AND confirmed_at IS NOT NULL");
         $query->execute(['email' => $user]);
         $results = $query->fetch(PDO::FETCH_ASSOC);
         return new Account($results);
@@ -73,23 +75,26 @@ class AccountRepo extends Repository
     public function newPassword($token, $id)
     {
 
-        $this->pdo->prepare("UPDATE Account SET reset_token = ?, reset_at = NOW() where id = ?")->execute([$token, $id]);
+        $this->pdo->prepare("UPDATE Account SET reset_token = ?, 
+                   reset_at = NOW() where id = ?")->execute([$token, $id]);
     }
 
     public function checkUser($user_id,$token): Account
     {
 
-        $query = $this->pdo->prepare("SELECT * FROM Account WHERE id = ? AND reset_token = ? AND reset_at > DATE_SUB(NOW(), INTERVAL 30 MINUTE)");
+        $query = $this->pdo->prepare("SELECT * FROM Account WHERE id = ?
+                        AND reset_token = ? AND reset_at > DATE_SUB(NOW(), INTERVAL 30 MINUTE)");
         $query->execute([$user_id,$token]);
         $results = $query->fetch(PDO::FETCH_ASSOC);
         return new Account($results);
     }
 
-    public function reinitPassword($password,$user_id)
+    public function reinitPassword($passwordMod,$user_id)
     {
 
-        $password = password_hash($password, PASSWORD_BCRYPT);
+        $password = password_hash($passwordMod, PASSWORD_BCRYPT);
 
-        $this->pdo->prepare('UPDATE Account SET password = ?, reset_token = NULL, reset_at = NULL  WHERE id = ?')->execute([$password, $user_id]);
+        $this->pdo->prepare("UPDATE Account SET password = ?, reset_token = '1',
+                   reset_at = '1'  WHERE id = ?")->execute([$password, $user_id]);
     }
 }

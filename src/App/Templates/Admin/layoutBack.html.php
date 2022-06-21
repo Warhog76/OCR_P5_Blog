@@ -1,3 +1,7 @@
+<?php if($session->read('user_function') != 'Admin'){
+            header('location: index.php?page=login');
+    }else {
+    ?>
 
 <!DOCTYPE html>
 <html>
@@ -24,3 +28,5 @@
 
 </body>
 </html>
+
+<?php } ?>

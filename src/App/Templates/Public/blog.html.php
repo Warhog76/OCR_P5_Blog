@@ -15,6 +15,8 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <h4><?= $article->getTitle() ?></h4>
+                <h5><?= $article->getChapo() ?></h5>
+                <h6 class="grey-text">Le <?= date("d-m-Y à H:i",strtotime($article->getDate()))?></h6>
 
                 <div class="row">
                     <div class="col s12 m6 l8">

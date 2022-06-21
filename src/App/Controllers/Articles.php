@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Repositories\CommentRepo;
-use App\Repositories\ArticleRepo;
+use App\Repositories\{CommentRepo, ArticleRepo, ErrorMessage, Session};
 
 class Articles extends Controller
 {
@@ -12,6 +11,8 @@ class Articles extends Controller
             private ArticleRepo $post,
             private CommentRepo $comment,
             private Renderer $page,
+            private ErrorMessage $error,
+            private Session $session,
     ){}
 
     public function index(): void
@@ -21,17 +22,17 @@ class Articles extends Controller
         $this->page->render('index', compact('articles'));
     }
 
-    public function show($id): void
+    public function show($postId): void
     {
 
-        $article_id = null;
+        $articleId = null;
 
-        if (!empty($id) && ctype_digit($id)) {
-            $article_id = $id;
+        if (!empty($postId) && ctype_digit($postId)) {
+            $articleId = $postId;
         }
 
-        $article = $this->post->findOne($article_id);
-        $commentaires = $this->comment->findAll($article_id);
+        $article = $this->post->findOne($articleId);
+        $commentaires = $this->comment->findAll($articleId);
 
         $this->page->render('article', compact('article','commentaires'));
 
@@ -53,89 +54,84 @@ class Articles extends Controller
 
     }
 
-    public function post($submit,$title,$chapo,$content,$posted,$files): void
+    public function post($submit,$title,$chapo,$content,$public): void
     {
 
-        if(isset($submit))
-        {
+        if(isset($submit)) {
             $data = [];
             $data['title'] = $title;
             $data['chapo'] = $chapo;
             $data['content'] = $content;
-            $data['posted'] = isset($posted) ? "1" : "0";
+            $data['writer'] = $this->session->get('user_username');
+            $data['posted'] = isset($public) ? "1" : "0";
 
-            if(empty($data['title']) || empty($data['chapo']) || empty($data['content']))
-            {
-                $errors['empty'] = "Veuillez remplir tous les champs";
-            }
-
-            if(!empty($files['image']['name'])){
+            if (empty($data['title'])) :
+                $this->error->getError('Vous devez indiquez un titre', 'error');
+            elseif(empty($data['chapo'])) :
+                $this->error->getError('Vous devez indiquez un chapo', 'error');
+            elseif(empty($data['content'])) :
+                $this->error->getError('Vous devez indiquez un texte', 'error');
+            /*
+             * starting point for an upload picture system
+             *
+             * elseif(!empty($files['image']['name'])) :
                 $file = $files['image']['name'];
-                $extensions = ['.png','.jpg','.jpeg','.gif','.PNG','.JPG','.JPEG','.GIF'];  //Ensemble de extensions autorisées
-                $extension = strrchr($file,'.');
+                $extensions = ['.png', '.jpg', '.jpeg', '.gif', '.PNG', '.JPG', '.JPEG', '.GIF'];  //Ensemble de extensions autorisées
+                $extension = strrchr($file, '.');
 
-                if(!in_array($extension,$extensions)){      //Permet de controler si l'extension de l'image est valide ou non
-                    $errors['image'] = "Cette image n'est pas valable";
-                }
-            }
+                if (!in_array($extension, $extensions)) {      //Permet de controler si l'extension de l'image est valide ou non
+                    $this->error->getError("Cette image n'est pas valable", 'error');
+                };
+            *
+            */
 
-            if(!empty($errors)){
-                ?>
-                <div class="card red">
-                    <div class="card-content white-text">
-                        <?php
-                        foreach($errors as $error){
-                            echo $error."<br/>";
-                        }
-                        ?>
-                    </div>
-                </div>
-                <?php
-            }else{
+            else:
                 $this->post->postArticle($data);
+                $this->error->getError("Article bien enregistré", 'success');
 
-                if(!empty($files['image']['name'])){
+                /*
+                 * if (!empty($files['image']['name'])) {
                     $this->post->postImg($files['image']['tmp_name'], $extension);
-            }
-        }}
+                }
+                *
+                * */
+
+            endif;
+        }
     }
 
-    public function modify($id,$submit,$title,$chapo,$content,$posted): void
+    public function modify($id_article,$submit,$title,$chapo,$content,$writer,$posted): void
     {
 
-        $article_id = null;
-
-        if (!empty($id) && ctype_digit($id)) {
-            $article_id = $id;
+        if (!empty($id_article) && ctype_digit($id_article)) {
+            $articleId = $id_article;
         }
 
-        $article = $this->post->findOne($article_id);
+        $article = $this->post->findOne($articleId);
 
         $this->page->renderBack('article', compact('article'));
 
         if(isset($submit))
         {
+
             $data = [];
             $data['title'] = $title;
             $data['chapo'] = $chapo;
             $data['content'] = $content;
+            $data['writer'] = $writer;
             $data['posted'] = isset($posted) ? "1" : "0";
-            $data['id'] = $article_id;
+            $data['id'] = $articleId;
 
-            if(empty($data['title']) || empty($data['chapo']) || empty($data['content'])){
-                ?>
-                <div class="card red">
-                    <div class="card-content white-text">
-                        <?php
-                        echo "Veuillez remplir tous les champs"
-                        ?>
-                    </div>
-                </div>
-        <?php
-            }else{
+            if (empty($data['title'])) :
+                $this->error->getError('Vous devez indiquez un titre', 'error');
+            elseif(empty($data['chapo'])) :
+                $this->error->getError('Vous devez indiquez un chapo', 'error');
+            elseif(empty($data['content'])) :
+                $this->error->getError('Vous devez indiquez un texte', 'error');
+            else:
+                $this->error->getError("Votre article a bien été enregistré", 'success');
                 $this->post->editArticle($data);
-                header("Location: index.php?p=article&id=" .$article->getId(). " ");
-            }
+            endif;
         }
     }
 }

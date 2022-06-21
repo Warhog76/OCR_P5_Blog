@@ -1,3 +1,4 @@
+
 </div>
 <div class="parallax-container">
     <div class="parallax">
@@ -6,6 +7,30 @@
 </div>
 
 <div class="container">
+
+    <?php
+
+    if($session->read('errorMsg')){
+        ?>
+        <div class="card red">
+            <div class="card-content white-text">
+                <?= $session->get('errorMsg') . "<br/>"; ?>
+            </div>
+        </div>
+        <?php $session->delete('errorMsg');
+
+
+    }elseif ($session->read('successMsg')){ ?>
+        <div class="card green">
+            <div class="card-content white-text">
+
+                <?= $session->get('successMsg') . "<br/>"; ?>
+            </div>
+        </div>
+        <?php $session->delete('successMsg');
+
+    }?>
+
     <form method="post">
         <div class="row">
             <div class="input-field col s12">
@@ -15,12 +40,17 @@
 
             <div class="input-field col s12">
                 <input type="text" name="chapo" id="chapo" value="<?= $article->getChapo() ?>"/>
-                <label for="title">Chapo de l'article</label>
+                <label for="chapo">Chapo de l'article</label>
             </div>
 
             <div class="input-field col s12">
                 <textarea id="content" name="content" class="materialize-textarea"><?= $article->getContent() ?></textarea>
                 <label for="content">Contenu de l'article</label>
+            </div>
+
+            <div class="input-field col s12">
+                <input type="text" name="writer" id="writer" value="<?= $article->getWriter() ?>"/>
+                <label for="writer">Auteur de l'article</label>
             </div>
 
             <div class="col s6">
