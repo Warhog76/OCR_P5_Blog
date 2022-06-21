@@ -59,16 +59,15 @@ class Routers
             $this->page->render('contact');
 
         elseif ($get['page'] === 'register') :
-            $username = $password = $passwordConfirm = $email = $csrf_token = $submit = null;
+            $username = $password = $passwordConfirm = $email = $submit = null;
             if (isset($post['submit'])) {
                 $username = $post['username'];
                 $password = $post['password'];
                 $passwordConfirm = $post['password_confirm'];
                 $email = $post['email'];
-                $csrf_token = $post['csrf_token'];
                 $submit = $post['submit'];
             }
-            $this->accountController->register($username, $password, $passwordConfirm, $email, $csrf_token, $submit);
+            $this->accountController->register($username, $password, $passwordConfirm, $email, $submit);
             $this->page->renderLog('register');
 
         elseif ($get['page'] === 'confirm') :
@@ -77,15 +76,14 @@ class Routers
             $this->accountController->confirm($userId, $token);
 
         elseif ($get['page'] === 'login') :
-            $password = $email = $submit = $csrf_token = null;
+            $password = $email = $submit = null;
             if (isset($post['submit'])) {
                 $password = $post['password'];
                 $email = $post['email'];
-                $csrf_token = $post['csrf_token'];
                 $submit = $post['submit'];
             }
 
-            $this->accountController->login($password, $email,$csrf_token, $submit);
+            $this->accountController->login($password, $email, $submit);
             $this->page->renderLog('login');
 
         elseif ($get['page'] === 'account') :

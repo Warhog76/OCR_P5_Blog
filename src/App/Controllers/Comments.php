@@ -17,7 +17,7 @@ class Comments extends Controller
     public function addComments($comment,$name,$email,$csrf_token,$submit,$commentId): void
     {
 
-        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && isset($submit)) {
+        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && $submit !== null) {
 
             if (empty($name)) {
                 $this->error->getError('Vous devez indiquez un nom', 'error');

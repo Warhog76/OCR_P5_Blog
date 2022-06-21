@@ -48,8 +48,8 @@ class AccountRepo extends Repository
 
     public function validateUser($user_id)
     {
-        $this->pdo->prepare('UPDATE Account SET token = null, 
-                   confirmed_at=NOW() WHERE id = ?')->execute([$user_id]);
+        $this->pdo->prepare("UPDATE Account SET token = '1', 
+                   confirmed_at=NOW() WHERE id = ?")->execute([$user_id]);
 
     }
 
@@ -94,7 +94,7 @@ class AccountRepo extends Repository
 
         $password = password_hash($passwordMod, PASSWORD_BCRYPT);
 
-        $this->pdo->prepare('UPDATE Account SET password = ?, reset_token = NULL,
-                   reset_at = NULL  WHERE id = ?')->execute([$password, $user_id]);
+        $this->pdo->prepare("UPDATE Account SET password = ?, reset_token = '1',
+                   reset_at = '1'  WHERE id = ?")->execute([$password, $user_id]);
     }
 }

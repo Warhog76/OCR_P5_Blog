@@ -13,10 +13,10 @@ class Accounts extends Controller
         private Session $session,
     ){}
 
-    public function login($password,$email,$csrf_token,$submit): void
+    public function login($password,$email,$submit): void
     {
 
-        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && isset($submit)) {
+        if($submit !== null){
 
             if(!empty($email) && !empty($password)) {
                 $user = $this->accountRepo->isUser($email);
@@ -38,9 +38,9 @@ class Accounts extends Controller
     /**
      * @throws Exception
      */
-    public function register($username, $password, $passwordConfirm, $email, $csrf_token, $submit): void
+    public function register($username, $password, $passwordConfirm, $email, $submit): void
     {
-        if ((isset($csrf_token) && $csrf_token === ($this->session->get('csrf_token'))) && isset($submit)) {
+        if ($submit !== null){
 
             if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
                 $this->error->getError('Votre Username est incorrect','error');

@@ -32,7 +32,6 @@
             }?>
 
             <form method="post">
-                <input type="hidden" id="csrf_token" name="csrf_token" value="<?= $session->get('csrf_token') ?>">
                 <div class="row">
                     <div class="input-field col s12">
                         <input type="text" id="username" name="username" required/>
