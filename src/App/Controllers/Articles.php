@@ -122,16 +122,16 @@ class Articles extends Controller
             $data['posted'] = isset($posted) ? "1" : "0";
             $data['id'] = $articleId;
 
-            if (empty($data['title'])) :
+            if (empty($data['title'])) {
                 $this->error->setError('Vous devez indiquez un titre', 'error');
-            elseif(empty($data['chapo'])) :
+            }elseif(empty($data['chapo'])) {
                 $this->error->setError('Vous devez indiquez un chapo', 'error');
-            elseif(empty($data['content'])) :
+            }elseif(empty($data['content'])) {
                 $this->error->setError('Vous devez indiquez un texte', 'error');
-            else:
-                $this->error->setError("Votre article a bien été enregistré", 'success');
+            }else {
                 $this->post->editArticle($data);
-            endif;
+                $this->error->setError("Votre article a bien été enregistré", 'success');
+            }
         }
     }
 }
