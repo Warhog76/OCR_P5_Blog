@@ -54,7 +54,7 @@ class Articles extends Controller
 
     }
 
-    public function post($submit,$title,$chapo,$content,$public): void
+    public function post($submit,$title,$chapo,$content): void
     {
 
         if(isset($submit)) {
@@ -63,7 +63,6 @@ class Articles extends Controller
             $data['chapo'] = $chapo;
             $data['content'] = $content;
             $data['writer'] = $this->session->read('user_username');
-            $data['posted'] = isset($public) ? "1" : "0";
 
             if (empty($data['title'])) :
                 $this->error->setError('Vous devez indiquez un titre', 'error');
@@ -100,7 +99,7 @@ class Articles extends Controller
         }
     }
 
-    public function modify($id_article,$submit,$title,$chapo,$content,$writer,$posted): void
+    public function modify($id_article,$submit,$title,$chapo,$content,$writer): void
     {
 
         if (!empty($id_article) && ctype_digit($id_article)) {
@@ -119,7 +118,6 @@ class Articles extends Controller
             $data['chapo'] = $chapo;
             $data['content'] = $content;
             $data['writer'] = $writer;
-            $data['posted'] = isset($posted) ? "1" : "0";
             $data['id'] = $articleId;
 
             if (empty($data['title'])) {
@@ -133,5 +131,12 @@ class Articles extends Controller
                 $this->error->setError("Votre article a bien été enregistré", 'success');
             }
         }
+    }
+
+    public function deleteArticle($articleId)
+    {
+        $this->post->delArticle($articleId);
+        header('Location: index.php?page=dashboard');
+
     }
 }

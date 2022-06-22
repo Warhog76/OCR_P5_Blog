@@ -54,18 +54,6 @@
             </div -->
         </div>
 
-        <div class="col s6">
-            <p>Public</p>
-            <div class="switch">
-                <label>
-                    Non
-                    <input type="checkbox" name="public"/>
-                    <span class="lever"></span>
-                    Oui
-                </label>
-            </div>
-        </div>
-
         <div class="col s6 right-align">
             <br/><br/>
             <button class="btn" type="submit" name="submit">Publier</button>

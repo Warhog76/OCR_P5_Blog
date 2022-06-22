@@ -58,8 +58,8 @@ class ArticleRepo extends Repository
     public function postArticle($article): bool|\PDOStatement
     {
 
-        $query = $this->pdo->prepare('INSERT INTO Article (title, chapo, content,writer, date, posted)
-            VALUES (:title,:chapo,:content,:writer,NOW(),:posted)');
+        $query = $this->pdo->prepare("INSERT INTO Article (title, chapo, content,writer, date, posted)
+            VALUES (:title,:chapo,:content,:writer,NOW(), '1')");
         $query->execute($article);
         $query->closeCursor();
         return $query;
@@ -84,9 +84,14 @@ class ArticleRepo extends Repository
     public function editArticle($article): bool|\PDOStatement
     {
 
-        $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), writer= :writer, posted= :posted WHERE id = :id');
+        $query = $this->pdo->prepare('UPDATE Article SET title= :title, chapo= :chapo, content= :content, date= NOW(), writer= :writer WHERE id = :id');
         $query->execute($article);
         $query->closeCursor();
         return $query;
+    }
+
+    public function delArticle($articleId): void
+    {
+        $this->pdo->exec("DELETE FROM Article WHERE id= $articleId");
     }
 }

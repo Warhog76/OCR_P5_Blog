@@ -53,16 +53,9 @@ if($session->read('errorMsg')){
                 <label for="writer">Auteur de l'article</label>
             </div>
 
-            <div class="col s6">
-                <p>Public</p>
-                <div class="switch">
-                    <label>
-                        Non
-                        <input type="checkbox" id="public" name="public" <?php echo ($article->getPosted() == "1")?"checked" : "" ?>/>
-                        <span class="lever"></span>
-                        Oui
-                    </label>
-                </div>
+            <div class="col s6 left-align">
+                <br/><br/>
+                <a class="btn red waves-effect waves-light" href="index.php?page=deleteArticle&id=<?= $article->getId() ?>">Supprimer l'article</a>
             </div>
 
             <div class="col s6 right-align">
