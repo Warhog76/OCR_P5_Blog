@@ -22,23 +22,23 @@ class Contact extends Controller
 
         if($submit !== null){
 
-            if ($csrf_token != ($this->session->get('csrf_token'))){
+            if ($csrf_token != ($this->session->read('csrf_token'))){
 
-                $this->error->getError("ssd", 'error');
+                $this->error->setError("csrf_token error", 'error');
                 return;
             }
 
             if (empty($name)) :
-                $this->error->getError('Vous devez indiquez un nom','error');
+                $this->error->setError('Vous devez indiquez un nom','error');
             elseif (empty($email)) :
-                $this->error->getError('Vous devez indiquez un email','error');
+                $this->error->setError('Vous devez indiquez un email','error');
             elseif (empty($message)) :
-                $this->error->getError('Votre message est manquant','error');
+                $this->error->setError('Votre message est manquant','error');
             elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) :
-                $this->error->getError("votre adresse email n'est pas valide",'error');
+                $this->error->setError("votre adresse email n'est pas valide",'error');
             else:
                 $this->mailer($email, $subject, $message);
-                $this->error->getError('votre email a bien été envoyé', 'success');
+                $this->error->setError('votre email a bien été envoyé', 'success');
             endif;
         }
     }

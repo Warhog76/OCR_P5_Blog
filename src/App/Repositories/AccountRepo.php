@@ -19,7 +19,7 @@ class AccountRepo extends Repository
 
     public function isRegister($user): Account
     {
-        $query = $this->pdo->prepare("SELECT id FROM Account WHERE username = ?");
+        $query = $this->pdo->prepare("SELECT username FROM Account WHERE username = ?");
         $query->execute([$user]);
         $results = $query->fetch(PDO::FETCH_ASSOC);
         return new Account($results);
@@ -95,6 +95,6 @@ class AccountRepo extends Repository
         $password = password_hash($passwordMod, PASSWORD_BCRYPT);
 
         $this->pdo->prepare("UPDATE Account SET password = ?, reset_token = '1',
-                   reset_at = '1'  WHERE id = ?")->execute([$password, $user_id]);
+                   reset_at = NOW()  WHERE id = ?")->execute([$password, $user_id]);
     }
 }

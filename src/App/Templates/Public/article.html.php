@@ -56,7 +56,7 @@
         ?>
         <div class="card red">
             <div class="card-content white-text">
-                <?= $session->get('errorMsg') . "<br/>"; ?>
+                <?= $session->read('errorMsg') . "<br/>"; ?>
             </div>
         </div>
         <?php $session->delete('errorMsg');
@@ -66,7 +66,7 @@
         <div class="card green">
             <div class="card-content white-text">
 
-                <?= $session->get('successMsg') . "<br/>"; ?>
+                <?= $session->read('successMsg') . "<br/>"; ?>
             </div>
         </div>
         <?php $session->delete('successMsg');
@@ -74,7 +74,7 @@
     }?>
 
     <form method="post">
-        <input type="hidden" id="csrf_token" name="csrf_token" value="<?= $session->get('csrf_token') ?>">
+        <input type="hidden" id="csrf_token" name="csrf_token" value="<?= $session->read('csrf_token') ?>">
         <div class="row">
             <div class="input-field col s12 m6">
                 <input type="text" name="name" id="name"/>
