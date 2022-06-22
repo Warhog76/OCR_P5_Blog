@@ -8,28 +8,28 @@
 
 <div class="container">
 
-    <?php
+<?php
 
-    if($session->read('errorMsg')){
-        ?>
-        <div class="card red">
-            <div class="card-content white-text">
-                <?= $session->read('errorMsg') . "<br/>"; ?>
-            </div>
+if($session->read('errorMsg')){
+    ?>
+    <div class="card red">
+        <div class="card-content white-text">
+            <?= $session->read('errorMsg') . "<br/>"; ?>
         </div>
-        <?php $session->delete('errorMsg');
+    </div>
+    <?php $session->delete('errorMsg');
 
 
-    }elseif ($session->read('successMsg')){ ?>
-        <div class="card green">
-            <div class="card-content white-text">
+}elseif ($session->read('successMsg')){ ?>
+    <div class="card green">
+        <div class="card-content white-text">
 
-                <?= $session->read('successMsg') . "<br/>"; ?>
-            </div>
+            <?= $session->read('successMsg') . "<br/>"; ?>
         </div>
-        <?php $session->delete('successMsg');
+    </div>
+    <?php $session->delete('successMsg');
 
-    }?>
+}?>
 
     <form method="post">
         <div class="row">

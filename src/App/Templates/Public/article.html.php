@@ -3,9 +3,32 @@
         <div class="parallax">
             <img src="../public/assets/images/posts/<?= $article->getImage() ?>" alt="<?= $article->getTitle() ?>"/>
        </div>
-
     </div>
+
     <div class="container">
+
+        <?php
+
+        if($session->read('errorMsg')){
+            ?>
+            <div class="card red">
+                <div class="card-content white-text">
+                    <?= $session->read('errorMsg') . "<br/>"; ?>
+                </div>
+            </div>
+            <?php $session->delete('errorMsg');
+
+
+        }elseif ($session->read('successMsg')){ ?>
+            <div class="card green">
+                <div class="card-content white-text">
+
+                    <?= $session->read('successMsg') . "<br/>"; ?>
+                </div>
+            </div>
+            <?php $session->delete('successMsg');
+
+        }?>
 
         <h2><?= $article->getTitle() ?></h2><hr>
         <h4><?= $article->getChapo() ?></h4><br>
@@ -49,29 +72,6 @@
 <div class="container">
     <hr>
     <h4>Commenter :</h4>
-
-    <?php
-
-    if($session->read('errorMsg')){
-        ?>
-        <div class="card red">
-            <div class="card-content white-text">
-                <?= $session->read('errorMsg') . "<br/>"; ?>
-            </div>
-        </div>
-        <?php $session->delete('errorMsg');
-
-
-    }elseif ($session->read('successMsg')){ ?>
-        <div class="card green">
-            <div class="card-content white-text">
-
-                <?= $session->read('successMsg') . "<br/>"; ?>
-            </div>
-        </div>
-        <?php $session->delete('successMsg');
-
-    }?>
 
     <form method="post">
         <input type="hidden" id="csrf_token" name="csrf_token" value="<?= $session->read('csrf_token') ?>">
