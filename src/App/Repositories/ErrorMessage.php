@@ -16,5 +16,4 @@ Class ErrorMessage
             $this->session->write('successMsg', $text);
         }
     }
-
 }

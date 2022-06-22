@@ -22,7 +22,7 @@ Class Account
     /**
      * @var string
      */
-    private string $email;
+    private ?string $email = null;
 
     /**
      * @var string
@@ -127,7 +127,7 @@ Class Account
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
