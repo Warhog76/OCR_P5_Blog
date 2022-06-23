@@ -99,16 +99,27 @@ class Articles extends Controller
         }
     }
 
+    public function showBack($postId): void
+    {
+
+        $articleId = null;
+
+        if (!empty($postId) && ctype_digit($postId)) {
+            $articleId = $postId;
+        }
+
+        $article = $this->post->findOne($articleId);
+
+        $this->page->renderBack('article', compact('article'));
+
+    }
+
     public function modify($id_article,$submit,$title,$chapo,$content,$writer): void
     {
 
         if (!empty($id_article) && ctype_digit($id_article)) {
             $articleId = $id_article;
         }
-
-        $article = $this->post->findOne($articleId);
-
-        $this->page->renderBack('article', compact('article'));
 
         if(isset($submit))
         {
@@ -136,7 +147,7 @@ class Articles extends Controller
     public function deleteArticle($articleId)
     {
         $this->post->delArticle($articleId);
-        header('Location: index.php?page=dashboard');
+        header('Location: index.php?page=list');
 
     }
 }
