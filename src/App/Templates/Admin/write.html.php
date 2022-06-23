@@ -9,7 +9,7 @@
         ?>
         <div class="card red">
             <div class="card-content white-text">
-                <?= $session->get('errorMsg') . "<br/>"; ?>
+                <?= $session->read('errorMsg') . "<br/>"; ?>
             </div>
         </div>
         <?php $session->delete('errorMsg');
@@ -19,7 +19,7 @@
         <div class="card green">
             <div class="card-content white-text">
 
-                <?= $session->get('successMsg') . "<br/>"; ?>
+                <?= $session->read('successMsg') . "<br/>"; ?>
             </div>
         </div>
         <?php $session->delete('successMsg');
@@ -52,18 +52,6 @@
                     <input class="file-path validate col s10" type="text">
                 </div>
             </div -->
-        </div>
-
-        <div class="col s6">
-            <p>Public</p>
-            <div class="switch">
-                <label>
-                    Non
-                    <input type="checkbox" name="public"/>
-                    <span class="lever"></span>
-                    Oui
-                </label>
-            </div>
         </div>
 
         <div class="col s6 right-align">

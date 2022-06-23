@@ -54,7 +54,7 @@ class Articles extends Controller
 
     }
 
-    public function post($submit,$title,$chapo,$content,$public): void
+    public function post($submit,$title,$chapo,$content): void
     {
 
         if(isset($submit)) {
@@ -62,15 +62,14 @@ class Articles extends Controller
             $data['title'] = $title;
             $data['chapo'] = $chapo;
             $data['content'] = $content;
-            $data['writer'] = $this->session->get('user_username');
-            $data['posted'] = isset($public) ? "1" : "0";
+            $data['writer'] = $this->session->read('user_username');
 
             if (empty($data['title'])) :
-                $this->error->getError('Vous devez indiquez un titre', 'error');
+                $this->error->setError('Vous devez indiquez un titre', 'error');
             elseif(empty($data['chapo'])) :
-                $this->error->getError('Vous devez indiquez un chapo', 'error');
+                $this->error->setError('Vous devez indiquez un chapo', 'error');
             elseif(empty($data['content'])) :
-                $this->error->getError('Vous devez indiquez un texte', 'error');
+                $this->error->setError('Vous devez indiquez un texte', 'error');
             /*
              * starting point for an upload picture system
              *
@@ -87,7 +86,7 @@ class Articles extends Controller
 
             else:
                 $this->post->postArticle($data);
-                $this->error->getError("Article bien enregistré", 'success');
+                $this->error->setError("Article bien enregistré", 'success');
 
                 /*
                  * if (!empty($files['image']['name'])) {
@@ -100,16 +99,27 @@ class Articles extends Controller
         }
     }
 
-    public function modify($id_article,$submit,$title,$chapo,$content,$writer,$posted): void
+    public function showBack($postId): void
     {
 
-        if (!empty($id_article) && ctype_digit($id_article)) {
-            $articleId = $id_article;
+        $articleId = null;
+
+        if (!empty($postId) && ctype_digit($postId)) {
+            $articleId = $postId;
         }
 
         $article = $this->post->findOne($articleId);
 
         $this->page->renderBack('article', compact('article'));
+
+    }
+
+    public function modify($id_article,$submit,$title,$chapo,$content,$writer): void
+    {
+
+        if (!empty($id_article) && ctype_digit($id_article)) {
+            $articleId = $id_article;
+        }
 
         if(isset($submit))
         {
@@ -119,19 +129,25 @@ class Articles extends Controller
             $data['chapo'] = $chapo;
             $data['content'] = $content;
             $data['writer'] = $writer;
-            $data['posted'] = isset($posted) ? "1" : "0";
             $data['id'] = $articleId;
 
-            if (empty($data['title'])) :
-                $this->error->getError('Vous devez indiquez un titre', 'error');
-            elseif(empty($data['chapo'])) :
-                $this->error->getError('Vous devez indiquez un chapo', 'error');
-            elseif(empty($data['content'])) :
-                $this->error->getError('Vous devez indiquez un texte', 'error');
-            else:
-                $this->error->getError("Votre article a bien été enregistré", 'success');
+            if (empty($data['title'])) {
+                $this->error->setError('Vous devez indiquez un titre', 'error');
+            }elseif(empty($data['chapo'])) {
+                $this->error->setError('Vous devez indiquez un chapo', 'error');
+            }elseif(empty($data['content'])) {
+                $this->error->setError('Vous devez indiquez un texte', 'error');
+            }else {
                 $this->post->editArticle($data);
-            endif;
+                $this->error->setError("Votre article a bien été enregistré", 'success');
+            }
         }
+    }
+
+    public function deleteArticle($articleId)
+    {
+        $this->post->delArticle($articleId);
+        header('Location: index.php?page=list');
+
     }
 }

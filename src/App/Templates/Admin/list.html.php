@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col s12 m12 l12">
-            <h4><?= $article->getTitle() ?> <?php echo($article->getPosted() == "0") ? "<i class='material-icons'>lock</i>" : "" ?> </h4>
+            <h4><?= $article->getTitle() ?> </h4>
 
             <div class="row">
                 <div class="col s12 m6 l8">

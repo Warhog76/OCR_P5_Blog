@@ -33,10 +33,6 @@ Class Session{
         return $_SESSION[$key] ?? null;
     }
 
-    public function get($key){
-        return $_SESSION[$key] ?? null;
-    }
-
     public function delete($key): void
     {
         unset($_SESSION[$key]);

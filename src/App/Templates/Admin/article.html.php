@@ -8,28 +8,28 @@
 
 <div class="container">
 
-    <?php
+<?php
 
-    if($session->read('errorMsg')){
-        ?>
-        <div class="card red">
-            <div class="card-content white-text">
-                <?= $session->get('errorMsg') . "<br/>"; ?>
-            </div>
+if($session->read('errorMsg')){
+    ?>
+    <div class="card red">
+        <div class="card-content white-text">
+            <?= $session->read('errorMsg') . "<br/>"; ?>
         </div>
-        <?php $session->delete('errorMsg');
+    </div>
+    <?php $session->delete('errorMsg');
 
 
-    }elseif ($session->read('successMsg')){ ?>
-        <div class="card green">
-            <div class="card-content white-text">
+}elseif ($session->read('successMsg')){ ?>
+    <div class="card green">
+        <div class="card-content white-text">
 
-                <?= $session->get('successMsg') . "<br/>"; ?>
-            </div>
+            <?= $session->read('successMsg') . "<br/>"; ?>
         </div>
-        <?php $session->delete('successMsg');
+    </div>
+    <?php $session->delete('successMsg');
 
-    }?>
+}?>
 
     <form method="post">
         <div class="row">
@@ -53,16 +53,9 @@
                 <label for="writer">Auteur de l'article</label>
             </div>
 
-            <div class="col s6">
-                <p>Public</p>
-                <div class="switch">
-                    <label>
-                        Non
-                        <input type="checkbox" id="public" name="public" <?php echo ($article->getPosted() == "1")?"checked" : "" ?>/>
-                        <span class="lever"></span>
-                        Oui
-                    </label>
-                </div>
+            <div class="col s6 left-align">
+                <br/><br/>
+                <a class="btn red waves-effect waves-light" href="index.php?page=deleteArticle&id=<?= $article->getId() ?>">Supprimer l'article</a>
             </div>
 
             <div class="col s6 right-align">

@@ -4,7 +4,7 @@
 namespace App\Routers;
 
 use App\Controllers\{Accounts,Articles,Comments,Contact,Renderer};
-use App\Repositories\{Session,ArticleRepo};
+use App\Repositories\{Session};
 use PHPMailer\PHPMailer\Exception;
 
 class Routers
@@ -142,33 +142,35 @@ class Routers
             $commentId = $get['id'];
             $this->commentController->deleteComment($commentId);
 
+        elseif ($get['page'] === 'deleteArticle') :
+            $articleId = $get['id'];
+            $this->postController->deleteArticle($articleId);
+
         elseif ($get['page'] === 'list') :
             $this->postController->getAll();
 
         elseif ($get['page'] === 'post') :
             $id_post = $get['id'];
-            $title = $chapo = $content = $submit = $writer = $posted = null;
+           $title = $chapo = $content = $submit = $writer = null;
             if (isset($post['submit'])) {
                 $title = $post['title'];
                 $chapo = $post['chapo'];
                 $content = $post['content'];
                 $writer = $post['writer'];
-                $posted = $post['public'];
                 $submit = $post['submit'];
             }
-
-            $this->postController->modify($id_post, $submit, $title, $chapo, $content, $writer, $posted);
+            $this->postController->showBack($id_post);
+            $this->postController->modify($id_post, $submit, $title, $chapo, $content, $writer);
 
         elseif ($get['page'] === 'write') :
-            $title = $chapo = $content = $submit = $public = null;
+            $title = $chapo = $content = $submit = null;
             if (isset($post['submit'])) {
                 $title = $post['title'];
                 $chapo = $post['chapo'];
                 $content = $post['content'];
-                $public = $post['public'];
                 $submit = $post['submit'];
             }
-            $this->postController->post($submit, $title, $chapo, $content, $public);
+            $this->postController->post($submit, $title, $chapo, $content);
             $this->page->renderBack('write');
 
         elseif ($get['page'] === 'logout') :

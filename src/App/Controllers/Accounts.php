@@ -17,27 +17,28 @@ class Accounts extends Controller
     {
         if($submit !== null){
 
-            if ($csrf_token != ($this->session->get('csrf_token'))){
+            if ($csrf_token != ($this->session->read('csrf_token'))){
 
-                $this->error->getError("ssd", 'error');
-                return;
-            }
-
-            if (!empty($email) && !empty($password)) {
+                $this->error->setError("csrf_token error", 'error');
+            } else if (!empty($email) && !empty($password)) {
                 $user = $this->accountRepo->isUser($email);
 
-                if (password_verify($password, $user->getPassword())) {
+                if($email !== $user->getEmail()) {
+                    $this->error->setError("Identifiant ou mot de passe incorrect", 'error');
+
+                }elseif (password_verify($password, $user->getPassword())) {
                     $this->session->write('user_function', $user->getFunction());
                     $this->session->write('user_id', $user->getId());
                     $this->session->write('user_username', $user->getUsername());
 
                     header('Location: index.php?page=account');
-                } else {
-                    $this->error->getError("Identifiant ou mot de passe incorrect", 'error');
                 }
+            }else{
+                    $this->error->setError("Identifiant ou mot de passe incorrect", 'error');
             }
         }
     }
+
 
     /**
      * @throws Exception
@@ -46,25 +47,28 @@ class Accounts extends Controller
     {
         if($submit !== null){
 
-            if ($csrf_token != ($this->session->get('csrf_token'))){
+            if ($csrf_token != ($this->session->read('csrf_token'))){
 
-                $this->error->getError("ssd", 'error');
+                $this->error->setError("csrf_token error", 'error');
                 return;
             }
 
             if(empty($username) || !preg_match('/^[\w_]+$/', $username)) {
-                $this->error->getError('Votre Username est incorrect','error');
+                $this->error->setError('Votre Username est incorrect','error');
+                return;
             }else{
                 $user = $this->accountRepo->isRegister($username);
-                if($user){
-                    $this->error->getError('Ce pseudo existe déjà','error');
+
+                if($username === $user->getUsername()){
+                    $this->error->setError('Ce pseudo existe déjà','error');
+                    return;
                 }
             }
 
             if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->error->getError("votre adresse email n'est pas valide",'error');
+                $this->error->setError("votre adresse email n'est pas valide",'error');
             }elseif(empty($password) || $password != $passwordConfirm) {
-                $this->error->getError("Vous devez rentrer un mot de passe valide",'error');
+                $this->error->setError("Vous devez rentrer un mot de passe valide",'error');
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $users = $this->accountRepo->registerUser($username,$password,$email);
@@ -92,7 +96,7 @@ class Accounts extends Controller
             $this->accountRepo->validateUser($userId);
             header('Location: index.php?page=home');
         }else{
-            $this->error->getError("ce token n'est plus valide",'error');
+            $this->error->setError("ce token n'est plus valide",'error');
             header('Location: index.php?page=login');
         }
 
@@ -104,19 +108,19 @@ class Accounts extends Controller
 
         if($submit !== null){
 
-            if ($csrf_token != ($this->session->get('csrf_token'))){
+            if ($csrf_token != ($this->session->read('csrf_token'))){
 
-                $this->error->getError("ssd", 'error');
+                $this->error->setError("csrf_token error", 'error');
                 return;
             }
 
             if(empty($password) || $password != $passwordConfirm) {
-                $this->error->getError("Les mots de passes ne correspondent pas",'error');
+                $this->error->setError("Les mots de passes ne correspondent pas",'error');
 
             }else{
                 //retourne un message pour signaler l'envoi dun mail afin de valider le compte et créer un mdp
                 $this->accountRepo->modPassword($password,$userid);
-                $this->error->getError("Votre nouveau mot de passe a bien été changé",'success');
+                $this->error->setError("Votre nouveau mot de passe a bien été changé",'success');
             }
         }
     }
@@ -128,9 +132,9 @@ class Accounts extends Controller
     {
         if($submit !== null){
 
-            if ($csrf_token != ($this->session->get('csrf_token'))){
+            if ($csrf_token != ($this->session->read('csrf_token'))){
 
-                $this->error->getError("ssd", 'error');
+                $this->error->setError("csrf_token error", 'error');
                 return;
             }
 
@@ -151,7 +155,7 @@ class Accounts extends Controller
                 header('Location: index.php?page=login');
 
                 }else{
-                    $this->error->getError("Aucun compte ne correspond à cet email",'error');
+                    $this->error->setError("Aucun compte ne correspond à cet email",'error');
                 }
             }
         }
@@ -166,10 +170,10 @@ class Accounts extends Controller
                 if(!empty($password) || $password == $passwordConfirm) {
 
                     $this->accountRepo->reinitPassword($password,$userId);
-                    $this->error->getError("Votre mot de passe a bien été changé",'success');
+                    $this->error->setError("Votre mot de passe a bien été changé",'success');
                 }
             }else{
-                $this->error->getError("ce token n'est plus valide",'error');
+                $this->error->setError("ce token n'est plus valide",'error');
                 header('Location: index.php?page=home');
             }
 

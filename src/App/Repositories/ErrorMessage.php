@@ -8,7 +8,7 @@ Class ErrorMessage
     {
     }
 
-    public function getError($text, $type): void
+    public function setError($text, $type): void
     {
         if($type == "error" ) {
             $this->session->write('errorMsg', $text);
@@ -16,5 +16,4 @@ Class ErrorMessage
             $this->session->write('successMsg', $text);
         }
     }
-
 }
