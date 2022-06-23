@@ -23,17 +23,17 @@ What is required to get started with your project:
 
 ### Steps to install your program:
 
-Start your local server.
-Upload the sql file which is at the root of the project on your database management interface provided with your local server (phpmyadmin...).
-Change the database connection information: /src/App/Repositories/Databsae.php -> line 18 to 21.
-Get an admin account
+- Start your local server.
+- Upload the sql file which is at the root of the project on your database management interface provided with your local server (phpmyadmin...).
+- Change the database connection information: /src/App/Repositories/Databsae.php -> line 18 to 21.
+- Get an admin account
 
-Connect to the DBMS corresponding to your local server.
-Open the "blog" database.
-Go to the Account table.
-Change username, email. the default password is: admin. You will be able to change it once you have launched the blog.
 
-Dites comment faire pour lancer votre projet
+- Connect to the DBMS corresponding to your local server.
+- Open the "blog" database.
+- Go to the Account table.
+- Change username, email. the default password is: admin. You will be able to change it once you have launched the blog.
+
 
 ### Created with
 
@@ -42,9 +42,9 @@ Dites comment faire pour lancer votre projet
 
 ### Start
 
-Start your local server.
-Point the local server to the public folder: /Public
-Administration space: (by default) -Email: admin@test.com ; -Password: admin
-Enjoy
+- Start your local server.
+- Point the local server to the public folder: /Public
+- Administration space: (by default) -Email: admin@test.com ; -Password: admin
+- Enjoy
 
 
