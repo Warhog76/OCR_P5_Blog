@@ -12,7 +12,7 @@ Class Account
     /**
      * @var string
      */
-    private string $username;
+    private ?string $username = null;
 
     /**
      * @var string
@@ -91,7 +91,7 @@ Class Account
         /**
      * @return string
      */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
